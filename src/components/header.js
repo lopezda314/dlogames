@@ -6,32 +6,33 @@ import styled from 'styled-components';
 import Nav from './nav';
 
 const Logo = styled.h1`
-    font-size: 4rem;
-    margin-left: 2rem;
+    font-size: 3rem;
+    margin: 0;
     position: relative;
+    text-align: center;
     z-index: 2;
     a {
         padding: 0.5rem 1rem;
         text-decoration: none;
     }
-    @media (max-width: 1300px) {
-        margin: 0;
-        text-align: center;
+`;
+
+const StyledHeader = styled.header`
+    .bar {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        justify-content: space-between;
+        align-items: stretch;
+        @media (max-width: 1300px) {
+            grid-template-columns: 1fr;
+            justify-content: center; 
+        }
     }
 `;
 
 const Header = ({ siteTitle }) => (
-  <header
-    style={{
-      marginBottom: `1.45rem`,
-    }}
-  >
-    <div
-      style={{
-        margin: `0 auto`,
-        padding: `1.45rem 0`,
-      }}
-    >
+  <StyledHeader>
+    <div className="bar">
       <Logo>
         <Link
           to="/"
@@ -44,7 +45,7 @@ const Header = ({ siteTitle }) => (
       </Logo>
       <Nav />
     </div>
-  </header>
+  </StyledHeader>
 )
 
 Header.propTypes = {
