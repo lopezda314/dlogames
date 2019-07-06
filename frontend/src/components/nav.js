@@ -1,10 +1,9 @@
-import { Link } from "gatsby";
 import React from "react"
 import styled from 'styled-components';
 
+import PageNavs from "./page-navs";
+
 const NavStyles = styled.div`
-  border-bottom: 1px solid grey;
-  border-top: 1px solid grey;
   display: flex;
   font-size: 1.5rem;
   justify-content: center;
@@ -12,6 +11,9 @@ const NavStyles = styled.div`
   margin: 0;
   padding: 0;
   width: 100%;
+  @media (max-width: 700px) {
+    display: none;
+  }
   a,
   button {
     padding: 1rem 3rem;
@@ -27,17 +29,6 @@ const NavStyles = styled.div`
     @media (max-width: 700px) {
       font-size: 10px;
       padding: 0 10px;
-    }
-    &:before {
-      content: '';
-      width: 2px;
-      background: #393939;
-      height: 100%;
-      left: 0;
-      position: absolute;
-      transform: skew(-20deg);
-      top: 0;
-      bottom: 0;
     }
     &:after {
       height: 2px;
@@ -57,24 +48,16 @@ const NavStyles = styled.div`
       &:after {
         width: calc(100% - 60px);
       }
-    @media (max-width: 700px) {
-        width: calc(100% - 10px);
-    }
+      @media (max-width: 700px) {
+          width: calc(100% - 10px);
+      }
     }
   }
 `;
 
 const Nav = () => (
     <NavStyles>
-        <Link to="/dlonames" style={{color: 'inherit'}} activeStyle={{color: 'red'}}>
-            DloNames
-        </Link>
-        <Link to="/d2lo4" style={{color: 'inherit'}} activeStyle={{color: 'red'}}>
-            D2lo4
-        </Link>
-        <Link to="/soon" style={{color: 'inherit'}} activeStyle={{color: 'red'}}>
-            Coming Soon
-        </Link>
+      <PageNavs />
     </NavStyles>
 )
 
