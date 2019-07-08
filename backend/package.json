@@ -4,7 +4,10 @@
   "description": "The primary backend to dlogames. This should be the only backend that the frontend of dlogames.com talks to.",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "nodemon -e js,graphql -x node src/index.js",
+    "dev": "nodemon -e js,graphql -x node --inspect src/index.js",
+    "deploy": "prisma deploy --env-file variables.env"
   },
   "dependencies": {
     "babel-preset-env": "^1.7.0",
