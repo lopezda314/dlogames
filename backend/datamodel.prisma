@@ -6,7 +6,9 @@ type User {
 type DlonamesGame {
   id: ID! @id
   blueTeam: [String!]! @scalarList(strategy: RELATION)
+  blueCodemaster: String!
   redTeam: [String!]! @scalarList(strategy: RELATION)
+  redCodeMaster: String!
   currentTeam: String!
   clue: String
   blueClues: [String!]! @scalarList(strategy: RELATION)
