@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/david-lopez-fcf066/dlogames/dev
-# timestamp: Sun Jul 07 2019 21:23:15 GMT-0600 (Mountain Daylight Time)
+# timestamp: Sun Jul 07 2019 21:53:09 GMT-0600 (Mountain Daylight Time)
 
 type AggregateDlonamesGame {
   count: Int!
@@ -124,7 +124,9 @@ input DlonamesGameSubscriptionWhereInput {
   """Logical NOT on all given filters combined by AND."""
   NOT: [DlonamesGameSubscriptionWhereInput!]
 
-  """The subscription event gets dispatched when it's listed in mutation_in"""
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
   mutation_in: [MutationType!]
 
   """
@@ -475,7 +477,9 @@ input UserSubscriptionWhereInput {
   """Logical NOT on all given filters combined by AND."""
   NOT: [UserSubscriptionWhereInput!]
 
-  """The subscription event gets dispatched when it's listed in mutation_in"""
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
   mutation_in: [MutationType!]
 
   """
