@@ -1,0 +1,599 @@
+# source: https://us1.prisma.sh/david-lopez-fcf066/dlogames/dev
+# timestamp: Sun Jul 07 2019 21:23:15 GMT-0600 (Mountain Daylight Time)
+
+type AggregateDlonamesGame {
+  count: Int!
+}
+
+type AggregateUser {
+  count: Int!
+}
+
+type BatchPayload {
+  """The number of nodes that have been affected by the Batch operation."""
+  count: Long!
+}
+
+type DlonamesGame implements Node {
+  id: ID!
+  blueTeam: [String!]!
+  redTeam: [String!]!
+  currentTeam: String!
+  clue: String
+  blueClues: [String!]!
+  redClues: [String!]!
+  guessesRemaining: Int
+  wordsGuessed: [String!]!
+  words: [String!]!
+}
+
+"""A connection to a list of items."""
+type DlonamesGameConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [DlonamesGameEdge]!
+  aggregate: AggregateDlonamesGame!
+}
+
+input DlonamesGameCreateblueCluesInput {
+  set: [String!]
+}
+
+input DlonamesGameCreateblueTeamInput {
+  set: [String!]
+}
+
+input DlonamesGameCreateInput {
+  id: ID
+  currentTeam: String!
+  clue: String
+  guessesRemaining: Int
+  blueTeam: DlonamesGameCreateblueTeamInput
+  redTeam: DlonamesGameCreateredTeamInput
+  blueClues: DlonamesGameCreateblueCluesInput
+  redClues: DlonamesGameCreateredCluesInput
+  wordsGuessed: DlonamesGameCreatewordsGuessedInput
+  words: DlonamesGameCreatewordsInput
+}
+
+input DlonamesGameCreateredCluesInput {
+  set: [String!]
+}
+
+input DlonamesGameCreateredTeamInput {
+  set: [String!]
+}
+
+input DlonamesGameCreatewordsGuessedInput {
+  set: [String!]
+}
+
+input DlonamesGameCreatewordsInput {
+  set: [String!]
+}
+
+"""An edge in a connection."""
+type DlonamesGameEdge {
+  """The item at the end of the edge."""
+  node: DlonamesGame!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum DlonamesGameOrderByInput {
+  id_ASC
+  id_DESC
+  currentTeam_ASC
+  currentTeam_DESC
+  clue_ASC
+  clue_DESC
+  guessesRemaining_ASC
+  guessesRemaining_DESC
+}
+
+type DlonamesGamePreviousValues {
+  id: ID!
+  blueTeam: [String!]!
+  redTeam: [String!]!
+  currentTeam: String!
+  clue: String
+  blueClues: [String!]!
+  redClues: [String!]!
+  guessesRemaining: Int
+  wordsGuessed: [String!]!
+  words: [String!]!
+}
+
+type DlonamesGameSubscriptionPayload {
+  mutation: MutationType!
+  node: DlonamesGame
+  updatedFields: [String!]
+  previousValues: DlonamesGamePreviousValues
+}
+
+input DlonamesGameSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [DlonamesGameSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [DlonamesGameSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [DlonamesGameSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: DlonamesGameWhereInput
+}
+
+input DlonamesGameUpdateblueCluesInput {
+  set: [String!]
+}
+
+input DlonamesGameUpdateblueTeamInput {
+  set: [String!]
+}
+
+input DlonamesGameUpdateInput {
+  currentTeam: String
+  clue: String
+  guessesRemaining: Int
+  blueTeam: DlonamesGameUpdateblueTeamInput
+  redTeam: DlonamesGameUpdateredTeamInput
+  blueClues: DlonamesGameUpdateblueCluesInput
+  redClues: DlonamesGameUpdateredCluesInput
+  wordsGuessed: DlonamesGameUpdatewordsGuessedInput
+  words: DlonamesGameUpdatewordsInput
+}
+
+input DlonamesGameUpdateManyMutationInput {
+  currentTeam: String
+  clue: String
+  guessesRemaining: Int
+  blueTeam: DlonamesGameUpdateblueTeamInput
+  redTeam: DlonamesGameUpdateredTeamInput
+  blueClues: DlonamesGameUpdateblueCluesInput
+  redClues: DlonamesGameUpdateredCluesInput
+  wordsGuessed: DlonamesGameUpdatewordsGuessedInput
+  words: DlonamesGameUpdatewordsInput
+}
+
+input DlonamesGameUpdateredCluesInput {
+  set: [String!]
+}
+
+input DlonamesGameUpdateredTeamInput {
+  set: [String!]
+}
+
+input DlonamesGameUpdatewordsGuessedInput {
+  set: [String!]
+}
+
+input DlonamesGameUpdatewordsInput {
+  set: [String!]
+}
+
+input DlonamesGameWhereInput {
+  """Logical AND on all given filters."""
+  AND: [DlonamesGameWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [DlonamesGameWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [DlonamesGameWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  currentTeam: String
+
+  """All values that are not equal to given value."""
+  currentTeam_not: String
+
+  """All values that are contained in given list."""
+  currentTeam_in: [String!]
+
+  """All values that are not contained in given list."""
+  currentTeam_not_in: [String!]
+
+  """All values less than the given value."""
+  currentTeam_lt: String
+
+  """All values less than or equal the given value."""
+  currentTeam_lte: String
+
+  """All values greater than the given value."""
+  currentTeam_gt: String
+
+  """All values greater than or equal the given value."""
+  currentTeam_gte: String
+
+  """All values containing the given string."""
+  currentTeam_contains: String
+
+  """All values not containing the given string."""
+  currentTeam_not_contains: String
+
+  """All values starting with the given string."""
+  currentTeam_starts_with: String
+
+  """All values not starting with the given string."""
+  currentTeam_not_starts_with: String
+
+  """All values ending with the given string."""
+  currentTeam_ends_with: String
+
+  """All values not ending with the given string."""
+  currentTeam_not_ends_with: String
+  clue: String
+
+  """All values that are not equal to given value."""
+  clue_not: String
+
+  """All values that are contained in given list."""
+  clue_in: [String!]
+
+  """All values that are not contained in given list."""
+  clue_not_in: [String!]
+
+  """All values less than the given value."""
+  clue_lt: String
+
+  """All values less than or equal the given value."""
+  clue_lte: String
+
+  """All values greater than the given value."""
+  clue_gt: String
+
+  """All values greater than or equal the given value."""
+  clue_gte: String
+
+  """All values containing the given string."""
+  clue_contains: String
+
+  """All values not containing the given string."""
+  clue_not_contains: String
+
+  """All values starting with the given string."""
+  clue_starts_with: String
+
+  """All values not starting with the given string."""
+  clue_not_starts_with: String
+
+  """All values ending with the given string."""
+  clue_ends_with: String
+
+  """All values not ending with the given string."""
+  clue_not_ends_with: String
+  guessesRemaining: Int
+
+  """All values that are not equal to given value."""
+  guessesRemaining_not: Int
+
+  """All values that are contained in given list."""
+  guessesRemaining_in: [Int!]
+
+  """All values that are not contained in given list."""
+  guessesRemaining_not_in: [Int!]
+
+  """All values less than the given value."""
+  guessesRemaining_lt: Int
+
+  """All values less than or equal the given value."""
+  guessesRemaining_lte: Int
+
+  """All values greater than the given value."""
+  guessesRemaining_gt: Int
+
+  """All values greater than or equal the given value."""
+  guessesRemaining_gte: Int
+}
+
+input DlonamesGameWhereUniqueInput {
+  id: ID
+}
+
+"""
+The `Long` scalar type represents non-fractional signed whole numeric values.
+Long can represent values between -(2^63) and 2^63 - 1.
+"""
+scalar Long
+
+type Mutation {
+  createUser(data: UserCreateInput!): User!
+  createDlonamesGame(data: DlonamesGameCreateInput!): DlonamesGame!
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updateDlonamesGame(data: DlonamesGameUpdateInput!, where: DlonamesGameWhereUniqueInput!): DlonamesGame
+  deleteUser(where: UserWhereUniqueInput!): User
+  deleteDlonamesGame(where: DlonamesGameWhereUniqueInput!): DlonamesGame
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  upsertDlonamesGame(where: DlonamesGameWhereUniqueInput!, create: DlonamesGameCreateInput!, update: DlonamesGameUpdateInput!): DlonamesGame!
+  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+  updateManyDlonamesGames(data: DlonamesGameUpdateManyMutationInput!, where: DlonamesGameWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
+  deleteManyDlonamesGames(where: DlonamesGameWhereInput): BatchPayload!
+}
+
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object."""
+  id: ID!
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+type Query {
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  dlonamesGames(where: DlonamesGameWhereInput, orderBy: DlonamesGameOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DlonamesGame]!
+  user(where: UserWhereUniqueInput!): User
+  dlonamesGame(where: DlonamesGameWhereUniqueInput!): DlonamesGame
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  dlonamesGamesConnection(where: DlonamesGameWhereInput, orderBy: DlonamesGameOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DlonamesGameConnection!
+
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
+}
+
+type Subscription {
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  dlonamesGame(where: DlonamesGameSubscriptionWhereInput): DlonamesGameSubscriptionPayload
+}
+
+type User implements Node {
+  id: ID!
+  name: String!
+}
+
+"""A connection to a list of items."""
+type UserConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [UserEdge]!
+  aggregate: AggregateUser!
+}
+
+input UserCreateInput {
+  id: ID
+  name: String!
+}
+
+"""An edge in a connection."""
+type UserEdge {
+  """The item at the end of the edge."""
+  node: User!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum UserOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+}
+
+type UserPreviousValues {
+  id: ID!
+  name: String!
+}
+
+type UserSubscriptionPayload {
+  mutation: MutationType!
+  node: User
+  updatedFields: [String!]
+  previousValues: UserPreviousValues
+}
+
+input UserSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [UserSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [UserSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [UserSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: UserWhereInput
+}
+
+input UserUpdateInput {
+  name: String
+}
+
+input UserUpdateManyMutationInput {
+  name: String
+}
+
+input UserWhereInput {
+  """Logical AND on all given filters."""
+  AND: [UserWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [UserWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [UserWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+}
+
+input UserWhereUniqueInput {
+  id: ID
+}
