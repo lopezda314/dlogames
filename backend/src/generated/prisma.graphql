@@ -1,7 +1,11 @@
 # source: https://us1.prisma.sh/david-lopez-fcf066/dlogames/dev
-# timestamp: Sun Jul 07 2019 21:53:09 GMT-0600 (Mountain Daylight Time)
+# timestamp: Tue Jul 09 2019 21:31:32 GMT-0700 (Pacific Daylight Time)
 
 type AggregateDlonamesGame {
+  count: Int!
+}
+
+type AggregateDlonamesStats {
   count: Int!
 }
 
@@ -17,7 +21,9 @@ type BatchPayload {
 type DlonamesGame implements Node {
   id: ID!
   blueTeam: [String!]!
+  blueCodemaster: String!
   redTeam: [String!]!
+  redCodeMaster: String!
   currentTeam: String!
   clue: String
   blueClues: [String!]!
@@ -47,6 +53,8 @@ input DlonamesGameCreateblueTeamInput {
 
 input DlonamesGameCreateInput {
   id: ID
+  blueCodemaster: String!
+  redCodeMaster: String!
   currentTeam: String!
   clue: String
   guessesRemaining: Int
@@ -86,6 +94,10 @@ type DlonamesGameEdge {
 enum DlonamesGameOrderByInput {
   id_ASC
   id_DESC
+  blueCodemaster_ASC
+  blueCodemaster_DESC
+  redCodeMaster_ASC
+  redCodeMaster_DESC
   currentTeam_ASC
   currentTeam_DESC
   clue_ASC
@@ -97,7 +109,9 @@ enum DlonamesGameOrderByInput {
 type DlonamesGamePreviousValues {
   id: ID!
   blueTeam: [String!]!
+  blueCodemaster: String!
   redTeam: [String!]!
+  redCodeMaster: String!
   currentTeam: String!
   clue: String
   blueClues: [String!]!
@@ -155,6 +169,8 @@ input DlonamesGameUpdateblueTeamInput {
 }
 
 input DlonamesGameUpdateInput {
+  blueCodemaster: String
+  redCodeMaster: String
   currentTeam: String
   clue: String
   guessesRemaining: Int
@@ -167,6 +183,8 @@ input DlonamesGameUpdateInput {
 }
 
 input DlonamesGameUpdateManyMutationInput {
+  blueCodemaster: String
+  redCodeMaster: String
   currentTeam: String
   clue: String
   guessesRemaining: Int
@@ -243,6 +261,86 @@ input DlonamesGameWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
+  blueCodemaster: String
+
+  """All values that are not equal to given value."""
+  blueCodemaster_not: String
+
+  """All values that are contained in given list."""
+  blueCodemaster_in: [String!]
+
+  """All values that are not contained in given list."""
+  blueCodemaster_not_in: [String!]
+
+  """All values less than the given value."""
+  blueCodemaster_lt: String
+
+  """All values less than or equal the given value."""
+  blueCodemaster_lte: String
+
+  """All values greater than the given value."""
+  blueCodemaster_gt: String
+
+  """All values greater than or equal the given value."""
+  blueCodemaster_gte: String
+
+  """All values containing the given string."""
+  blueCodemaster_contains: String
+
+  """All values not containing the given string."""
+  blueCodemaster_not_contains: String
+
+  """All values starting with the given string."""
+  blueCodemaster_starts_with: String
+
+  """All values not starting with the given string."""
+  blueCodemaster_not_starts_with: String
+
+  """All values ending with the given string."""
+  blueCodemaster_ends_with: String
+
+  """All values not ending with the given string."""
+  blueCodemaster_not_ends_with: String
+  redCodeMaster: String
+
+  """All values that are not equal to given value."""
+  redCodeMaster_not: String
+
+  """All values that are contained in given list."""
+  redCodeMaster_in: [String!]
+
+  """All values that are not contained in given list."""
+  redCodeMaster_not_in: [String!]
+
+  """All values less than the given value."""
+  redCodeMaster_lt: String
+
+  """All values less than or equal the given value."""
+  redCodeMaster_lte: String
+
+  """All values greater than the given value."""
+  redCodeMaster_gt: String
+
+  """All values greater than or equal the given value."""
+  redCodeMaster_gte: String
+
+  """All values containing the given string."""
+  redCodeMaster_contains: String
+
+  """All values not containing the given string."""
+  redCodeMaster_not_contains: String
+
+  """All values starting with the given string."""
+  redCodeMaster_starts_with: String
+
+  """All values not starting with the given string."""
+  redCodeMaster_not_starts_with: String
+
+  """All values ending with the given string."""
+  redCodeMaster_ends_with: String
+
+  """All values not ending with the given string."""
+  redCodeMaster_not_ends_with: String
   currentTeam: String
 
   """All values that are not equal to given value."""
@@ -351,6 +449,296 @@ input DlonamesGameWhereUniqueInput {
   id: ID
 }
 
+type DlonamesStats implements Node {
+  id: ID!
+  user: User!
+  numberOfCluesGiven: Int!
+  numberOfCluesGuessedCorrectly: Int!
+  numberOfGuesses: Int!
+  numberOfCorrectGuesses: Int!
+}
+
+"""A connection to a list of items."""
+type DlonamesStatsConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [DlonamesStatsEdge]!
+  aggregate: AggregateDlonamesStats!
+}
+
+input DlonamesStatsCreateInput {
+  id: ID
+  numberOfCluesGiven: Int!
+  numberOfCluesGuessedCorrectly: Int!
+  numberOfGuesses: Int!
+  numberOfCorrectGuesses: Int!
+  user: UserCreateOneWithoutDlonamesStatsInput!
+}
+
+input DlonamesStatsCreateOneWithoutUserInput {
+  create: DlonamesStatsCreateWithoutUserInput
+  connect: DlonamesStatsWhereUniqueInput
+}
+
+input DlonamesStatsCreateWithoutUserInput {
+  id: ID
+  numberOfCluesGiven: Int!
+  numberOfCluesGuessedCorrectly: Int!
+  numberOfGuesses: Int!
+  numberOfCorrectGuesses: Int!
+}
+
+"""An edge in a connection."""
+type DlonamesStatsEdge {
+  """The item at the end of the edge."""
+  node: DlonamesStats!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum DlonamesStatsOrderByInput {
+  id_ASC
+  id_DESC
+  numberOfCluesGiven_ASC
+  numberOfCluesGiven_DESC
+  numberOfCluesGuessedCorrectly_ASC
+  numberOfCluesGuessedCorrectly_DESC
+  numberOfGuesses_ASC
+  numberOfGuesses_DESC
+  numberOfCorrectGuesses_ASC
+  numberOfCorrectGuesses_DESC
+}
+
+type DlonamesStatsPreviousValues {
+  id: ID!
+  numberOfCluesGiven: Int!
+  numberOfCluesGuessedCorrectly: Int!
+  numberOfGuesses: Int!
+  numberOfCorrectGuesses: Int!
+}
+
+type DlonamesStatsSubscriptionPayload {
+  mutation: MutationType!
+  node: DlonamesStats
+  updatedFields: [String!]
+  previousValues: DlonamesStatsPreviousValues
+}
+
+input DlonamesStatsSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [DlonamesStatsSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [DlonamesStatsSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [DlonamesStatsSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: DlonamesStatsWhereInput
+}
+
+input DlonamesStatsUpdateInput {
+  numberOfCluesGiven: Int
+  numberOfCluesGuessedCorrectly: Int
+  numberOfGuesses: Int
+  numberOfCorrectGuesses: Int
+  user: UserUpdateOneRequiredWithoutDlonamesStatsInput
+}
+
+input DlonamesStatsUpdateManyMutationInput {
+  numberOfCluesGiven: Int
+  numberOfCluesGuessedCorrectly: Int
+  numberOfGuesses: Int
+  numberOfCorrectGuesses: Int
+}
+
+input DlonamesStatsUpdateOneWithoutUserInput {
+  create: DlonamesStatsCreateWithoutUserInput
+  connect: DlonamesStatsWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: DlonamesStatsUpdateWithoutUserDataInput
+  upsert: DlonamesStatsUpsertWithoutUserInput
+}
+
+input DlonamesStatsUpdateWithoutUserDataInput {
+  numberOfCluesGiven: Int
+  numberOfCluesGuessedCorrectly: Int
+  numberOfGuesses: Int
+  numberOfCorrectGuesses: Int
+}
+
+input DlonamesStatsUpsertWithoutUserInput {
+  update: DlonamesStatsUpdateWithoutUserDataInput!
+  create: DlonamesStatsCreateWithoutUserInput!
+}
+
+input DlonamesStatsWhereInput {
+  """Logical AND on all given filters."""
+  AND: [DlonamesStatsWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [DlonamesStatsWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [DlonamesStatsWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  numberOfCluesGiven: Int
+
+  """All values that are not equal to given value."""
+  numberOfCluesGiven_not: Int
+
+  """All values that are contained in given list."""
+  numberOfCluesGiven_in: [Int!]
+
+  """All values that are not contained in given list."""
+  numberOfCluesGiven_not_in: [Int!]
+
+  """All values less than the given value."""
+  numberOfCluesGiven_lt: Int
+
+  """All values less than or equal the given value."""
+  numberOfCluesGiven_lte: Int
+
+  """All values greater than the given value."""
+  numberOfCluesGiven_gt: Int
+
+  """All values greater than or equal the given value."""
+  numberOfCluesGiven_gte: Int
+  numberOfCluesGuessedCorrectly: Int
+
+  """All values that are not equal to given value."""
+  numberOfCluesGuessedCorrectly_not: Int
+
+  """All values that are contained in given list."""
+  numberOfCluesGuessedCorrectly_in: [Int!]
+
+  """All values that are not contained in given list."""
+  numberOfCluesGuessedCorrectly_not_in: [Int!]
+
+  """All values less than the given value."""
+  numberOfCluesGuessedCorrectly_lt: Int
+
+  """All values less than or equal the given value."""
+  numberOfCluesGuessedCorrectly_lte: Int
+
+  """All values greater than the given value."""
+  numberOfCluesGuessedCorrectly_gt: Int
+
+  """All values greater than or equal the given value."""
+  numberOfCluesGuessedCorrectly_gte: Int
+  numberOfGuesses: Int
+
+  """All values that are not equal to given value."""
+  numberOfGuesses_not: Int
+
+  """All values that are contained in given list."""
+  numberOfGuesses_in: [Int!]
+
+  """All values that are not contained in given list."""
+  numberOfGuesses_not_in: [Int!]
+
+  """All values less than the given value."""
+  numberOfGuesses_lt: Int
+
+  """All values less than or equal the given value."""
+  numberOfGuesses_lte: Int
+
+  """All values greater than the given value."""
+  numberOfGuesses_gt: Int
+
+  """All values greater than or equal the given value."""
+  numberOfGuesses_gte: Int
+  numberOfCorrectGuesses: Int
+
+  """All values that are not equal to given value."""
+  numberOfCorrectGuesses_not: Int
+
+  """All values that are contained in given list."""
+  numberOfCorrectGuesses_in: [Int!]
+
+  """All values that are not contained in given list."""
+  numberOfCorrectGuesses_not_in: [Int!]
+
+  """All values less than the given value."""
+  numberOfCorrectGuesses_lt: Int
+
+  """All values less than or equal the given value."""
+  numberOfCorrectGuesses_lte: Int
+
+  """All values greater than the given value."""
+  numberOfCorrectGuesses_gt: Int
+
+  """All values greater than or equal the given value."""
+  numberOfCorrectGuesses_gte: Int
+  user: UserWhereInput
+}
+
+input DlonamesStatsWhereUniqueInput {
+  id: ID
+}
+
 """
 The `Long` scalar type represents non-fractional signed whole numeric values.
 Long can represent values between -(2^63) and 2^63 - 1.
@@ -360,16 +748,22 @@ scalar Long
 type Mutation {
   createUser(data: UserCreateInput!): User!
   createDlonamesGame(data: DlonamesGameCreateInput!): DlonamesGame!
+  createDlonamesStats(data: DlonamesStatsCreateInput!): DlonamesStats!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateDlonamesGame(data: DlonamesGameUpdateInput!, where: DlonamesGameWhereUniqueInput!): DlonamesGame
+  updateDlonamesStats(data: DlonamesStatsUpdateInput!, where: DlonamesStatsWhereUniqueInput!): DlonamesStats
   deleteUser(where: UserWhereUniqueInput!): User
   deleteDlonamesGame(where: DlonamesGameWhereUniqueInput!): DlonamesGame
+  deleteDlonamesStats(where: DlonamesStatsWhereUniqueInput!): DlonamesStats
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertDlonamesGame(where: DlonamesGameWhereUniqueInput!, create: DlonamesGameCreateInput!, update: DlonamesGameUpdateInput!): DlonamesGame!
+  upsertDlonamesStats(where: DlonamesStatsWhereUniqueInput!, create: DlonamesStatsCreateInput!, update: DlonamesStatsUpdateInput!): DlonamesStats!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   updateManyDlonamesGames(data: DlonamesGameUpdateManyMutationInput!, where: DlonamesGameWhereInput): BatchPayload!
+  updateManyDlonamesStatses(data: DlonamesStatsUpdateManyMutationInput!, where: DlonamesStatsWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyDlonamesGames(where: DlonamesGameWhereInput): BatchPayload!
+  deleteManyDlonamesStatses(where: DlonamesStatsWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -402,10 +796,13 @@ type PageInfo {
 type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   dlonamesGames(where: DlonamesGameWhereInput, orderBy: DlonamesGameOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DlonamesGame]!
+  dlonamesStatses(where: DlonamesStatsWhereInput, orderBy: DlonamesStatsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DlonamesStats]!
   user(where: UserWhereUniqueInput!): User
   dlonamesGame(where: DlonamesGameWhereUniqueInput!): DlonamesGame
+  dlonamesStats(where: DlonamesStatsWhereUniqueInput!): DlonamesStats
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   dlonamesGamesConnection(where: DlonamesGameWhereInput, orderBy: DlonamesGameOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DlonamesGameConnection!
+  dlonamesStatsesConnection(where: DlonamesStatsWhereInput, orderBy: DlonamesStatsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DlonamesStatsConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -417,11 +814,13 @@ type Query {
 type Subscription {
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   dlonamesGame(where: DlonamesGameSubscriptionWhereInput): DlonamesGameSubscriptionPayload
+  dlonamesStats(where: DlonamesStatsSubscriptionWhereInput): DlonamesStatsSubscriptionPayload
 }
 
 type User implements Node {
   id: ID!
   name: String!
+  dlonamesStats: DlonamesStats
 }
 
 """A connection to a list of items."""
@@ -435,6 +834,17 @@ type UserConnection {
 }
 
 input UserCreateInput {
+  id: ID
+  name: String!
+  dlonamesStats: DlonamesStatsCreateOneWithoutUserInput
+}
+
+input UserCreateOneWithoutDlonamesStatsInput {
+  create: UserCreateWithoutDlonamesStatsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutDlonamesStatsInput {
   id: ID
   name: String!
 }
@@ -501,10 +911,27 @@ input UserSubscriptionWhereInput {
 
 input UserUpdateInput {
   name: String
+  dlonamesStats: DlonamesStatsUpdateOneWithoutUserInput
 }
 
 input UserUpdateManyMutationInput {
   name: String
+}
+
+input UserUpdateOneRequiredWithoutDlonamesStatsInput {
+  create: UserCreateWithoutDlonamesStatsInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutDlonamesStatsDataInput
+  upsert: UserUpsertWithoutDlonamesStatsInput
+}
+
+input UserUpdateWithoutDlonamesStatsDataInput {
+  name: String
+}
+
+input UserUpsertWithoutDlonamesStatsInput {
+  update: UserUpdateWithoutDlonamesStatsDataInput!
+  create: UserCreateWithoutDlonamesStatsInput!
 }
 
 input UserWhereInput {
@@ -596,6 +1023,7 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   name_not_ends_with: String
+  dlonamesStats: DlonamesStatsWhereInput
 }
 
 input UserWhereUniqueInput {

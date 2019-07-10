@@ -1,6 +1,7 @@
 type User {
   id: ID! @id
   name: String!
+  dlonamesStats: DlonamesStats @relation(link: INLINE)
 }
 
 type DlonamesGame {
@@ -16,4 +17,13 @@ type DlonamesGame {
   guessesRemaining: Int
   wordsGuessed: [String!]! @scalarList(strategy: RELATION)
   words: [String!]! @scalarList(strategy: RELATION)
+}
+
+type DlonamesStats {
+  id: ID! @id
+  user: User!
+  numberOfCluesGiven: Int!
+  numberOfCluesGuessedCorrectly: Int!
+  numberOfGuesses: Int!
+  numberOfCorrectGuesses: Int!
 }
