@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import DlonamesBoard from './DlonamesBoard';
 import Form from '../styled/Form';
+import { navigate } from 'gatsby';
 
 class DlonamesLobby extends Component {
     state = {
@@ -12,11 +12,17 @@ class DlonamesLobby extends Component {
         const { name, type, value } = e.target;
         const val = type === 'number' ? parseFloat(value) : value;
         this.setState({[name]: val});
-    } 
+    }
 
     render() {
         return (
-            <Form>
+            <Form onSubmit={e => {
+                        e.preventDefault();
+
+                        // Navigate to game page
+                        navigate('/dlonames/game' , {
+                            state: this.state,
+                        })}}>
                 <fieldset>
                     <label>
                         Name
@@ -24,7 +30,6 @@ class DlonamesLobby extends Component {
                     </label>
                     <label>
                         Game<br />
-                        Only for existing games
                         <input type="text" name="gameId" id="gameId" placeholder="game id" onChange={this.handleChange} />
                     </label>
                 </fieldset>
