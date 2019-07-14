@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/david-lopez-fcf066/dlogames/dev
-# timestamp: Sat Jul 13 2019 23:57:29 GMT-0400 (Eastern Daylight Time)
+# timestamp: Sun Jul 14 2019 14:54:24 GMT-0400 (Eastern Daylight Time)
 
 type AggregateDlonamesGame {
   count: Int!
@@ -31,6 +31,9 @@ type DlonamesGame implements Node {
   guessesRemaining: Int
   wordsGuessed: [String!]!
   words: [String!]!
+  redWords: [Int!]!
+  blueWords: [Int!]!
+  deathWord: Int!
 }
 
 """A connection to a list of items."""
@@ -51,6 +54,10 @@ input DlonamesGameCreateblueTeamInput {
   set: [String!]
 }
 
+input DlonamesGameCreateblueWordsInput {
+  set: [Int!]
+}
+
 input DlonamesGameCreateInput {
   id: ID
   blueCodemaster: String!
@@ -58,12 +65,15 @@ input DlonamesGameCreateInput {
   currentTeam: String!
   clue: String
   guessesRemaining: Int
+  deathWord: Int!
   blueTeam: DlonamesGameCreateblueTeamInput
   redTeam: DlonamesGameCreateredTeamInput
   blueClues: DlonamesGameCreateblueCluesInput
   redClues: DlonamesGameCreateredCluesInput
   wordsGuessed: DlonamesGameCreatewordsGuessedInput
   words: DlonamesGameCreatewordsInput
+  redWords: DlonamesGameCreateredWordsInput
+  blueWords: DlonamesGameCreateblueWordsInput
 }
 
 input DlonamesGameCreateredCluesInput {
@@ -72,6 +82,10 @@ input DlonamesGameCreateredCluesInput {
 
 input DlonamesGameCreateredTeamInput {
   set: [String!]
+}
+
+input DlonamesGameCreateredWordsInput {
+  set: [Int!]
 }
 
 input DlonamesGameCreatewordsGuessedInput {
@@ -104,6 +118,8 @@ enum DlonamesGameOrderByInput {
   clue_DESC
   guessesRemaining_ASC
   guessesRemaining_DESC
+  deathWord_ASC
+  deathWord_DESC
 }
 
 type DlonamesGamePreviousValues {
@@ -119,6 +135,9 @@ type DlonamesGamePreviousValues {
   guessesRemaining: Int
   wordsGuessed: [String!]!
   words: [String!]!
+  redWords: [Int!]!
+  blueWords: [Int!]!
+  deathWord: Int!
 }
 
 type DlonamesGameSubscriptionPayload {
@@ -168,18 +187,25 @@ input DlonamesGameUpdateblueTeamInput {
   set: [String!]
 }
 
+input DlonamesGameUpdateblueWordsInput {
+  set: [Int!]
+}
+
 input DlonamesGameUpdateInput {
   blueCodemaster: String
   redCodemaster: String
   currentTeam: String
   clue: String
   guessesRemaining: Int
+  deathWord: Int
   blueTeam: DlonamesGameUpdateblueTeamInput
   redTeam: DlonamesGameUpdateredTeamInput
   blueClues: DlonamesGameUpdateblueCluesInput
   redClues: DlonamesGameUpdateredCluesInput
   wordsGuessed: DlonamesGameUpdatewordsGuessedInput
   words: DlonamesGameUpdatewordsInput
+  redWords: DlonamesGameUpdateredWordsInput
+  blueWords: DlonamesGameUpdateblueWordsInput
 }
 
 input DlonamesGameUpdateManyMutationInput {
@@ -188,12 +214,15 @@ input DlonamesGameUpdateManyMutationInput {
   currentTeam: String
   clue: String
   guessesRemaining: Int
+  deathWord: Int
   blueTeam: DlonamesGameUpdateblueTeamInput
   redTeam: DlonamesGameUpdateredTeamInput
   blueClues: DlonamesGameUpdateblueCluesInput
   redClues: DlonamesGameUpdateredCluesInput
   wordsGuessed: DlonamesGameUpdatewordsGuessedInput
   words: DlonamesGameUpdatewordsInput
+  redWords: DlonamesGameUpdateredWordsInput
+  blueWords: DlonamesGameUpdateblueWordsInput
 }
 
 input DlonamesGameUpdateredCluesInput {
@@ -202,6 +231,10 @@ input DlonamesGameUpdateredCluesInput {
 
 input DlonamesGameUpdateredTeamInput {
   set: [String!]
+}
+
+input DlonamesGameUpdateredWordsInput {
+  set: [Int!]
 }
 
 input DlonamesGameUpdatewordsGuessedInput {
@@ -443,6 +476,28 @@ input DlonamesGameWhereInput {
 
   """All values greater than or equal the given value."""
   guessesRemaining_gte: Int
+  deathWord: Int
+
+  """All values that are not equal to given value."""
+  deathWord_not: Int
+
+  """All values that are contained in given list."""
+  deathWord_in: [Int!]
+
+  """All values that are not contained in given list."""
+  deathWord_not_in: [Int!]
+
+  """All values less than the given value."""
+  deathWord_lt: Int
+
+  """All values less than or equal the given value."""
+  deathWord_lte: Int
+
+  """All values greater than the given value."""
+  deathWord_gt: Int
+
+  """All values greater than or equal the given value."""
+  deathWord_gte: Int
 }
 
 input DlonamesGameWhereUniqueInput {
