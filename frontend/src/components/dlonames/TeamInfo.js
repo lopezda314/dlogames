@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import {blueTeam, redTeam} from './DlonamesBoard';
+import { blueTeam } from './DlonamesBoard';
 
 const StyledTeamInfo = styled.div`
     border: 1px solid white;
@@ -10,12 +10,12 @@ const StyledTeamInfo = styled.div`
     width: 45vw;
 `;
 
-const TeamInfo = ({team}) => (
+const TeamInfo = ({team, codeMaster}) => (
     <StyledTeamInfo>
         <p style={{
             color: team === blueTeam ? '#FF69B4' : '#50AEB5',
         }}>{team} Team</p>
-        <p>{team === blueTeam ? 'David' : 'Amanda'}</p>
+        <p>{team === blueTeam ? codeMaster : 'Amanda'}</p>
     </StyledTeamInfo>
 );
 

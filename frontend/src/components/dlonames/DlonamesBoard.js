@@ -1,33 +1,54 @@
 import React, { Component } from 'react';
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
+
 import Button from '../styled/button';
 import TeamInfo from './TeamInfo';
-
 export const blueTeam = 'Blue';
 export const redTeam = 'Red';
+
+const GET_GAME_QUERY = gql`
+    {   
+        game(id: "cjy2fhw8drfev0b06z3t0mwvw") {
+            blueCodemaster
+            words
+        }
+    }
+`;
 
 class DlonamesBoard extends Component {
     render() {
         return (
-            <React.Fragment>
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-evenly',
-                }}>
-                    <TeamInfo team={blueTeam} />
-                    <TeamInfo team={redTeam } />
-                </div>
-                <div style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-evenly',
-                }}>
-                    <Row words={['dog', 'cat', 'bacon', 'banana', 'beep']} />
-                    <Row words={['dog', 'dog', 'bacon', 'banana', 'beep']} />
-                    <Row words={['dog', 'cat', 'dog', 'banana', 'beep']} />
-                    <Row words={['dog', 'cat', 'bacon', 'dog', 'beep']} />
-                    <Row words={['dog', 'cat', 'bacon', 'banana', 'dog']} />
-                </div>
-            </React.Fragment>
+            <Query query={GET_GAME_QUERY}>
+                {({data, loading, error}) => {
+                    if (loading) return <p>Loading game...</p>;
+                    if (error) return <p>Error: ${error.message}</p>;
+
+                    const { words, blueCodemaster } = data.game;
+                    return (
+                        <React.Fragment>
+                            <div style={{
+                                display: 'flex',
+                                justifyContent: 'space-evenly',
+                            }}>
+                                <TeamInfo team={blueTeam} codemaster={blueCodemaster} />
+                                <TeamInfo team={redTeam } />
+                            </div>
+                            <div style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'space-evenly',
+                            }}>
+                                <Row words={words.slice(0, 5)} />
+                                <Row words={words.slice(5, 10)} />
+                                <Row words={words.slice(10, 15)} />
+                                <Row words={words.slice(15, 20)} />
+                                <Row words={words.slice(20, 25)} />
+                            </div>
+                        </React.Fragment>
+                    );
+                }}
+            </Query>
         );
     }
 }
