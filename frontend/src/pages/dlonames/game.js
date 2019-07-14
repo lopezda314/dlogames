@@ -2,10 +2,10 @@ import React from 'react';
 import Layout from "../../components/layout";
 import DlonamesBoard from "../../components/dlonames/DlonamesBoard";
 
-const DlonamesBoardPage = () => {
+const DlonamesBoardPage = props => {
     return (
         <Layout>
-            <DlonamesBoard />
+            <DlonamesBoard location={props.location} />
         </Layout>
     );
 }

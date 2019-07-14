@@ -1,6 +1,21 @@
 import React, { Component } from 'react';
+import gql from 'graphql-tag';
+import { navigate } from '@reach/router';
+
 import Form from '../styled/Form';
-import { navigate } from 'gatsby';
+import { Mutation } from 'react-apollo';
+
+export const CREATE_GAME_MUTATION = gql`
+    mutation CREATE_GAME_MUTATION(
+        $creatorName: String!
+    ) {   
+        createGame(creatorName: $creatorName) {
+            id
+        }
+    }
+`;
+
+export const gameIdQuery = 'gid';
 
 class DlonamesLobby extends Component {
     state = {
@@ -16,28 +31,38 @@ class DlonamesLobby extends Component {
 
     render() {
         return (
-            <Form onSubmit={e => {
-                        e.preventDefault();
+            <Mutation mutation={CREATE_GAME_MUTATION} variables={{creatorName: this.state.username}}>
+                {(createGame, { loading, error }) => {
+                        if (loading) return <p>Creating game...</p>;
+                        if (error) return <p>Error: {error.message}</p>;
+                        
+                        return (
+                        <Form onSubmit={async e => {
+                            e.preventDefault();
+                            
+                            const res = await createGame();
 
-                        // Navigate to game page
-                        navigate('/dlonames/game' , {
-                            state: this.state,
-                        })}}>
-                <fieldset>
-                    <label>
-                        Name
-                        <input type="text" name="username" id="username" placeholder="username" required onChange={this.handleChange} />
-                    </label>
-                    <label>
-                        Game<br />
-                        <input type="text" name="gameId" id="gameId" placeholder="game id" onChange={this.handleChange} />
-                    </label>
-                </fieldset>
-                <button type="submit">
-                    {this.state.gameId ? 'Join' : 'Start'}
-                </button>
-            </Form>
-            // <DlonamesBoard />
+                            // Navigate to game page
+                            navigate('/dlonames/game?' + gameIdQuery + '=' + res.data.createGame.id , {
+                                state: this.state,
+                            })}}>
+                        <fieldset>
+                            <label>
+                                Name
+                                <input type="text" name="username" id="username" placeholder="username" required onChange={this.handleChange} />
+                            </label>
+                            <label>
+                                Game<br />
+                                <input type="text" name="gameId" id="gameId" placeholder="game id" onChange={this.handleChange} />
+                            </label>
+                        </fieldset>
+                        <button type="submit">
+                            {this.state.gameId ? 'Join' : 'Start'}
+                        </button>
+                    </Form>
+                );
+            }}
+            </Mutation>
         );
     }
 }
