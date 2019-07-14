@@ -3,7 +3,7 @@ import React from 'react';
 
 const PageNavs = () => (
     <React.Fragment>
-        <Link to="/dlonames" style={{color: 'inherit'}} activeStyle={{color: 'red'}}>
+        <Link to="/dlonames/lobby" style={{color: 'inherit'}} activeStyle={{color: 'red'}}>
             DloNames
         </Link>
         <Link to="/d2lo4" style={{color: 'inherit'}} activeStyle={{color: 'red'}}>

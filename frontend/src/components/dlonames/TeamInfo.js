@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import {blueTeam, redTeam} from '../../pages/dlonames';
+import {blueTeam, redTeam} from './DlonamesBoard';
 
 const StyledTeamInfo = styled.div`
     border: 1px solid white;
