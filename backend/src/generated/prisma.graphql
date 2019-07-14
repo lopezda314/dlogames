@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/david-lopez-fcf066/dlogames/dev
-# timestamp: Sat Jul 13 2019 23:38:32 GMT-0400 (Eastern Daylight Time)
+# timestamp: Sat Jul 13 2019 23:57:29 GMT-0400 (Eastern Daylight Time)
 
 type AggregateDlonamesGame {
   count: Int!
@@ -21,9 +21,9 @@ type BatchPayload {
 type DlonamesGame implements Node {
   id: ID!
   blueTeam: [String!]!
-  blueCodemaster: String
+  blueCodemaster: String!
   redTeam: [String!]!
-  redCodemaster: String
+  redCodemaster: String!
   currentTeam: String!
   clue: String
   blueClues: [String!]!
@@ -53,8 +53,8 @@ input DlonamesGameCreateblueTeamInput {
 
 input DlonamesGameCreateInput {
   id: ID
-  blueCodemaster: String
-  redCodemaster: String
+  blueCodemaster: String!
+  redCodemaster: String!
   currentTeam: String!
   clue: String
   guessesRemaining: Int
@@ -109,9 +109,9 @@ enum DlonamesGameOrderByInput {
 type DlonamesGamePreviousValues {
   id: ID!
   blueTeam: [String!]!
-  blueCodemaster: String
+  blueCodemaster: String!
   redTeam: [String!]!
-  redCodemaster: String
+  redCodemaster: String!
   currentTeam: String!
   clue: String
   blueClues: [String!]!
