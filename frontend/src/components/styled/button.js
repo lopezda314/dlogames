@@ -7,7 +7,7 @@ const StyledButton = styled.button`
     color: #393939;
     font-size: 1rem;
     height: 48px;
-    width: 18%;
+    width: 19%;
 `;
 
 const Button = ({label, onClickHandler}) => (
