@@ -622,7 +622,6 @@ button {
   border: none;
   margin: 0;
   text-decoration: none;
-  background: none;
   cursor: pointer;
   text-align: center;
   transition: background 250ms ease-in-out, 

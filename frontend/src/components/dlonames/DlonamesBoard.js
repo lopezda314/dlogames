@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import Button from '../styled/button';
+import Button, { blue, red, black, gray } from '../styled/button';
 import TeamInfo from './TeamInfo';
 import { gameIdQuery } from './DlonamesLobby';
 
@@ -13,8 +13,12 @@ export const GET_GAME_QUERY = gql`
         $id: ID!
     ) {   
         game(id: $id) {
+            redCodemaster
             blueCodemaster
             words
+            blueWords
+            redWords
+            deathWord
         }
     }
 `;
@@ -29,7 +33,7 @@ class DlonamesBoard extends Component {
                     if (loading) return <p>Loading game...</p>;
                     if (error) return <p>Error: ${error.message}</p>;
 
-                    const { words, blueCodemaster } = data.game;
+                    const { words, blueCodemaster, blueWords, redWords, deathWord } = data.game;
                     return (
                         <React.Fragment>
                             <div style={{
@@ -44,11 +48,12 @@ class DlonamesBoard extends Component {
                                 flexDirection: 'column',
                                 justifyContent: 'space-evenly',
                             }}>
-                                <Row words={words.slice(0, 5)} />
-                                <Row words={words.slice(5, 10)} />
-                                <Row words={words.slice(10, 15)} />
-                                <Row words={words.slice(15, 20)} />
-                                <Row words={words.slice(20, 25)} />
+                                {/* Refactor this to use context providers or hooks instead of big lists of props. */}
+                                <Row words={words.slice(0, 5)} row={0} blueWords={blueWords} redWords={redWords} deathWord={deathWord} />
+                                <Row words={words.slice(5, 10)} row={1} blueWords={blueWords} redWords={redWords} deathWord={deathWord} />
+                                <Row words={words.slice(10, 15)} row={2} blueWords={blueWords} redWords={redWords} deathWord={deathWord} />
+                                <Row words={words.slice(15, 20)} row={3} blueWords={blueWords} redWords={redWords} deathWord={deathWord} />
+                                <Row words={words.slice(20, 25)} row={4} blueWords={blueWords} redWords={redWords} deathWord={deathWord} />
                             </div>
                         </React.Fragment>
                     );
@@ -58,17 +63,31 @@ class DlonamesBoard extends Component {
     }
 }
 
-const Row = ({words}) => (
+const getColorForWord = (row, column, blueWords, redWords, deathWord) => {
+    const indexForWord = (row * 5) + column; 
+    if (new Set(blueWords).has(indexForWord)) {
+        return blue;
+    }
+    if (new Set(redWords).has(indexForWord)) {
+        return red;
+    }
+    if (indexForWord === deathWord) {
+        return black;
+    }
+    return gray;
+}
+
+const Row = ({ words, row, blueWords, redWords, deathWord }) => (
     <div style={{
         display: 'flex',
         justifyContent: 'space-evenly',
         paddingTop: '2vh',
     }}>
-        <Button label={words[0]} onClickHandler={() => console.log(`pressed ${words[0]}`)} />  
-        <Button label={words[1]} onClickHandler={() => console.log(`pressed ${words[1]}`)} />  
-        <Button label={words[2]} onClickHandler={() => console.log(`pressed ${words[2]}`)} />  
-        <Button label={words[3]} onClickHandler={() => console.log(`pressed ${words[3]}`)} />  
-        <Button label={words[4]} onClickHandler={() => console.log(`pressed ${words[4]}`)} />  
+        <Button label={words[0]} onClickHandler={() => console.log(`pressed ${words[0]}`)} backgroundColor={getColorForWord(row, 0, blueWords, redWords, deathWord)} />  
+        <Button label={words[1]} onClickHandler={() => console.log(`pressed ${words[1]}`)} backgroundColor={getColorForWord(row, 1, blueWords, redWords, deathWord)}/>  
+        <Button label={words[2]} onClickHandler={() => console.log(`pressed ${words[2]}`)} backgroundColor={getColorForWord(row, 2, blueWords, redWords, deathWord)} />  
+        <Button label={words[3]} onClickHandler={() => console.log(`pressed ${words[3]}`)} backgroundColor={getColorForWord(row, 3, blueWords, redWords, deathWord)} />  
+        <Button label={words[4]} onClickHandler={() => console.log(`pressed ${words[4]}`)} backgroundColor={getColorForWord(row, 4, blueWords, redWords, deathWord)} />  
     </div>
 )
 
