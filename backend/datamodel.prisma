@@ -9,7 +9,7 @@ type DlonamesGame {
   blueTeam: [String!]! @scalarList(strategy: RELATION)
   blueCodemaster: String!
   redTeam: [String!]! @scalarList(strategy: RELATION)
-  redCodeMaster: String!
+  redCodemaster: String!
   currentTeam: String!
   clue: String
   blueClues: [String!]! @scalarList(strategy: RELATION)

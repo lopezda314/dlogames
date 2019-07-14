@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/david-lopez-fcf066/dlogames/dev
-# timestamp: Tue Jul 09 2019 21:31:32 GMT-0700 (Pacific Daylight Time)
+# timestamp: Sat Jul 13 2019 23:38:32 GMT-0400 (Eastern Daylight Time)
 
 type AggregateDlonamesGame {
   count: Int!
@@ -21,9 +21,9 @@ type BatchPayload {
 type DlonamesGame implements Node {
   id: ID!
   blueTeam: [String!]!
-  blueCodemaster: String!
+  blueCodemaster: String
   redTeam: [String!]!
-  redCodeMaster: String!
+  redCodemaster: String
   currentTeam: String!
   clue: String
   blueClues: [String!]!
@@ -53,8 +53,8 @@ input DlonamesGameCreateblueTeamInput {
 
 input DlonamesGameCreateInput {
   id: ID
-  blueCodemaster: String!
-  redCodeMaster: String!
+  blueCodemaster: String
+  redCodemaster: String
   currentTeam: String!
   clue: String
   guessesRemaining: Int
@@ -96,8 +96,8 @@ enum DlonamesGameOrderByInput {
   id_DESC
   blueCodemaster_ASC
   blueCodemaster_DESC
-  redCodeMaster_ASC
-  redCodeMaster_DESC
+  redCodemaster_ASC
+  redCodemaster_DESC
   currentTeam_ASC
   currentTeam_DESC
   clue_ASC
@@ -109,9 +109,9 @@ enum DlonamesGameOrderByInput {
 type DlonamesGamePreviousValues {
   id: ID!
   blueTeam: [String!]!
-  blueCodemaster: String!
+  blueCodemaster: String
   redTeam: [String!]!
-  redCodeMaster: String!
+  redCodemaster: String
   currentTeam: String!
   clue: String
   blueClues: [String!]!
@@ -170,7 +170,7 @@ input DlonamesGameUpdateblueTeamInput {
 
 input DlonamesGameUpdateInput {
   blueCodemaster: String
-  redCodeMaster: String
+  redCodemaster: String
   currentTeam: String
   clue: String
   guessesRemaining: Int
@@ -184,7 +184,7 @@ input DlonamesGameUpdateInput {
 
 input DlonamesGameUpdateManyMutationInput {
   blueCodemaster: String
-  redCodeMaster: String
+  redCodemaster: String
   currentTeam: String
   clue: String
   guessesRemaining: Int
@@ -301,46 +301,46 @@ input DlonamesGameWhereInput {
 
   """All values not ending with the given string."""
   blueCodemaster_not_ends_with: String
-  redCodeMaster: String
+  redCodemaster: String
 
   """All values that are not equal to given value."""
-  redCodeMaster_not: String
+  redCodemaster_not: String
 
   """All values that are contained in given list."""
-  redCodeMaster_in: [String!]
+  redCodemaster_in: [String!]
 
   """All values that are not contained in given list."""
-  redCodeMaster_not_in: [String!]
+  redCodemaster_not_in: [String!]
 
   """All values less than the given value."""
-  redCodeMaster_lt: String
+  redCodemaster_lt: String
 
   """All values less than or equal the given value."""
-  redCodeMaster_lte: String
+  redCodemaster_lte: String
 
   """All values greater than the given value."""
-  redCodeMaster_gt: String
+  redCodemaster_gt: String
 
   """All values greater than or equal the given value."""
-  redCodeMaster_gte: String
+  redCodemaster_gte: String
 
   """All values containing the given string."""
-  redCodeMaster_contains: String
+  redCodemaster_contains: String
 
   """All values not containing the given string."""
-  redCodeMaster_not_contains: String
+  redCodemaster_not_contains: String
 
   """All values starting with the given string."""
-  redCodeMaster_starts_with: String
+  redCodemaster_starts_with: String
 
   """All values not starting with the given string."""
-  redCodeMaster_not_starts_with: String
+  redCodemaster_not_starts_with: String
 
   """All values ending with the given string."""
-  redCodeMaster_ends_with: String
+  redCodemaster_ends_with: String
 
   """All values not ending with the given string."""
-  redCodeMaster_not_ends_with: String
+  redCodemaster_not_ends_with: String
   currentTeam: String
 
   """All values that are not equal to given value."""

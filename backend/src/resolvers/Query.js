@@ -1,6 +1,9 @@
 const Query = {
-    games(parent, args, ctx, info) {
-        return ctx.db.query.dlonamesGames(
+    game(parent, args, ctx, info) {
+        return ctx.db.query.dlonamesGame(
+          {
+            where: { id: args.id },
+          },
           info
         );
     },

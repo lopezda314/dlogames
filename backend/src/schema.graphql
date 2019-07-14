@@ -1,9 +1,10 @@
 # import * from './generated/prisma.graphql'
 
 type Query {
-    games: [DlonamesGame!]! 
+    game(id: ID!): DlonamesGame! 
 }
 
 type Mutation {
-    createGame: DlonamesGame!
+    createGame(creatorName: String!): DlonamesGame!
+    joinGame(joinerName: String!, gameId: String!): DlonamesGame!
 }
