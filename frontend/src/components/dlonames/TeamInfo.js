@@ -11,11 +11,11 @@ const StyledTeamInfo = styled.div`
 `;
 
 const TeamInfo = ({team, codeMaster}) => (
-    <StyledTeamInfo>
-        <p style={{
-            color: team === blueTeam ? '#FF69B4' : '#50AEB5',
-        }}>{team} Team</p>
-        <p>{team === blueTeam ? codeMaster : 'Amanda'}</p>
+    <StyledTeamInfo style={{
+        color: team === blueTeam ? '#50AEB5' : '#FF69B4',
+    }}>
+        <p>{team} Team</p>
+        <p>{codeMaster}</p>
     </StyledTeamInfo>
 );
 

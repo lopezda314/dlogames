@@ -31,8 +31,8 @@ class DlonamesBoard extends Component {
                                 display: 'flex',
                                 justifyContent: 'space-evenly',
                             }}>
-                                <TeamInfo team={blueTeam} codemaster={blueCodemaster} />
-                                <TeamInfo team={redTeam } />
+                                <TeamInfo team={blueTeam} codeMaster={blueCodemaster} />
+                                <TeamInfo team={redTeam } codeMaster="Amanda" />
                             </div>
                             <div style={{
                                 display: 'flex',
