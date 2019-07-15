@@ -1,21 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { blueTeam } from './DlonamesBoard';
+import { BLUE_TEAM_STRING } from './DlonamesBoard';
 
 const StyledTeamInfo = styled.div`
     border: 1px solid white;
     border-radius: 8px;
-    padding: .825rem 1.25rem;
+    font-size: .75rem;
+    padding: .825rem .825rem;
     width: 45vw;
 `;
 
-const TeamInfo = ({team, codeMaster}) => (
+const TeamInfo = ({teamColor, codeMaster, teamMembers}) => (
     <StyledTeamInfo style={{
-        color: team === blueTeam ? '#50AEB5' : '#FF69B4',
+        color: teamColor === BLUE_TEAM_STRING ? '#50AEB5' : '#FF69B4',
     }}>
-        <p>{team} Team</p>
-        <p>{codeMaster}</p>
+        <p>{teamColor} Team <br />
+        Codemaster: {codeMaster} <br />
+        Team: {teamMembers.join()}</p>
     </StyledTeamInfo>
 );
 

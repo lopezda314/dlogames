@@ -5,8 +5,8 @@ import Button, { blue, red, black, gray } from '../styled/button';
 import TeamInfo from './TeamInfo';
 import { gameIdQuery } from './DlonamesLobby';
 
-export const blueTeam = 'Blue';
-export const redTeam = 'Red';
+export const BLUE_TEAM_STRING = 'Blue';
+export const RED_TEAM_STRING = 'Red';
 
 export const GET_GAME_QUERY = gql`
     query GET_GAME_QUERY(
@@ -15,6 +15,8 @@ export const GET_GAME_QUERY = gql`
         game(id: $id) {
             redCodemaster
             blueCodemaster
+            redTeam
+            blueTeam
             words
             blueWords
             redWords
@@ -33,15 +35,15 @@ class DlonamesBoard extends Component {
                     if (loading) return <p>Loading game...</p>;
                     if (error) return <p>Error: ${error.message}</p>;
 
-                    const { words, blueCodemaster, blueWords, redWords, deathWord } = data.game;
+                    const { words, redCodemaster, blueCodemaster, redTeam, blueTeam, blueWords, redWords, deathWord } = data.game;
                     return (
                         <React.Fragment>
                             <div style={{
                                 display: 'flex',
                                 justifyContent: 'space-evenly',
                             }}>
-                                <TeamInfo team={blueTeam} codeMaster={blueCodemaster} />
-                                <TeamInfo team={redTeam } codeMaster="Amanda" />
+                                <TeamInfo teamColor={BLUE_TEAM_STRING} codeMaster={blueCodemaster} teamMembers={blueTeam} />
+                                <TeamInfo teamColor={RED_TEAM_STRING } codeMaster={redCodemaster} teamMembers={redTeam} />
                             </div>
                             <div style={{
                                 display: 'flex',

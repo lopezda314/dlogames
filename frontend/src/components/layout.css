@@ -386,7 +386,6 @@ p {
   padding-left: 0;
   padding-right: 0;
   padding-top: 0;
-  margin-bottom: 1.45rem;
 }
 figure {
   margin-left: 0;
@@ -537,9 +536,6 @@ li *:last-child {
 }
 p *:last-child {
   margin-bottom: 0;
-}
-li > p {
-  margin-bottom: calc(1.45rem / 2);
 }
 code {
   font-size: 0.85rem;
