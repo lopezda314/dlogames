@@ -30,7 +30,8 @@ class DlonamesBoard extends Component {
         const gameId = new URLSearchParams(this.props.location.search).get(gameIdQuery);
 
         return (
-            <Query query={GET_GAME_QUERY} variables={{id: gameId}}>
+            // TODO: Change the poll interval to be smaller closer to launch.
+            <Query query={GET_GAME_QUERY} variables={{id: gameId}} pollInterval={5000}>
                 {({data, loading, error}) => {
                     if (loading) return <p>Loading game...</p>;
                     if (error) return <p>Error: ${error.message}</p>;
