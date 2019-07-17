@@ -22,6 +22,8 @@ export const GET_GAME_QUERY = gql`
             blueWords
             redWords
             deathWord
+            clue
+            guessesRemaining
         }
     }
 `;
@@ -37,7 +39,7 @@ class DlonamesBoard extends Component {
                     if (loading) return <p>Loading game...</p>;
                     if (error) return <p>Error: ${error.message}</p>;
 
-                    const { words, redCodemaster, blueCodemaster, redTeam, blueTeam, blueWords, redWords, deathWord } = data.game;
+                    const { words, redCodemaster, blueCodemaster, redTeam, blueTeam, blueWords, redWords, deathWord, clue, guessesRemaining: numGuesses } = data.game;
                     return (
                         <React.Fragment>
                             <div style={{
@@ -48,7 +50,7 @@ class DlonamesBoard extends Component {
                                 <TeamInfo teamColor={BLUE_TEAM_STRING} codeMaster={blueCodemaster} teamMembers={blueTeam} />
                                 <TeamInfo teamColor={RED_TEAM_STRING } codeMaster={redCodemaster} teamMembers={redTeam} />
                             </div>
-                            <GuessInfo id={gameId} />
+                            <GuessInfo id={gameId} clue={clue} numGuesses={numGuesses}/>
                             <div style={{
                                 display: 'flex',
                                 flexDirection: 'column',
