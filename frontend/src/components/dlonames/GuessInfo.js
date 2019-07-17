@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import gql from 'graphql-tag';
 import styled from 'styled-components';
+import { Mutation } from "react-apollo";
 
 const GuessForm = styled.form`
     padding: 0 .75rem;
@@ -25,7 +27,30 @@ const GuessForm = styled.form`
     }
 `;
 
+const SUBMIT_CLUE_MUTATION = gql`
+mutation SUBMIT_CLUE_MUTATION(
+    $id: String!
+    $clue: String!
+    $numGuesses: Int!
+) {
+    submitClue(
+      where: { id: $id }
+      data: { 
+          clue: $clue
+          guessesRemaining: $numGuesses
+         }
+    ) {
+      clue
+      guessesRemaining
+    }
+  }
+`;
+
 class GuessInfo extends Component {
+    state = {
+        clue: '',
+        numGuesses: '',
+    }
 
     handleChange = (e) => {
         const { name, type, value } = e.target;
@@ -35,16 +60,33 @@ class GuessInfo extends Component {
 
     render() {
         return (
-            <GuessForm>
-                <div role="group">
-                    <input type="text" name="clue" id="clue" placeholder="clue" required onChange={this.handleChange} />
-                    <span>for</span>
-                    <input type="number" name="numGuesses" id="numGuesses" placeholder="# guesses" required onChange={this.handleChange} />
-                </div>
-                <button type="submit">
-                    Submit Clue
-                </button>
-            </GuessForm>
+            <Mutation mutation={SUBMIT_CLUE_MUTATION} variables={{
+                id: "cjy4wbh89qw0s0b1905m6zzht",
+                clue: this.state.clue,
+                numGuesses: this.state.clue,
+            }}>
+                {(submitClue, { error }) => {
+                    if (error) return <p>Error: {error.message}</p>;
+
+                    return (
+                        <GuessForm onSubmit={async e => {
+                            e.preventDefault();
+                            
+                            const game = await submitClue();
+
+                            this.setState({clue: game.clue, numGuesses: game.guessesRemaining});
+                        }}>
+                            <div role="group">
+                                <input type="text" name="clue" id="clue" placeholder="clue" required onChange={this.handleChange} />
+                                <span>for</span>
+                                <input type="number" name="numGuesses" id="numGuesses" placeholder="# guesses" required onChange={this.handleChange} />
+                            </div>
+                            <button type="submit">
+                                Submit Clue
+                            </button>
+                        </GuessForm>
+                    )}}
+            </Mutation>
         );
     }
 }

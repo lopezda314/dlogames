@@ -47,7 +47,7 @@ const Mutation = {
         const blueWords = firstTeam === blueTeam ? indices.slice(0, 9) : indices.slice(9, 17);
         const redWords = firstTeam === redTeam ? indices.slice(0, 9) : indices.slice(9, 17);
         const deathWord = indices[17];
-        const game = await ctx.db.mutation.createDlonamesGame(
+        return await ctx.db.mutation.createDlonamesGame(
         {
             data: {
                 blueTeam: {
@@ -79,11 +79,17 @@ const Mutation = {
                 },
                 deathWord: deathWord,
             },
-        },
-        info
-        );    
-        return game;
+        }, info);    
     },
+    async submitClue(parent, args, ctx, info) {
+        return await ctx.db.mutation.updateDlonamesGame({
+            where: { id: args.id },
+            data: {
+                clue: args.clue,
+                guessesRemaining: args.numGuesses,
+            }
+        }, info);
+    }
 };
 
 module.exports = Mutation;
