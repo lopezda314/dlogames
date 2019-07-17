@@ -34,11 +34,9 @@ mutation SUBMIT_CLUE_MUTATION(
     $numGuesses: Int!
 ) {
     submitClue(
-      where: { id: $id }
-      data: { 
+          id: $id
           clue: $clue
-          guessesRemaining: $numGuesses
-         }
+          numGuesses: $numGuesses
     ) {
       clue
       guessesRemaining
@@ -63,7 +61,7 @@ class GuessInfo extends Component {
             <Mutation mutation={SUBMIT_CLUE_MUTATION} variables={{
                 id: "cjy4wbh89qw0s0b1905m6zzht",
                 clue: this.state.clue,
-                numGuesses: this.state.clue,
+                numGuesses: this.state.numGuesses,
             }}>
                 {(submitClue, { error }) => {
                     if (error) return <p>Error: {error.message}</p>;
