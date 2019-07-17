@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import Button, { blue, red, black, gray } from '../styled/button';
+import GuessInfo from './GuessInfo';
 import TeamInfo from './TeamInfo';
 import { gameIdQuery } from './DlonamesLobby';
 
@@ -42,10 +43,12 @@ class DlonamesBoard extends Component {
                             <div style={{
                                 display: 'flex',
                                 justifyContent: 'space-evenly',
+                                padding: '.5rem'
                             }}>
                                 <TeamInfo teamColor={BLUE_TEAM_STRING} codeMaster={blueCodemaster} teamMembers={blueTeam} />
                                 <TeamInfo teamColor={RED_TEAM_STRING } codeMaster={redCodemaster} teamMembers={redTeam} />
                             </div>
+                            <GuessInfo />
                             <div style={{
                                 display: 'flex',
                                 flexDirection: 'column',
