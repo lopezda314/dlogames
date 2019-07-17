@@ -59,7 +59,7 @@ class GuessInfo extends Component {
     render() {
         return (
             <Mutation mutation={SUBMIT_CLUE_MUTATION} variables={{
-                id: "cjy4wbh89qw0s0b1905m6zzht",
+                id: this.props.id,
                 clue: this.state.clue,
                 numGuesses: this.state.numGuesses,
             }}>

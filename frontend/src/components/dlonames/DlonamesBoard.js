@@ -48,7 +48,7 @@ class DlonamesBoard extends Component {
                                 <TeamInfo teamColor={BLUE_TEAM_STRING} codeMaster={blueCodemaster} teamMembers={blueTeam} />
                                 <TeamInfo teamColor={RED_TEAM_STRING } codeMaster={redCodemaster} teamMembers={redTeam} />
                             </div>
-                            <GuessInfo />
+                            <GuessInfo id={gameId} />
                             <div style={{
                                 display: 'flex',
                                 flexDirection: 'column',
