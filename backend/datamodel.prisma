@@ -14,7 +14,7 @@ type DlonamesGame {
   clue: String
   blueClues: [String!]! @scalarList(strategy: RELATION)
   redClues: [String!]! @scalarList(strategy: RELATION)
-  guessesRemaining: Int
+  numGuesses: Int
   wordsGuessed: [String!]! @scalarList(strategy: RELATION)
   words: [String!]! @scalarList(strategy: RELATION)
   redWords: [Int!]! @scalarList(strategy: RELATION)

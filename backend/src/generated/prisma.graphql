@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/david-lopez-fcf066/dlogames/dev
-# timestamp: Sun Jul 14 2019 14:54:24 GMT-0400 (Eastern Daylight Time)
+# timestamp: Tue Jul 16 2019 22:06:31 GMT-0400 (Eastern Daylight Time)
 
 type AggregateDlonamesGame {
   count: Int!
@@ -28,7 +28,7 @@ type DlonamesGame implements Node {
   clue: String
   blueClues: [String!]!
   redClues: [String!]!
-  guessesRemaining: Int
+  numGuesses: Int
   wordsGuessed: [String!]!
   words: [String!]!
   redWords: [Int!]!
@@ -64,7 +64,7 @@ input DlonamesGameCreateInput {
   redCodemaster: String!
   currentTeam: String!
   clue: String
-  guessesRemaining: Int
+  numGuesses: Int
   deathWord: Int!
   blueTeam: DlonamesGameCreateblueTeamInput
   redTeam: DlonamesGameCreateredTeamInput
@@ -116,8 +116,8 @@ enum DlonamesGameOrderByInput {
   currentTeam_DESC
   clue_ASC
   clue_DESC
-  guessesRemaining_ASC
-  guessesRemaining_DESC
+  numGuesses_ASC
+  numGuesses_DESC
   deathWord_ASC
   deathWord_DESC
 }
@@ -132,7 +132,7 @@ type DlonamesGamePreviousValues {
   clue: String
   blueClues: [String!]!
   redClues: [String!]!
-  guessesRemaining: Int
+  numGuesses: Int
   wordsGuessed: [String!]!
   words: [String!]!
   redWords: [Int!]!
@@ -196,7 +196,7 @@ input DlonamesGameUpdateInput {
   redCodemaster: String
   currentTeam: String
   clue: String
-  guessesRemaining: Int
+  numGuesses: Int
   deathWord: Int
   blueTeam: DlonamesGameUpdateblueTeamInput
   redTeam: DlonamesGameUpdateredTeamInput
@@ -213,7 +213,7 @@ input DlonamesGameUpdateManyMutationInput {
   redCodemaster: String
   currentTeam: String
   clue: String
-  guessesRemaining: Int
+  numGuesses: Int
   deathWord: Int
   blueTeam: DlonamesGameUpdateblueTeamInput
   redTeam: DlonamesGameUpdateredTeamInput
@@ -454,28 +454,28 @@ input DlonamesGameWhereInput {
 
   """All values not ending with the given string."""
   clue_not_ends_with: String
-  guessesRemaining: Int
+  numGuesses: Int
 
   """All values that are not equal to given value."""
-  guessesRemaining_not: Int
+  numGuesses_not: Int
 
   """All values that are contained in given list."""
-  guessesRemaining_in: [Int!]
+  numGuesses_in: [Int!]
 
   """All values that are not contained in given list."""
-  guessesRemaining_not_in: [Int!]
+  numGuesses_not_in: [Int!]
 
   """All values less than the given value."""
-  guessesRemaining_lt: Int
+  numGuesses_lt: Int
 
   """All values less than or equal the given value."""
-  guessesRemaining_lte: Int
+  numGuesses_lte: Int
 
   """All values greater than the given value."""
-  guessesRemaining_gt: Int
+  numGuesses_gt: Int
 
   """All values greater than or equal the given value."""
-  guessesRemaining_gte: Int
+  numGuesses_gte: Int
   deathWord: Int
 
   """All values that are not equal to given value."""

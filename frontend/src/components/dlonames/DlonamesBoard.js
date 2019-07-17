@@ -23,7 +23,7 @@ export const GET_GAME_QUERY = gql`
             redWords
             deathWord
             clue
-            guessesRemaining
+            numGuesses
         }
     }
 `;
@@ -39,7 +39,7 @@ class DlonamesBoard extends Component {
                     if (loading) return <p>Loading game...</p>;
                     if (error) return <p>Error: ${error.message}</p>;
 
-                    const { words, redCodemaster, blueCodemaster, redTeam, blueTeam, blueWords, redWords, deathWord, clue, guessesRemaining: numGuesses } = data.game;
+                    const { words, redCodemaster, blueCodemaster, redTeam, blueTeam, blueWords, redWords, deathWord, clue, numGuesses } = data.game;
                     return (
                         <React.Fragment>
                             <div style={{

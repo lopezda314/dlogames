@@ -86,7 +86,7 @@ const Mutation = {
             where: { id: args.id },
             data: {
                 clue: args.clue,
-                guessesRemaining: args.numGuesses,
+                numGuesses: args.numGuesses,
             }
         }, info);
     }

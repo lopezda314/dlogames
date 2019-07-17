@@ -39,7 +39,7 @@ mutation SUBMIT_CLUE_MUTATION(
           numGuesses: $numGuesses
     ) {
       clue
-      guessesRemaining
+      numGuesses
     }
   }
 `;
@@ -72,7 +72,7 @@ class GuessInfo extends Component {
                             
                             const game = await submitClue();
 
-                            this.setState({clue: game.clue, numGuesses: game.guessesRemaining});
+                            this.setState({clue: game.clue, numGuesses: game.numGuesses});
                         }}>
                             <div role="group">
                                 <input type="text" name="clue" id="clue" placeholder="clue" value={this.state.clue} required onChange={this.handleChange} />
