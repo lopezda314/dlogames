@@ -75,9 +75,9 @@ class GuessInfo extends Component {
                             this.setState({clue: game.clue, numGuesses: game.numGuesses});
                         }}>
                             <div role="group">
-                                <input type="text" name="clue" id="clue" placeholder="clue" value={this.state.clue} required onChange={this.handleChange} />
+                                <input type="text" name="clue" id="clue" placeholder="clue" value={this.state.clue || ''} required onChange={this.handleChange} />
                                 <span>for</span>
-                                <input type="number" name="numGuesses" id="numGuesses" placeholder="# guesses" value={this.state.numGuesses} required onChange={this.handleChange} />
+                                <input type="number" name="numGuesses" id="numGuesses" placeholder="# guesses" value={this.state.numGuesses || ''} required onChange={this.handleChange} />
                             </div>
                             <button type="submit">
                                 Submit Clue
