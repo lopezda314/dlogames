@@ -20,9 +20,10 @@ const Layout = ({ children, location }) => {
   return (
     <React.Fragment>
       <Header siteTitle={data.site.siteMetadata.title} />
+      <MobileNav />
       <div
         style={{
-          margin: `0 auto`,
+          margin: `0 .75rem`,
           maxWidth: 960,
           minHeight: '75vh',
           padding: `0px 0 1.45rem`,
@@ -31,7 +32,6 @@ const Layout = ({ children, location }) => {
       >
         <main>{children}</main>
       </div>
-      <MobileNav />
     </React.Fragment>
   )
 }

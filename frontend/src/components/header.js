@@ -9,7 +9,7 @@ const Logo = styled.h1`
     font-size: 3rem;
     margin: 0;
     position: relative;
-    text-align: center;
+    text-align: end;
     z-index: 2;
     a {
         padding: 0.5rem 1rem;
