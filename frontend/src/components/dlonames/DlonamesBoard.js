@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Query } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import Button, { blue, red, black, gray } from '../styled/button';
 import GuessInfo from './GuessInfo';
@@ -57,11 +57,11 @@ class DlonamesBoard extends Component {
                                 justifyContent: 'space-evenly',
                             }}>
                                 {/* Refactor this to use context providers or hooks instead of big lists of props. */}
-                                <Row words={words.slice(0, 5)} row={0} blueWords={blueWords} redWords={redWords} deathWord={deathWord} />
-                                <Row words={words.slice(5, 10)} row={1} blueWords={blueWords} redWords={redWords} deathWord={deathWord} />
-                                <Row words={words.slice(10, 15)} row={2} blueWords={blueWords} redWords={redWords} deathWord={deathWord} />
-                                <Row words={words.slice(15, 20)} row={3} blueWords={blueWords} redWords={redWords} deathWord={deathWord} />
-                                <Row words={words.slice(20, 25)} row={4} blueWords={blueWords} redWords={redWords} deathWord={deathWord} />
+                                <Row words={words.slice(0, 5)} row={0} blueWords={blueWords} redWords={redWords} deathWord={deathWord} id={gameId} />
+                                <Row words={words.slice(5, 10)} row={1} blueWords={blueWords} redWords={redWords} deathWord={deathWord} id={gameId} />
+                                <Row words={words.slice(10, 15)} row={2} blueWords={blueWords} redWords={redWords} deathWord={deathWord} id={gameId} />
+                                <Row words={words.slice(15, 20)} row={3} blueWords={blueWords} redWords={redWords} deathWord={deathWord} id={gameId} />
+                                <Row words={words.slice(20, 25)} row={4} blueWords={blueWords} redWords={redWords} deathWord={deathWord} id={gameId} />
                             </div>
                         </React.Fragment>
                     );
@@ -70,6 +70,19 @@ class DlonamesBoard extends Component {
         );
     }
 }
+
+export const GUESS_WORD_MUTATION = gql`
+    mutation GUESS_WORD_MUTATION(
+        $id: String!
+        $wordGuessed: String!
+        $indexOfWordGuessed: Int!
+    ) {
+        guessWord(id: $id, word: $wordGuessed, index: $indexOfWordGuessed) {
+            numGuesses
+            wordsGuessed
+        }
+    }
+`;
 
 const getColorForWord = (row, column, blueWords, redWords, deathWord) => {
     const indexForWord = (row * 5) + column; 
@@ -85,18 +98,30 @@ const getColorForWord = (row, column, blueWords, redWords, deathWord) => {
     return gray;
 }
 
-const Row = ({ words, row, blueWords, redWords, deathWord }) => (
-    <div style={{
-        display: 'flex',
-        justifyContent: 'space-evenly',
-        paddingTop: '2vh',
+const Row = ({ words, row, blueWords, redWords, deathWord, id }) => (
+    <Mutation mutation={GUESS_WORD_MUTATION} variables={{
+        id: id,
+        wordGuessed: 'eggs',
+        indexOfWordGuessed: 10,
     }}>
-        <Button label={words[0]} onClickHandler={() => console.log(`pressed ${words[0]}`)} backgroundColor={getColorForWord(row, 0, blueWords, redWords, deathWord)} />  
-        <Button label={words[1]} onClickHandler={() => console.log(`pressed ${words[1]}`)} backgroundColor={getColorForWord(row, 1, blueWords, redWords, deathWord)}/>  
-        <Button label={words[2]} onClickHandler={() => console.log(`pressed ${words[2]}`)} backgroundColor={getColorForWord(row, 2, blueWords, redWords, deathWord)} />  
-        <Button label={words[3]} onClickHandler={() => console.log(`pressed ${words[3]}`)} backgroundColor={getColorForWord(row, 3, blueWords, redWords, deathWord)} />  
-        <Button label={words[4]} onClickHandler={() => console.log(`pressed ${words[4]}`)} backgroundColor={getColorForWord(row, 4, blueWords, redWords, deathWord)} />  
-    </div>
+        {(guessWord, {error}) => {
+            if (error) return <p>error: {error.message}</p>;
+
+            return (
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-evenly',
+                    paddingTop: '2vh',
+                }}>
+                    <Button label={words[0]} onClickHandler={() => guessWord()} backgroundColor={getColorForWord(row, 0, blueWords, redWords, deathWord)} />  
+                    <Button label={words[1]} onClickHandler={() =>  guessWord()} backgroundColor={getColorForWord(row, 1, blueWords, redWords, deathWord)}/>  
+                    <Button label={words[2]} onClickHandler={() =>  guessWord()} backgroundColor={getColorForWord(row, 2, blueWords, redWords, deathWord)} />  
+                    <Button label={words[3]} onClickHandler={() =>  guessWord()} backgroundColor={getColorForWord(row, 3, blueWords, redWords, deathWord)} />  
+                    <Button label={words[4]} onClickHandler={() =>  guessWord()} backgroundColor={getColorForWord(row, 4, blueWords, redWords, deathWord)} />  
+                </div>
+            );
+        }}
+    </Mutation>
 )
 
 export default DlonamesBoard;

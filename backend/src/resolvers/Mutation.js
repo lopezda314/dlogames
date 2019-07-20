@@ -10,7 +10,6 @@ fs.readFile(path.resolve('../backend/static/base-words.txt'), 'utf8', (err, data
 
     dlonamesWords = data.split('\n');
 });
- 
 
 const getRandomTeam = () => {
     return Math.random() < .5 ? blueTeam : redTeam;
@@ -81,12 +80,32 @@ const Mutation = {
             },
         }, info);    
     },
+
     async submitClue(parent, args, ctx, info) {
         return await ctx.db.mutation.updateDlonamesGame({
             where: { id: args.id },
             data: {
                 clue: args.clue,
                 numGuesses: args.numGuesses,
+            }
+        }, info);
+    },
+    
+    async guessWord(parent, args, ctx, info) {
+        const existingGame = await ctx.db.query.dlonamesGame(
+            {
+              where: { id: args.id },
+            },
+            info);
+        if (!existingGame.wordsGuessed) {
+            existingGame.wordsGuessed = [];
+        }
+        return await ctx.db.mutation.updateDlonamesGame({
+            where: { id: args.id },
+            data: {
+                wordsGuessed: {
+                    set: [...existingGame.wordsGuessed, args.word],
+                }
             }
         }, info);
     }
