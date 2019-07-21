@@ -1,14 +1,14 @@
 import React from "react"
 
-import Layout from "../../components/layout";
-import DlonamesLobby from "../../components/dlonames/DlonamesLobby";
+import Layout from "../../components/layout"
+import DlonamesLobby from "../../components/dlonames/DlonamesLobby"
 
 const LobbyPage = () => {
-    return (
-        <Layout>
-            <DlonamesLobby />
-        </Layout>
-    );
+  return (
+    <Layout>
+      <DlonamesLobby />
+    </Layout>
+  )
 }
 
-export default LobbyPage;
+export default LobbyPage

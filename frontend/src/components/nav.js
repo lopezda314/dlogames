@@ -1,7 +1,7 @@
 import React from "react"
-import styled from 'styled-components';
+import styled from "styled-components"
 
-import PageNavs from "./page-navs";
+import PageNavs from "./page-navs"
 
 const NavStyles = styled.div`
   display: flex;
@@ -33,7 +33,7 @@ const NavStyles = styled.div`
     &:after {
       height: 2px;
       background: red;
-      content: '';
+      content: "";
       width: 0;
       position: absolute;
       transform: translateX(-50%);
@@ -49,16 +49,16 @@ const NavStyles = styled.div`
         width: calc(100% - 60px);
       }
       @media (max-width: 700px) {
-          width: calc(100% - 10px);
+        width: calc(100% - 10px);
       }
     }
   }
-`;
+`
 
 const Nav = () => (
-    <NavStyles>
-      <PageNavs />
-    </NavStyles>
+  <NavStyles>
+    <PageNavs />
+  </NavStyles>
 )
 
-export default Nav;
+export default Nav
