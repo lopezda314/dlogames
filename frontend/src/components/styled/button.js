@@ -16,6 +16,7 @@ const StyledButton = styled.button`
 const Button = ({ label, onClickHandler, backgroundColor }) => (
   <StyledButton
     onClick={onClickHandler}
+    value={label}
     style={{
       background: backgroundColor,
       color:

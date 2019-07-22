@@ -8,6 +8,8 @@ import { gameIdQuery } from "./DlonamesLobby"
 
 export const BLUE_TEAM_STRING = "Blue"
 export const RED_TEAM_STRING = "Red"
+const ROWS_PER_GAME = 5
+const WORDS_PER_ROW = 5
 
 export const GET_GAME_QUERY = gql`
   query GET_GAME_QUERY($id: ID!) {
@@ -55,6 +57,26 @@ class DlonamesBoard extends Component {
             clue,
             numGuesses,
           } = data.game
+
+          const rows = []
+          for (
+            let i = 0;
+            i < ROWS_PER_GAME * WORDS_PER_ROW;
+            i += WORDS_PER_ROW
+          ) {
+            const rowWords = words.slice(i, i + WORDS_PER_ROW)
+            rows.push(
+              <Row
+                key={rowWords.join("")}
+                words={rowWords}
+                row={i}
+                blueWords={blueWords}
+                redWords={redWords}
+                deathWord={deathWord}
+                id={gameId}
+              />
+            )
+          }
           return (
             <React.Fragment>
               <div
@@ -84,46 +106,7 @@ class DlonamesBoard extends Component {
                 }}
               >
                 {/* Refactor this to use context providers or hooks instead of big lists of props. */}
-                <Row
-                  words={words.slice(0, 5)}
-                  row={0}
-                  blueWords={blueWords}
-                  redWords={redWords}
-                  deathWord={deathWord}
-                  id={gameId}
-                />
-                <Row
-                  words={words.slice(5, 10)}
-                  row={1}
-                  blueWords={blueWords}
-                  redWords={redWords}
-                  deathWord={deathWord}
-                  id={gameId}
-                />
-                <Row
-                  words={words.slice(10, 15)}
-                  row={2}
-                  blueWords={blueWords}
-                  redWords={redWords}
-                  deathWord={deathWord}
-                  id={gameId}
-                />
-                <Row
-                  words={words.slice(15, 20)}
-                  row={3}
-                  blueWords={blueWords}
-                  redWords={redWords}
-                  deathWord={deathWord}
-                  id={gameId}
-                />
-                <Row
-                  words={words.slice(20, 25)}
-                  row={4}
-                  blueWords={blueWords}
-                  redWords={redWords}
-                  deathWord={deathWord}
-                  id={gameId}
-                />
+                {rows}
               </div>
             </React.Fragment>
           )
@@ -165,13 +148,35 @@ const Row = ({ words, row, blueWords, redWords, deathWord, id }) => (
     mutation={GUESS_WORD_MUTATION}
     variables={{
       id: id,
-      wordGuessed: "eggs",
-      indexOfWordGuessed: 10,
     }}
   >
     {(guessWord, { error }) => {
       if (error) return <p>error: {error.message}</p>
 
+      const buttons = []
+      for (let i = 0; i < WORDS_PER_ROW; i++) {
+        buttons.push(
+          <Button
+            key={words[i]}
+            label={words[i]}
+            onClickHandler={e =>
+              guessWord({
+                variables: {
+                  wordGuessed: e.target.value,
+                  indexOfWordGuessed: i,
+                },
+              })
+            }
+            backgroundColor={getColorForWord(
+              row,
+              i,
+              blueWords,
+              redWords,
+              deathWord
+            )}
+          />
+        )
+      }
       return (
         <div
           style={{
@@ -180,61 +185,7 @@ const Row = ({ words, row, blueWords, redWords, deathWord, id }) => (
             paddingTop: "2vh",
           }}
         >
-          <Button
-            label={words[0]}
-            onClickHandler={() => guessWord()}
-            backgroundColor={getColorForWord(
-              row,
-              0,
-              blueWords,
-              redWords,
-              deathWord
-            )}
-          />
-          <Button
-            label={words[1]}
-            onClickHandler={() => guessWord()}
-            backgroundColor={getColorForWord(
-              row,
-              1,
-              blueWords,
-              redWords,
-              deathWord
-            )}
-          />
-          <Button
-            label={words[2]}
-            onClickHandler={() => guessWord()}
-            backgroundColor={getColorForWord(
-              row,
-              2,
-              blueWords,
-              redWords,
-              deathWord
-            )}
-          />
-          <Button
-            label={words[3]}
-            onClickHandler={() => guessWord()}
-            backgroundColor={getColorForWord(
-              row,
-              3,
-              blueWords,
-              redWords,
-              deathWord
-            )}
-          />
-          <Button
-            label={words[4]}
-            onClickHandler={() => guessWord()}
-            backgroundColor={getColorForWord(
-              row,
-              4,
-              blueWords,
-              redWords,
-              deathWord
-            )}
-          />
+          {buttons}
         </div>
       )
     }}
