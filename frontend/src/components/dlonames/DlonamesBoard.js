@@ -69,7 +69,7 @@ class DlonamesBoard extends Component {
               <Row
                 key={rowWords.join("")}
                 words={rowWords}
-                row={i}
+                row={i / WORDS_PER_ROW}
                 blueWords={blueWords}
                 redWords={redWords}
                 deathWord={deathWord}
@@ -103,6 +103,7 @@ class DlonamesBoard extends Component {
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "space-evenly",
+                  margin: "0 -.75rem",
                 }}
               >
                 {/* Refactor this to use context providers or hooks instead of big lists of props. */}
@@ -130,7 +131,7 @@ export const GUESS_WORD_MUTATION = gql`
 `
 
 const getColorForWord = (row, column, blueWords, redWords, deathWord) => {
-  const indexForWord = row * 5 + column
+  const indexForWord = row * ROWS_PER_GAME + column
   if (new Set(blueWords).has(indexForWord)) {
     return blue
   }
