@@ -14,7 +14,7 @@ const StyledButton = styled.button`
   background: none;
   border: none;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: 0.75rem;
   height: 48px;
   text-decoration: none;
   transition: background 250ms ease-in-out, transform 150ms ease;
