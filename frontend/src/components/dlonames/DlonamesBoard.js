@@ -1,10 +1,19 @@
 import React, { Component } from "react"
 import { Mutation, Query } from "react-apollo"
 import gql from "graphql-tag"
-import Button, { blue, red, black, gray } from "../styled/button"
 import GuessInfo from "./GuessInfo"
 import TeamInfo from "./TeamInfo"
 import { gameIdQuery } from "./DlonamesLobby"
+import Button, {
+  blueTranslucent,
+  redTranslucent,
+  blackTranslucent,
+  grayTranslucent,
+  blue,
+  red,
+  black,
+  gray,
+} from "../styled/button"
 
 export const BLUE_TEAM_STRING = "Blue"
 export const RED_TEAM_STRING = "Red"
@@ -62,7 +71,11 @@ class DlonamesBoard extends Component {
 
           const rows = []
           for (let i = 0; i < ROWS_PER_GAME; i++) {
-            const rowWords = words.slice(i, i + WORDS_PER_ROW)
+            const firstIndexOfRow = i * ROWS_PER_GAME
+            const rowWords = words.slice(
+              firstIndexOfRow,
+              firstIndexOfRow + WORDS_PER_ROW
+            )
             rows.push(
               <Row
                 key={rowWords.join("")}
@@ -132,16 +145,19 @@ const getColorForWord = (
   wordsGuessed
 ) => {
   let wordHasBeenGuessed = false
+  if (new Set(wordsGuessed).has(word)) {
+    wordHasBeenGuessed = true
+  }
   if (new Set(blueWords).has(word)) {
-    return blue
+    return wordHasBeenGuessed ? blue : blueTranslucent
   }
   if (new Set(redWords).has(word)) {
-    return red
+    return wordHasBeenGuessed ? red : redTranslucent
   }
   if (word === deathWord) {
-    return black
+    return wordHasBeenGuessed ? black : blackTranslucent
   }
-  return gray
+  return wordHasBeenGuessed ? gray : grayTranslucent
 }
 
 const Row = ({ words, blueWords, redWords, deathWord, id, wordsGuessed }) => (
@@ -171,7 +187,8 @@ const Row = ({ words, blueWords, redWords, deathWord, id, wordsGuessed }) => (
               words[i],
               blueWords,
               redWords,
-              deathWord
+              deathWord,
+              wordsGuessed
             )}
           />
         )

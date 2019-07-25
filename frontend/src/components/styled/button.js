@@ -1,10 +1,14 @@
 import React from "react"
 import styled from "styled-components"
 
-export const black = "#393939"
-export const blue = "blue"
-export const gray = "whitesmoke"
-export const red = "red"
+export const blueTranslucent = "rgba(0, 0, 255, 0.5)"
+export const redTranslucent = "rgba(255, 0, 0, 0.5)"
+export const blackTranslucent = "#393939"
+export const grayTranslucent = "#828282"
+export const blue = "rgba(0, 0, 255, 1)"
+export const red = "rgba(255, 0, 0, 1)"
+export const black = "rgba(0, 0, 0, 1)"
+export const gray = "#D3D3D3"
 
 const StyledButton = styled.button`
   background: none;
@@ -23,14 +27,19 @@ const StyledButton = styled.button`
   }
 `
 
+const isLowContrastAgainstWhite = color =>
+  color === gray ||
+  color === grayTranslucent ||
+  color === red ||
+  color === redTranslucent
+
 const Button = ({ label, onClickHandler, backgroundColor }) => (
   <StyledButton
     onClick={onClickHandler}
     value={label}
     style={{
       background: backgroundColor,
-      color:
-        backgroundColor === red || backgroundColor === gray ? "black" : "white",
+      color: isLowContrastAgainstWhite(backgroundColor) ? "black" : "white",
     }}
   >
     {label}
