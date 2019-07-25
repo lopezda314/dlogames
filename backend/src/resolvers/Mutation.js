@@ -60,7 +60,7 @@ const Mutation = {
       firstTeam === redTeam
         ? indices.slice(0, 9).map(index => words[index])
         : indices.slice(9, 17).map(index => words[index])
-    const deathWord = indices[17]
+    const deathWord = words[indices[17]]
     return await ctx.db.mutation.createDlonamesGame(
       {
         data: {

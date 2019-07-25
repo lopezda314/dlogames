@@ -8,5 +8,5 @@ type Mutation {
     createGame(creatorName: String!): DlonamesGame!
     joinGame(joinerName: String!, gameId: String!): DlonamesGame!
     submitClue(id: String!, clue: String!, numGuesses: Int!): DlonamesGame!
-    guessWord(id: String!, word: String!, index: Int!): DlonamesGame!
+    guessWord(id: String!, word: String!): DlonamesGame!
 }
