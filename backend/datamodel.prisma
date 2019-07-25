@@ -17,9 +17,9 @@ type DlonamesGame {
   numGuesses: Int
   wordsGuessed: [String!]! @scalarList(strategy: RELATION)
   words: [String!]! @scalarList(strategy: RELATION)
-  redWords: [Int!]! @scalarList(strategy: RELATION)
-  blueWords: [Int!]! @scalarList(strategy: RELATION)
-  deathWord: Int!
+  redWords: [String!]! @scalarList(strategy: RELATION)
+  blueWords: [String!]! @scalarList(strategy: RELATION)
+  deathWord: String!
 }
 
 type DlonamesStats {

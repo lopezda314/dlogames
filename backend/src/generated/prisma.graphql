@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/david-lopez-fcf066/dlogames/dev
-# timestamp: Tue Jul 16 2019 22:06:31 GMT-0400 (Eastern Daylight Time)
+# timestamp: Wed Jul 24 2019 21:38:20 GMT-0400 (Eastern Daylight Time)
 
 type AggregateDlonamesGame {
   count: Int!
@@ -31,9 +31,9 @@ type DlonamesGame implements Node {
   numGuesses: Int
   wordsGuessed: [String!]!
   words: [String!]!
-  redWords: [Int!]!
-  blueWords: [Int!]!
-  deathWord: Int!
+  redWords: [String!]!
+  blueWords: [String!]!
+  deathWord: String!
 }
 
 """A connection to a list of items."""
@@ -55,7 +55,7 @@ input DlonamesGameCreateblueTeamInput {
 }
 
 input DlonamesGameCreateblueWordsInput {
-  set: [Int!]
+  set: [String!]
 }
 
 input DlonamesGameCreateInput {
@@ -65,7 +65,7 @@ input DlonamesGameCreateInput {
   currentTeam: String!
   clue: String
   numGuesses: Int
-  deathWord: Int!
+  deathWord: String!
   blueTeam: DlonamesGameCreateblueTeamInput
   redTeam: DlonamesGameCreateredTeamInput
   blueClues: DlonamesGameCreateblueCluesInput
@@ -85,7 +85,7 @@ input DlonamesGameCreateredTeamInput {
 }
 
 input DlonamesGameCreateredWordsInput {
-  set: [Int!]
+  set: [String!]
 }
 
 input DlonamesGameCreatewordsGuessedInput {
@@ -135,9 +135,9 @@ type DlonamesGamePreviousValues {
   numGuesses: Int
   wordsGuessed: [String!]!
   words: [String!]!
-  redWords: [Int!]!
-  blueWords: [Int!]!
-  deathWord: Int!
+  redWords: [String!]!
+  blueWords: [String!]!
+  deathWord: String!
 }
 
 type DlonamesGameSubscriptionPayload {
@@ -188,7 +188,7 @@ input DlonamesGameUpdateblueTeamInput {
 }
 
 input DlonamesGameUpdateblueWordsInput {
-  set: [Int!]
+  set: [String!]
 }
 
 input DlonamesGameUpdateInput {
@@ -197,7 +197,7 @@ input DlonamesGameUpdateInput {
   currentTeam: String
   clue: String
   numGuesses: Int
-  deathWord: Int
+  deathWord: String
   blueTeam: DlonamesGameUpdateblueTeamInput
   redTeam: DlonamesGameUpdateredTeamInput
   blueClues: DlonamesGameUpdateblueCluesInput
@@ -214,7 +214,7 @@ input DlonamesGameUpdateManyMutationInput {
   currentTeam: String
   clue: String
   numGuesses: Int
-  deathWord: Int
+  deathWord: String
   blueTeam: DlonamesGameUpdateblueTeamInput
   redTeam: DlonamesGameUpdateredTeamInput
   blueClues: DlonamesGameUpdateblueCluesInput
@@ -234,7 +234,7 @@ input DlonamesGameUpdateredTeamInput {
 }
 
 input DlonamesGameUpdateredWordsInput {
-  set: [Int!]
+  set: [String!]
 }
 
 input DlonamesGameUpdatewordsGuessedInput {
@@ -476,28 +476,46 @@ input DlonamesGameWhereInput {
 
   """All values greater than or equal the given value."""
   numGuesses_gte: Int
-  deathWord: Int
+  deathWord: String
 
   """All values that are not equal to given value."""
-  deathWord_not: Int
+  deathWord_not: String
 
   """All values that are contained in given list."""
-  deathWord_in: [Int!]
+  deathWord_in: [String!]
 
   """All values that are not contained in given list."""
-  deathWord_not_in: [Int!]
+  deathWord_not_in: [String!]
 
   """All values less than the given value."""
-  deathWord_lt: Int
+  deathWord_lt: String
 
   """All values less than or equal the given value."""
-  deathWord_lte: Int
+  deathWord_lte: String
 
   """All values greater than the given value."""
-  deathWord_gt: Int
+  deathWord_gt: String
 
   """All values greater than or equal the given value."""
-  deathWord_gte: Int
+  deathWord_gte: String
+
+  """All values containing the given string."""
+  deathWord_contains: String
+
+  """All values not containing the given string."""
+  deathWord_not_contains: String
+
+  """All values starting with the given string."""
+  deathWord_starts_with: String
+
+  """All values not starting with the given string."""
+  deathWord_not_starts_with: String
+
+  """All values ending with the given string."""
+  deathWord_ends_with: String
+
+  """All values not ending with the given string."""
+  deathWord_not_ends_with: String
 }
 
 input DlonamesGameWhereUniqueInput {
