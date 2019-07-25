@@ -24,6 +24,7 @@ export const GET_GAME_QUERY = gql`
       deathWord
       clue
       numGuesses
+      wordsGuessed
     }
   }
 `
@@ -56,23 +57,20 @@ class DlonamesBoard extends Component {
             deathWord,
             clue,
             numGuesses,
+            wordsGuessed,
           } = data.game
 
           const rows = []
-          for (
-            let i = 0;
-            i < ROWS_PER_GAME * WORDS_PER_ROW;
-            i += WORDS_PER_ROW
-          ) {
+          for (let i = 0; i < ROWS_PER_GAME; i++) {
             const rowWords = words.slice(i, i + WORDS_PER_ROW)
             rows.push(
               <Row
                 key={rowWords.join("")}
                 words={rowWords}
-                row={i / WORDS_PER_ROW}
                 blueWords={blueWords}
                 redWords={redWords}
                 deathWord={deathWord}
+                wordsGuessed={wordsGuessed}
                 id={gameId}
               />
             )
@@ -118,33 +116,35 @@ class DlonamesBoard extends Component {
 }
 
 export const GUESS_WORD_MUTATION = gql`
-  mutation GUESS_WORD_MUTATION(
-    $id: String!
-    $wordGuessed: String!
-    $indexOfWordGuessed: Int!
-  ) {
-    guessWord(id: $id, word: $wordGuessed, index: $indexOfWordGuessed) {
+  mutation GUESS_WORD_MUTATION($id: String!, $wordGuessed: String!) {
+    guessWord(id: $id, word: $wordGuessed) {
       numGuesses
       wordsGuessed
     }
   }
 `
 
-const getColorForWord = (row, column, blueWords, redWords, deathWord) => {
-  const indexForWord = row * ROWS_PER_GAME + column
-  if (new Set(blueWords).has(indexForWord)) {
+const getColorForWord = (
+  word,
+  blueWords,
+  redWords,
+  deathWord,
+  wordsGuessed
+) => {
+  let wordHasBeenGuessed = false
+  if (new Set(blueWords).has(word)) {
     return blue
   }
-  if (new Set(redWords).has(indexForWord)) {
+  if (new Set(redWords).has(word)) {
     return red
   }
-  if (indexForWord === deathWord) {
+  if (word === deathWord) {
     return black
   }
   return gray
 }
 
-const Row = ({ words, row, blueWords, redWords, deathWord, id }) => (
+const Row = ({ words, blueWords, redWords, deathWord, id, wordsGuessed }) => (
   <Mutation
     mutation={GUESS_WORD_MUTATION}
     variables={{
@@ -164,13 +164,11 @@ const Row = ({ words, row, blueWords, redWords, deathWord, id }) => (
               guessWord({
                 variables: {
                   wordGuessed: e.target.value,
-                  indexOfWordGuessed: i,
                 },
               })
             }
             backgroundColor={getColorForWord(
-              row,
-              i,
+              words[i],
               blueWords,
               redWords,
               deathWord
