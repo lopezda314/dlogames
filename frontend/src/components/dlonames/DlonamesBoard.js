@@ -137,6 +137,10 @@ export const GUESS_WORD_MUTATION = gql`
   }
 `
 
+const isCurrentUserCodemaster = () =>
+  // TODO(david): Dynamically determine this based on user and response from server
+  true
+
 const getColorForWord = (
   word,
   blueWords,
@@ -147,6 +151,9 @@ const getColorForWord = (
   let wordHasBeenGuessed = false
   if (new Set(wordsGuessed).has(word)) {
     wordHasBeenGuessed = true
+  }
+  if (!isCurrentUserCodemaster()) {
+    if (!wordHasBeenGuessed) return grayTranslucent
   }
   if (new Set(blueWords).has(word)) {
     return wordHasBeenGuessed ? blue : blueTranslucent
