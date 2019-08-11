@@ -70,9 +70,7 @@ class GuessInfo extends Component {
               onSubmit={async e => {
                 e.preventDefault()
 
-                const game = await submitClue()
-
-                this.setState({ clue: game.clue, numGuesses: game.numGuesses })
+                await submitClue()
               }}
             >
               <div role="group">
