@@ -1,7 +1,11 @@
 type User {
   id: ID! @id
   name: String!
-  dlonamesStats: DlonamesStats @relation(link: INLINE)
+  email: String! @unique
+  password: String!
+  resetToken: String
+  resetTokenExpiry: String
+  dlonamesStats: DlonamesStats! @relation(name: "UserDlonamesStats", onDelete: CASCADE)
 }
 
 type DlonamesGame {
@@ -24,7 +28,7 @@ type DlonamesGame {
 
 type DlonamesStats {
   id: ID! @id
-  user: User!
+  user: User! @relation(link: INLINE, name: "UserDlonamesStats")
   numberOfCluesGiven: Int!
   numberOfCluesGuessedCorrectly: Int!
   numberOfGuesses: Int!
