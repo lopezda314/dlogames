@@ -5,6 +5,7 @@ type Query {
 }
 
 type Mutation {
+    createUser(name: String!, passport: String!): User!
     createGame(creatorName: String!): DlonamesGame!
     joinGame(joinerName: String!, gameId: String!): DlonamesGame!
     submitClue(id: String!, clue: String!, numGuesses: Int!): DlonamesGame!

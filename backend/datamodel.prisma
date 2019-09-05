@@ -1,10 +1,7 @@
 type User {
   id: ID! @id
   name: String!
-  email: String! @unique
-  password: String!
-  resetToken: String
-  resetTokenExpiry: String
+  passport: String!
   dlonamesStats: DlonamesStats! @relation(name: "UserDlonamesStats", onDelete: CASCADE)
 }
 

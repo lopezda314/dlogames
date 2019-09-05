@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/david-lopez-fcf066/dlogames/dev
-# timestamp: Sun Aug 11 2019 16:42:43 GMT-0400 (Eastern Daylight Time)
+# timestamp: Thu Sep 05 2019 07:11:15 GMT-0400 (Eastern Daylight Time)
 
 type AggregateDlonamesGame {
   count: Int!
@@ -891,10 +891,7 @@ type Subscription {
 type User implements Node {
   id: ID!
   name: String!
-  email: String!
-  password: String!
-  resetToken: String
-  resetTokenExpiry: String
+  passport: String!
   dlonamesStats: DlonamesStats!
 }
 
@@ -911,10 +908,7 @@ type UserConnection {
 input UserCreateInput {
   id: ID
   name: String!
-  email: String!
-  password: String!
-  resetToken: String
-  resetTokenExpiry: String
+  passport: String!
   dlonamesStats: DlonamesStatsCreateOneWithoutUserInput!
 }
 
@@ -926,10 +920,7 @@ input UserCreateOneWithoutDlonamesStatsInput {
 input UserCreateWithoutDlonamesStatsInput {
   id: ID
   name: String!
-  email: String!
-  password: String!
-  resetToken: String
-  resetTokenExpiry: String
+  passport: String!
 }
 
 """An edge in a connection."""
@@ -946,23 +937,14 @@ enum UserOrderByInput {
   id_DESC
   name_ASC
   name_DESC
-  email_ASC
-  email_DESC
-  password_ASC
-  password_DESC
-  resetToken_ASC
-  resetToken_DESC
-  resetTokenExpiry_ASC
-  resetTokenExpiry_DESC
+  passport_ASC
+  passport_DESC
 }
 
 type UserPreviousValues {
   id: ID!
   name: String!
-  email: String!
-  password: String!
-  resetToken: String
-  resetTokenExpiry: String
+  passport: String!
 }
 
 type UserSubscriptionPayload {
@@ -1006,19 +988,13 @@ input UserSubscriptionWhereInput {
 
 input UserUpdateInput {
   name: String
-  email: String
-  password: String
-  resetToken: String
-  resetTokenExpiry: String
+  passport: String
   dlonamesStats: DlonamesStatsUpdateOneRequiredWithoutUserInput
 }
 
 input UserUpdateManyMutationInput {
   name: String
-  email: String
-  password: String
-  resetToken: String
-  resetTokenExpiry: String
+  passport: String
 }
 
 input UserUpdateOneRequiredWithoutDlonamesStatsInput {
@@ -1030,10 +1006,7 @@ input UserUpdateOneRequiredWithoutDlonamesStatsInput {
 
 input UserUpdateWithoutDlonamesStatsDataInput {
   name: String
-  email: String
-  password: String
-  resetToken: String
-  resetTokenExpiry: String
+  passport: String
 }
 
 input UserUpsertWithoutDlonamesStatsInput {
@@ -1130,170 +1103,49 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   name_not_ends_with: String
-  email: String
+  passport: String
 
   """All values that are not equal to given value."""
-  email_not: String
+  passport_not: String
 
   """All values that are contained in given list."""
-  email_in: [String!]
+  passport_in: [String!]
 
   """All values that are not contained in given list."""
-  email_not_in: [String!]
+  passport_not_in: [String!]
 
   """All values less than the given value."""
-  email_lt: String
+  passport_lt: String
 
   """All values less than or equal the given value."""
-  email_lte: String
+  passport_lte: String
 
   """All values greater than the given value."""
-  email_gt: String
+  passport_gt: String
 
   """All values greater than or equal the given value."""
-  email_gte: String
+  passport_gte: String
 
   """All values containing the given string."""
-  email_contains: String
+  passport_contains: String
 
   """All values not containing the given string."""
-  email_not_contains: String
+  passport_not_contains: String
 
   """All values starting with the given string."""
-  email_starts_with: String
+  passport_starts_with: String
 
   """All values not starting with the given string."""
-  email_not_starts_with: String
+  passport_not_starts_with: String
 
   """All values ending with the given string."""
-  email_ends_with: String
+  passport_ends_with: String
 
   """All values not ending with the given string."""
-  email_not_ends_with: String
-  password: String
-
-  """All values that are not equal to given value."""
-  password_not: String
-
-  """All values that are contained in given list."""
-  password_in: [String!]
-
-  """All values that are not contained in given list."""
-  password_not_in: [String!]
-
-  """All values less than the given value."""
-  password_lt: String
-
-  """All values less than or equal the given value."""
-  password_lte: String
-
-  """All values greater than the given value."""
-  password_gt: String
-
-  """All values greater than or equal the given value."""
-  password_gte: String
-
-  """All values containing the given string."""
-  password_contains: String
-
-  """All values not containing the given string."""
-  password_not_contains: String
-
-  """All values starting with the given string."""
-  password_starts_with: String
-
-  """All values not starting with the given string."""
-  password_not_starts_with: String
-
-  """All values ending with the given string."""
-  password_ends_with: String
-
-  """All values not ending with the given string."""
-  password_not_ends_with: String
-  resetToken: String
-
-  """All values that are not equal to given value."""
-  resetToken_not: String
-
-  """All values that are contained in given list."""
-  resetToken_in: [String!]
-
-  """All values that are not contained in given list."""
-  resetToken_not_in: [String!]
-
-  """All values less than the given value."""
-  resetToken_lt: String
-
-  """All values less than or equal the given value."""
-  resetToken_lte: String
-
-  """All values greater than the given value."""
-  resetToken_gt: String
-
-  """All values greater than or equal the given value."""
-  resetToken_gte: String
-
-  """All values containing the given string."""
-  resetToken_contains: String
-
-  """All values not containing the given string."""
-  resetToken_not_contains: String
-
-  """All values starting with the given string."""
-  resetToken_starts_with: String
-
-  """All values not starting with the given string."""
-  resetToken_not_starts_with: String
-
-  """All values ending with the given string."""
-  resetToken_ends_with: String
-
-  """All values not ending with the given string."""
-  resetToken_not_ends_with: String
-  resetTokenExpiry: String
-
-  """All values that are not equal to given value."""
-  resetTokenExpiry_not: String
-
-  """All values that are contained in given list."""
-  resetTokenExpiry_in: [String!]
-
-  """All values that are not contained in given list."""
-  resetTokenExpiry_not_in: [String!]
-
-  """All values less than the given value."""
-  resetTokenExpiry_lt: String
-
-  """All values less than or equal the given value."""
-  resetTokenExpiry_lte: String
-
-  """All values greater than the given value."""
-  resetTokenExpiry_gt: String
-
-  """All values greater than or equal the given value."""
-  resetTokenExpiry_gte: String
-
-  """All values containing the given string."""
-  resetTokenExpiry_contains: String
-
-  """All values not containing the given string."""
-  resetTokenExpiry_not_contains: String
-
-  """All values starting with the given string."""
-  resetTokenExpiry_starts_with: String
-
-  """All values not starting with the given string."""
-  resetTokenExpiry_not_starts_with: String
-
-  """All values ending with the given string."""
-  resetTokenExpiry_ends_with: String
-
-  """All values not ending with the given string."""
-  resetTokenExpiry_not_ends_with: String
+  passport_not_ends_with: String
   dlonamesStats: DlonamesStatsWhereInput
 }
 
 input UserWhereUniqueInput {
   id: ID
-  email: String
 }
