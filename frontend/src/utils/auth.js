@@ -26,7 +26,7 @@ export const isAuthenticated = () => {
     return
   }
 
-  return localStorage.getItem("isLoggedIn") === "true"
+  return localStorage.getItem("currentUser")
 }
 
 export const login = () => {
@@ -52,6 +52,16 @@ const setSession = (cb = () => {}) => (err, authResult) => {
     user = authResult.idTokenPayload
     localStorage.setItem("isLoggedIn", true)
     cb()
+  }
+
+  localStorage.setItem("currentUser", JSON.stringify(user))
+
+  if (!localStorage.getItem("dlogamesHistory")) {
+    navigate("/")
+  }
+  const dlogamesHistory = JSON.parse(localStorage.getItem("dlogamesHistory"))
+  if (dlogamesHistory.dlonames) {
+    navigate("/dlonames/game?gid=" + dlogamesHistory.dlonames)
   }
 }
 
