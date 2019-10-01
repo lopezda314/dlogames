@@ -1,9 +1,11 @@
 import React, { Component } from "react"
 import { Mutation, Query } from "react-apollo"
+import { navigate } from "@reach/router"
+import { getProfile } from "../../utils/auth"
+import { gameIdQuery } from "../../components/dlonames/DlonamesLobby"
 import gql from "graphql-tag"
 import GuessInfo from "./GuessInfo"
 import TeamInfo from "./TeamInfo"
-import { gameIdQuery } from "./DlonamesLobby"
 import Button, {
   blueTranslucent,
   redTranslucent,
@@ -20,6 +22,13 @@ export const RED_TEAM_STRING = "Red"
 const ROWS_PER_GAME = 5
 const WORDS_PER_ROW = 5
 
+export const CREATE_GAME_MUTATION = gql`
+  mutation CREATE_GAME_MUTATION($creatorName: String!) {
+    createGame(creatorName: $creatorName) {
+      id
+    }
+  }
+`
 export const GET_GAME_QUERY = gql`
   query GET_GAME_QUERY($id: ID!) {
     game(id: $id) {
@@ -40,9 +49,33 @@ export const GET_GAME_QUERY = gql`
 
 class DlonamesBoard extends Component {
   render() {
-    const gameId = new URLSearchParams(this.props.location.search).get(
-      gameIdQuery
-    )
+    const currentUser = getProfile()
+    let gameId = this.props.gameId
+
+    if (!gameId) {
+      return (
+        <Mutation
+          mutation={CREATE_GAME_MUTATION}
+          variables={{ creatorName: currentUser.nickname }}
+        >
+          {(createGame, { loading, error }) => {
+            if (loading) return <p>Creating game...</p>
+            if (error) return <p>Error: {error.message}</p>
+            return (
+              <Button
+                onClickHandler={async () => {
+                  const createGameResponse = await createGame()
+                  gameId = createGameResponse.data.createGame.id
+                  navigate("/dlonames/game?" + gameIdQuery + "=" + gameId)
+                }}
+                label="Create Game"
+                backgroundColor="grey"
+              />
+            )
+          }}
+        </Mutation>
+      )
+    }
 
     return (
       // TODO: Change the poll interval to be smaller closer to launch.

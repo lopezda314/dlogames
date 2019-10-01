@@ -4,7 +4,7 @@ import React from "react"
 const PageNavs = () => (
   <React.Fragment>
     <Link
-      to="/dlonames/lobby"
+      to="/dlonames/game"
       style={{ color: "inherit" }}
       /* TODO: figure out how to get rid of className to enable react-burger-menu access to these nav items. */
       className="bm-item"
@@ -16,7 +16,6 @@ const PageNavs = () => (
       to="/d2lo4"
       style={{ color: "inherit" }}
       /* TODO: figure out how to get rid of className to enable react-burger-menu access to these nav items. */
-
       className="bm-item"
       activeStyle={{ color: "red" }}
     >
@@ -26,7 +25,6 @@ const PageNavs = () => (
       to="/soon"
       style={{ color: "inherit" }}
       /* TODO: figure out how to get rid of className to enable react-burger-menu access to these nav items. */
-
       className="bm-item"
       activeStyle={{ color: "red" }}
     >

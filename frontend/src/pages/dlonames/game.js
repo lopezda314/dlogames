@@ -5,8 +5,9 @@ import { login, isAuthenticated } from "../../utils/auth"
 import { gameIdQuery } from "../../components/dlonames/DlonamesLobby"
 
 const DlonamesBoardPage = props => {
+  const gameId = new URLSearchParams(props.location.search).get(gameIdQuery)
+
   if (!isAuthenticated()) {
-    const gameId = new URLSearchParams(props.location.search).get(gameIdQuery)
     let dlogamesHistory
     if (localStorage.getItem("dlogamesHistory")) {
       dlogamesHistory = JSON.parse(localStorage.getItem("dlogamesHistory"))
@@ -20,7 +21,7 @@ const DlonamesBoardPage = props => {
 
   return (
     <Layout>
-      <DlonamesBoard location={props.location} />
+      <DlonamesBoard gameId={gameId} />
     </Layout>
   )
 }

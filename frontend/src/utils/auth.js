@@ -50,7 +50,6 @@ const setSession = (cb = () => {}) => (err, authResult) => {
     tokens.idToken = authResult.idToken
     tokens.expiresAt = expiresAt
     user = authResult.idTokenPayload
-    localStorage.setItem("isLoggedIn", true)
     cb()
   }
 
@@ -62,6 +61,8 @@ const setSession = (cb = () => {}) => (err, authResult) => {
   const dlogamesHistory = JSON.parse(localStorage.getItem("dlogamesHistory"))
   if (dlogamesHistory.dlonames) {
     navigate("/dlonames/game?gid=" + dlogamesHistory.dlonames)
+  } else {
+    navigate("dlonames/game")
   }
 }
 
@@ -79,10 +80,9 @@ export const silentAuth = callback => {
 }
 
 export const getProfile = () => {
-  return user
+  return JSON.parse(localStorage.getItem("currentUser"))
 }
 
 export const logout = () => {
-  localStorage.setItem("isLoggedIn", false)
   auth.logout()
 }
