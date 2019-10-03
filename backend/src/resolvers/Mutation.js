@@ -49,6 +49,7 @@ const getDlonamesIndices = () => {
 
 const Mutation = {
   async createGame(parent, args, ctx, info) {
+    const creatorName = args.creatorName.toLowerCase()
     const indices = getDlonamesIndices()
     const firstTeam = getRandomTeam()
     const words = getDlonamesWords()
@@ -65,9 +66,9 @@ const Mutation = {
       {
         data: {
           blueTeam: {
-            set: [args.creatorName],
+            set: [creatorName],
           },
-          blueCodemaster: args.creatorName,
+          blueCodemaster: creatorName,
           redTeam: {
             set: [],
           },
@@ -106,22 +107,29 @@ const Mutation = {
       },
       info
     )
+    const username = args.username.toLowerCase()
+    if (
+      new Set(existingGame.blueTeam).contains(username) ||
+      new Set(existingGame.redTeam).contains(username)
+    ) {
+      return existingGame
+    }
     if (!existingGame.blueCodemaster) {
       existingGame.blueTeam.push(args.username)
       return await ctx.db.mutation.updateDlonamesGame({
         where: { id: args.id },
         data: {
-          blueCodemaster: args.username,
+          blueCodemaster: username,
           blueTeam: existingGame.blueTeam,
         },
       })
     }
     if (!existingGame.redCodemaster) {
-      existingGame.redTeam.push(args.username)
+      existingGame.redTeam.push(username)
       return await ctx.db.mutation.updateDlonamesGame({
         where: { id: args.id },
         data: {
-          redCodemaster: args.username,
+          redCodemaster: username,
           redTeam: existingGame.redTeam,
         },
       })
@@ -130,7 +138,7 @@ const Mutation = {
       existingGame.blueTeam.length >= existingGame.redTeam.length
         ? "redTeam"
         : "blueTeam"
-    existingGame[teamToUpdate].push(args.username)
+    existingGame[teamToUpdate].push(username)
     const update = {}
     update.where = { id: args.id }
     update.data[teamToUpdate] = existingGame[teamToUpdate]
