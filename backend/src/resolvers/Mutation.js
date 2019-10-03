@@ -48,25 +48,6 @@ const getDlonamesIndices = () => {
 }
 
 const Mutation = {
-  async createUser(parent, args, ctx, info) {
-    return await ctx.db.mutation.createUser(
-      {
-        data: {
-          name: args.name,
-          passport: args.passport,
-          dlonamesStats: {
-            create: {
-              numberOfCluesGiven: 0,
-              numberOfCluesGuessedCorrectly: 0,
-              numberOfGuesses: 0,
-              numberOfCorrectGuesses: 0,
-            },
-          },
-        },
-      },
-      info
-    )
-  },
   async createGame(parent, args, ctx, info) {
     const indices = getDlonamesIndices()
     const firstTeam = getRandomTeam()
@@ -111,6 +92,7 @@ const Mutation = {
             set: redWords,
           },
           deathWord: deathWord,
+          stage: "NOT_STARTED",
         },
       },
       info

@@ -1,8 +1,7 @@
-type User {
-  id: ID! @id
-  name: String!
-  passport: String!
-  dlonamesStats: DlonamesStats! @relation(name: "UserDlonamesStats", onDelete: CASCADE)
+enum GameStage {
+  NOT_STARTED
+  IN_PROGRESS
+  FINISHED
 }
 
 type DlonamesGame {
@@ -21,13 +20,16 @@ type DlonamesGame {
   redWords: [String!]! @scalarList(strategy: RELATION)
   blueWords: [String!]! @scalarList(strategy: RELATION)
   deathWord: String!
+  stage: GameStage!
 }
 
 type DlonamesStats {
   id: ID! @id
-  user: User! @relation(link: INLINE, name: "UserDlonamesStats")
-  numberOfCluesGiven: Int!
-  numberOfCluesGuessedCorrectly: Int!
-  numberOfGuesses: Int!
-  numberOfCorrectGuesses: Int!
+  username: String!
+  numberOfCluesGiven: Int
+  numberOfCluesGuessedCorrectly: Int
+  numberOfGuesses: Int
+  numberOfCorrectGuesses: Int
+  numberOfGamesPlayed: Int
+  numberOfCharlieGames: Int
 }
