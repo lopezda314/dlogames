@@ -109,8 +109,8 @@ const Mutation = {
     )
     const username = args.username.toLowerCase()
     if (
-      new Set(existingGame.blueTeam).contains(username) ||
-      new Set(existingGame.redTeam).contains(username)
+      new Set(existingGame.blueTeam).has(username) ||
+      new Set(existingGame.redTeam).has(username)
     ) {
       return existingGame
     }

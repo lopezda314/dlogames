@@ -35,8 +35,8 @@ export const CREATE_GAME_MUTATION = gql`
   }
 `
 export const GET_GAME_QUERY = gql`
-  query GET_GAME_QUERY($id: ID!) {
-    game(id: $id) {
+  query GET_GAME_QUERY($id: ID!, $username: String) {
+    game(id: $id, username: $username) {
       redCodemaster
       blueCodemaster
       redTeam
@@ -48,6 +48,8 @@ export const GET_GAME_QUERY = gql`
       clue
       numGuesses
       wordsGuessed
+      stage
+      isUserJoined
     }
   }
 `
@@ -86,7 +88,7 @@ class DlonamesBoard extends Component {
       // TODO: Change the poll interval to be smaller closer to launch.
       <Query
         query={GET_GAME_QUERY}
-        variables={{ id: gameId }}
+        variables={{ id: gameId, username: currentUser.nickname }}
         pollInterval={5000}
       >
         {({ data, loading, error }) => {

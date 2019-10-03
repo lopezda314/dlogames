@@ -21,6 +21,7 @@ type DlonamesGame {
   blueWords: [String!]! @scalarList(strategy: RELATION)
   deathWord: String!
   stage: GameStage!
+  isUserJoined: Boolean
 }
 
 type DlonamesStats {

@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/david-lopez-fcf066/dlogames/dev
-# timestamp: Thu Oct 03 2019 07:15:02 GMT-0400 (Eastern Daylight Time)
+# timestamp: Thu Oct 03 2019 07:59:00 GMT-0400 (Eastern Daylight Time)
 
 type AggregateDlonamesGame {
   count: Int!
@@ -31,6 +31,7 @@ type DlonamesGame implements Node {
   blueWords: [String!]!
   deathWord: String!
   stage: GameStage!
+  isUserJoined: Boolean
 }
 
 """A connection to a list of items."""
@@ -64,6 +65,7 @@ input DlonamesGameCreateInput {
   numGuesses: Int
   deathWord: String!
   stage: GameStage!
+  isUserJoined: Boolean
   blueTeam: DlonamesGameCreateblueTeamInput
   redTeam: DlonamesGameCreateredTeamInput
   blueClues: DlonamesGameCreateblueCluesInput
@@ -120,6 +122,8 @@ enum DlonamesGameOrderByInput {
   deathWord_DESC
   stage_ASC
   stage_DESC
+  isUserJoined_ASC
+  isUserJoined_DESC
 }
 
 type DlonamesGamePreviousValues {
@@ -139,6 +143,7 @@ type DlonamesGamePreviousValues {
   blueWords: [String!]!
   deathWord: String!
   stage: GameStage!
+  isUserJoined: Boolean
 }
 
 type DlonamesGameSubscriptionPayload {
@@ -200,6 +205,7 @@ input DlonamesGameUpdateInput {
   numGuesses: Int
   deathWord: String
   stage: GameStage
+  isUserJoined: Boolean
   blueTeam: DlonamesGameUpdateblueTeamInput
   redTeam: DlonamesGameUpdateredTeamInput
   blueClues: DlonamesGameUpdateblueCluesInput
@@ -218,6 +224,7 @@ input DlonamesGameUpdateManyMutationInput {
   numGuesses: Int
   deathWord: String
   stage: GameStage
+  isUserJoined: Boolean
   blueTeam: DlonamesGameUpdateblueTeamInput
   redTeam: DlonamesGameUpdateredTeamInput
   blueClues: DlonamesGameUpdateblueCluesInput
@@ -529,6 +536,10 @@ input DlonamesGameWhereInput {
 
   """All values that are not contained in given list."""
   stage_not_in: [GameStage!]
+  isUserJoined: Boolean
+
+  """All values that are not equal to given value."""
+  isUserJoined_not: Boolean
 }
 
 input DlonamesGameWhereUniqueInput {
