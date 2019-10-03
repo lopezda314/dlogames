@@ -8,13 +8,17 @@ const DlonamesBoardPage = props => {
   const gameId = new URLSearchParams(props.location.search).get(gameIdQuery)
 
   if (!isAuthenticated()) {
-    let dlogamesHistory
+    let dlogamesHistory = {}
     if (localStorage.getItem("dlogamesHistory")) {
       dlogamesHistory = JSON.parse(localStorage.getItem("dlogamesHistory"))
-    } else {
-      dlogamesHistory = { dlonames: gameId }
     }
-    localStorage.setItem("dlogamesHistory", JSON.stringify(dlogamesHistory))
+    if (gameId) {
+      // User was shared game via link but isn't logged in.
+      // Let's redirect them back to the game after login.
+      dlogamesHistory.dlonames = gameId
+      localStorage.setItem("dlogamesHistory", JSON.stringify(dlogamesHistory))
+    }
+
     login()
     return <p>Redirecting to login...</p>
   }

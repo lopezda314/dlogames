@@ -2,6 +2,7 @@ import auth0 from "auth0-js"
 import { navigate } from "gatsby"
 
 const isBrowser = typeof window !== "undefined"
+const INITIAL_LOGIN_CALLBACK = () => "initial login"
 
 const auth = isBrowser
   ? new auth0.WebAuth({
@@ -55,14 +56,23 @@ const setSession = (cb = () => {}) => (err, authResult) => {
 
   localStorage.setItem("currentUser", JSON.stringify(user))
 
-  if (!localStorage.getItem("dlogamesHistory")) {
-    navigate("/")
-  }
-  const dlogamesHistory = JSON.parse(localStorage.getItem("dlogamesHistory"))
-  if (dlogamesHistory.dlonames) {
-    navigate("/dlonames/game?gid=" + dlogamesHistory.dlonames)
-  } else {
-    navigate("dlonames/game")
+  let dlogamesHistory = JSON.parse(localStorage.getItem("dlogamesHistory"))
+
+  // Hacky hack that checks whether or not the callback passed in is our initial login cb
+  // which is what we pass in when setting the user's session for initial login
+  // whereas we pass in more meaningful functions for silent auth.
+  if (cb === INITIAL_LOGIN_CALLBACK) {
+    // Only force navigation for post auth0 portal logins.
+    // Don't need to redirect on silent auth.
+    const redirectUri =
+      dlogamesHistory && dlogamesHistory.dlonames
+        ? "/dlonames/game?gid=" + dlogamesHistory.dlonames
+        : "dlonames/game"
+    if (dlogamesHistory && dlogamesHistory.dlonames) {
+      delete dlogamesHistory.dlonames
+      localStorage.setItem("dlogamesHistory", dlogamesHistory)
+    }
+    navigate(redirectUri)
   }
 }
 
@@ -71,7 +81,7 @@ export const handleAuthentication = () => {
     return
   }
 
-  auth.parseHash(setSession())
+  auth.parseHash(setSession(INITIAL_LOGIN_CALLBACK))
 }
 
 export const silentAuth = callback => {
