@@ -99,6 +99,44 @@ const Mutation = {
     )
   },
 
+  async joinGame(parent, args, ctx, info) {
+    const existingGame = await ctx.db.query.dlonamesGame(
+      {
+        where: { id: args.id },
+      },
+      info
+    )
+    if (!existingGame.blueCodemaster) {
+      existingGame.blueTeam.push(args.username)
+      return await ctx.db.mutation.updateDlonamesGame({
+        where: { id: args.id },
+        data: {
+          blueCodemaster: args.username,
+          blueTeam: existingGame.blueTeam,
+        },
+      })
+    }
+    if (!existingGame.redCodemaster) {
+      existingGame.redTeam.push(args.username)
+      return await ctx.db.mutation.updateDlonamesGame({
+        where: { id: args.id },
+        data: {
+          redCodemaster: args.username,
+          redTeam: existingGame.redTeam,
+        },
+      })
+    }
+    const teamToUpdate =
+      existingGame.blueTeam.length >= existingGame.redTeam.length
+        ? "redTeam"
+        : "blueTeam"
+    existingGame[teamToUpdate].push(args.username)
+    const update = {}
+    update.where = { id: args.id }
+    update.data[teamToUpdate] = existingGame[teamToUpdate]
+    return await ctx.db.mutation.updateDlonamesGame(update)
+  },
+
   async submitClue(parent, args, ctx, info) {
     return await ctx.db.mutation.updateDlonamesGame(
       {

@@ -17,15 +17,15 @@ import Button, {
   gray,
 } from "../styled/button"
 
-export const BLUE_TEAM_STRING = "Blue"
-export const RED_TEAM_STRING = "Red"
-const ROWS_PER_GAME = 5
-const WORDS_PER_ROW = 5
 const stage = {
   NOT_STARTED: "NOT_STARTED",
   IN_PROGRESS: "IN_PROGRESS",
   FINISHED: "FINISHED",
 }
+export const BLUE_TEAM_STRING = "Blue"
+export const RED_TEAM_STRING = "Red"
+const ROWS_PER_GAME = 5
+const WORDS_PER_ROW = 5
 
 export const CREATE_GAME_MUTATION = gql`
   mutation CREATE_GAME_MUTATION($creatorName: String!) {
