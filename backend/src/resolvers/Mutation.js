@@ -105,7 +105,7 @@ const Mutation = {
       {
         where: { id: args.id },
       },
-      info
+      `{ blueTeam redTeam blueCodemaster redCodemaster }`
     )
     const username = args.username.toLowerCase()
     if (
@@ -120,7 +120,7 @@ const Mutation = {
         where: { id: args.id },
         data: {
           blueCodemaster: username,
-          blueTeam: existingGame.blueTeam,
+          blueTeam: { set: existingGame.blueTeam },
         },
       })
     }
@@ -130,7 +130,7 @@ const Mutation = {
         where: { id: args.id },
         data: {
           redCodemaster: username,
-          redTeam: existingGame.redTeam,
+          redTeam: { set: existingGame.redTeam },
         },
       })
     }
@@ -141,8 +141,8 @@ const Mutation = {
     existingGame[teamToUpdate].push(username)
     const update = {}
     update.where = { id: args.id }
-    update.data[teamToUpdate] = existingGame[teamToUpdate]
-    return await ctx.db.mutation.updateDlonamesGame(update)
+    update.data[teamToUpdate] = { set: existingGame[teamToUpdate] }
+    return await ctx.db.mutation.updateDlonamesGame(update, info)
   },
 
   async submitClue(parent, args, ctx, info) {

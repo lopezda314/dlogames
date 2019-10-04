@@ -34,6 +34,15 @@ export const CREATE_GAME_MUTATION = gql`
     }
   }
 `
+
+export const JOIN_GAME_MUTATION = gql`
+  mutation JOIN_GAME_MUTATION($username: String!, $id: String!) {
+    joinGame(username: $username, id: $id) {
+      id
+    }
+  }
+`
+
 export const GET_GAME_QUERY = gql`
   query GET_GAME_QUERY($id: ID!, $username: String) {
     game(id: $id, username: $username) {
@@ -53,6 +62,10 @@ export const GET_GAME_QUERY = gql`
     }
   }
 `
+
+const isUserOnATeam = (username, team1, team2) => {
+  return new Set(team1).has(username) || new Set(team2).has(username)
+}
 
 class DlonamesBoard extends Component {
   render() {
@@ -109,6 +122,35 @@ class DlonamesBoard extends Component {
             wordsGuessed,
             stage,
           } = data.game
+
+          if (
+            !isUserOnATeam(
+              currentUser.nickname.toLowerCase(),
+              redTeam,
+              blueTeam
+            )
+          ) {
+            return (
+              <Mutation
+                mutation={JOIN_GAME_MUTATION}
+                variables={{ username: currentUser.nickname, id: gameId }}
+              >
+                {(joinGame, { loading, error }) => {
+                  if (loading) return <p>Joining game...</p>
+                  if (error) return <p>Error: {error.message}</p>
+                  return (
+                    <Button
+                      onClickHandler={async () => {
+                        await joinGame()
+                      }}
+                      label="Join Game"
+                      backgroundColor="grey"
+                    />
+                  )
+                }}
+              </Mutation>
+            )
+          }
 
           const rows = []
           for (let i = 0; i < ROWS_PER_GAME; i++) {
