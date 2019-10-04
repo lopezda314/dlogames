@@ -39,8 +39,13 @@ export const login = () => {
 }
 
 const setSession = (cb = () => {}) => (err, authResult) => {
+  let dlogamesHistory = JSON.parse(localStorage.getItem("dlogamesHistory"))
   if (err) {
-    navigate("/")
+    const errRedirectUri =
+      dlogamesHistory && dlogamesHistory.dlonames
+        ? "/dlonames/game?gid=" + dlogamesHistory.dlonames
+        : "/"
+    navigate(errRedirectUri)
     cb()
     return
   }
@@ -56,8 +61,6 @@ const setSession = (cb = () => {}) => (err, authResult) => {
 
   localStorage.setItem("currentUser", JSON.stringify(user))
 
-  let dlogamesHistory = JSON.parse(localStorage.getItem("dlogamesHistory"))
-
   // Hacky hack that checks whether or not the callback passed in is our initial login cb
   // which is what we pass in when setting the user's session for initial login
   // whereas we pass in more meaningful functions for silent auth.
@@ -70,7 +73,7 @@ const setSession = (cb = () => {}) => (err, authResult) => {
         : "dlonames/game"
     if (dlogamesHistory && dlogamesHistory.dlonames) {
       delete dlogamesHistory.dlonames
-      localStorage.setItem("dlogamesHistory", dlogamesHistory)
+      localStorage.setItem("dlogamesHistory", JSON.stringify(dlogamesHistory))
     }
     navigate(redirectUri)
   }
