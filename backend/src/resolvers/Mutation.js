@@ -141,6 +141,7 @@ const Mutation = {
     existingGame[teamToUpdate].push(username)
     const update = {}
     update.where = { id: args.id }
+    update.data = {}
     update.data[teamToUpdate] = { set: existingGame[teamToUpdate] }
     return await ctx.db.mutation.updateDlonamesGame(update, info)
   },
