@@ -1,10 +1,10 @@
 import React from "react"
 import Layout from "../../components/layout"
-import DlonamesBoard from "../../components/dlonames/DlonamesBoard"
+import DlonamesBoard, { gameIdQuery } from "../../components/dlonames/DlonamesBoard"
 import { login, isAuthenticated } from "../../utils/auth"
-import { gameIdQuery } from "../../components/dlonames/DlonamesLobby"
 
 const DlonamesBoardPage = props => {
+  debugger;
   const gameId = new URLSearchParams(props.location.search).get(gameIdQuery)
 
   if (!isAuthenticated()) {
