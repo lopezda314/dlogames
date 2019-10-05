@@ -4,7 +4,6 @@ import DlonamesBoard, { gameIdQuery } from "../../components/dlonames/DlonamesBo
 import { login, isAuthenticated } from "../../utils/auth"
 
 const DlonamesBoardPage = props => {
-  debugger;
   const gameId = new URLSearchParams(props.location.search).get(gameIdQuery)
 
   if (!isAuthenticated()) {
