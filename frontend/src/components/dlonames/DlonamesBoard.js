@@ -2,7 +2,6 @@ import React, { Component } from "react"
 import { Mutation, Query } from "react-apollo"
 import { navigate } from "@reach/router"
 import { getProfile } from "../../utils/auth"
-import { gameIdQuery } from "../../components/dlonames/DlonamesLobby"
 import gql from "graphql-tag"
 import GuessInfo from "./GuessInfo"
 import TeamInfo from "./TeamInfo"
@@ -17,6 +16,7 @@ import Button, {
   gray,
 } from "../styled/button"
 
+export const gameIdQuery = "gid"
 const stage = {
   NOT_STARTED: "NOT_STARTED",
   IN_PROGRESS: "IN_PROGRESS",
@@ -120,7 +120,6 @@ class DlonamesBoard extends Component {
             clue,
             numGuesses,
             wordsGuessed,
-            stage,
           } = data.game
 
           if (
