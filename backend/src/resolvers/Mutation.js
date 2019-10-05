@@ -1,8 +1,13 @@
 const fs = require("fs")
 const path = require("path")
 
-const blueTeam = "blue"
-const redTeam = "red"
+const blueTeam = "blueTeam"
+const redTeam = "redTeam"
+
+const teamToCodemaster = {
+  blueTeam: "blueCodemaster",
+  redTeam: "redCodemaster",
+}
 
 let dlonamesWords
 fs.readFile(
@@ -136,8 +141,8 @@ const Mutation = {
     }
     const teamToUpdate =
       existingGame.blueTeam.length >= existingGame.redTeam.length
-        ? "redTeam"
-        : "blueTeam"
+        ? redTeam
+        : blueTeam
     existingGame[teamToUpdate].push(username)
     const update = {}
     update.where = { id: args.id }
@@ -157,6 +162,52 @@ const Mutation = {
       },
       info
     )
+  },
+
+  async switchTeam(parent, args, ctx, info) {
+    const newTeam = args.teamName
+    const existingGame = await ctx.db.query.dlonamesGame(
+      { where: { id: args.id } },
+      ` { blueTeam redTeam blueCodemaster redCodemaster } `
+    )
+    if (newTeam !== "redTeam" && newTeam !== "blueTeam") {
+      return existingGame
+    }
+    const update = {}
+    update.where = { id: args.id }
+    update.data = {}
+    const username = args.username.toLowerCase()
+    const bluePlayers = new Set(existingGame.blueTeam)
+    const redPlayers = new Set(existingGame.redTeam)
+
+    const oldTeam = bluePlayers.has(username) ? blueTeam : redTeam
+    const isTeamSwitch = oldTeam === newTeam
+    if (args.isCodemaster) {
+      if (existingGame[teamToCodemaster[newTeam]]) {
+        // Don't let players override another codemaster.
+        return existingGame
+      }
+      update.data[teamToCodemaster[newTeam]] = username
+    } else {
+      if (
+        username === existingGame.blueCodemaster ||
+        username === existingGame.redCodemaster
+      ) {
+        update.data[teamToCodemaster[newTeam]] = ""
+      }
+    }
+    if (isTeamSwitch) {
+      oldTeam === blueTeam
+        ? bluePlayers.delete(username) && redPlayers.add(username)
+        : redPlayers.delete(username) && bluePlayers.add(username)
+    }
+    update.data[newTeam] = {
+      set: newTeam === blueTeam ? Array(bluePlayers) : Array(redPlayers),
+    }
+    update.data[oldTeam] = {
+      set: oldTeam === blueTeam ? Array(bluePlayers) : Array(redPlayers),
+    }
+    return await ctx.db.mutation.updateDlonamesGame(update, info)
   },
 
   async guessWord(parent, args, ctx, info) {

@@ -7,6 +7,7 @@ type Query {
 type Mutation {
     createGame(creatorName: String!): DlonamesGame!
     joinGame(username: String!, id: String!): DlonamesGame!
+    switchTeam(teamName: String!, isCodemaster: Boolean!): DlonamesGame!
     submitClue(id: String!, clue: String!, numGuesses: Int!): DlonamesGame!
     guessWord(id: String!, word: String!): DlonamesGame!
 }
