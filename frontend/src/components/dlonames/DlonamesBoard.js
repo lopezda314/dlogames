@@ -17,7 +17,7 @@ import Button, {
 } from "../styled/button"
 
 export const gameIdQuery = "gid"
-const stage = {
+const STAGE = {
   NOT_STARTED: "NOT_STARTED",
   IN_PROGRESS: "IN_PROGRESS",
   FINISHED: "FINISHED",
@@ -120,6 +120,7 @@ class DlonamesBoard extends Component {
             clue,
             numGuesses,
             wordsGuessed,
+            stage,
           } = data.game
 
           if (
@@ -183,11 +184,17 @@ class DlonamesBoard extends Component {
                   teamColor={BLUE_TEAM_STRING}
                   codeMaster={blueCodemaster}
                   teamMembers={blueTeam}
+                  id={gameId}
+                  canUserSwitch={stage === STAGE.NOT_STARTED}
+                  username={currentUser.nickname.toLowerCase()}
                 />
                 <TeamInfo
                   teamColor={RED_TEAM_STRING}
                   codeMaster={redCodemaster}
                   teamMembers={redTeam}
+                  id={gameId}
+                  canUserSwitch={stage === STAGE.NOT_STARTED}
+                  username={currentUser.nickname.toLowerCase()}
                 />
               </div>
               <GuessInfo id={gameId} clue={clue} numGuesses={numGuesses} />

@@ -193,7 +193,7 @@ const Mutation = {
         username === existingGame.blueCodemaster ||
         username === existingGame.redCodemaster
       ) {
-        update.data[teamToCodemaster[newTeam]] = ""
+        update.data[teamToCodemaster[oldTeam]] = ""
       }
     }
     if (isTeamSwitch) {
@@ -202,10 +202,12 @@ const Mutation = {
         : redPlayers.delete(username) && bluePlayers.add(username)
     }
     update.data[newTeam] = {
-      set: newTeam === blueTeam ? Array(bluePlayers) : Array(redPlayers),
+      set:
+        newTeam === blueTeam ? Array.from(bluePlayers) : Array.from(redPlayers),
     }
     update.data[oldTeam] = {
-      set: oldTeam === blueTeam ? Array(bluePlayers) : Array(redPlayers),
+      set:
+        oldTeam === blueTeam ? Array.from(bluePlayers) : Array.from(redPlayers),
     }
     return await ctx.db.mutation.updateDlonamesGame(update, info)
   },

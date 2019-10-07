@@ -1,5 +1,8 @@
 import React from "react"
+import gql from "graphql-tag"
 import styled from "styled-components"
+import { Mutation } from "react-apollo"
+import Button from "../styled/Button"
 
 import { BLUE_TEAM_STRING } from "./DlonamesBoard"
 
@@ -11,7 +14,32 @@ const StyledTeamInfo = styled.div`
   width: 45vw;
 `
 
-const TeamInfo = ({ teamColor, codeMaster, teamMembers }) => (
+export const SWITCH_TEAM_MUTATION = gql`
+  mutation SWITCH_TEAM_MUTATION(
+    $id: String!
+    $username: String!
+    $teamName: String!
+    $isCodemaster: Boolean!
+  ) {
+    switchTeam(
+      id: $id
+      username: $username
+      teamName: $teamName
+      isCodemaster: $isCodemaster
+    ) {
+      id
+    }
+  }
+`
+
+const TeamInfo = ({
+  teamColor,
+  codeMaster,
+  teamMembers,
+  id,
+  canUserSwitch,
+  username,
+}) => (
   <StyledTeamInfo
     style={{
       color: teamColor === BLUE_TEAM_STRING ? "#50AEB5" : "#FF69B4",
@@ -19,8 +47,50 @@ const TeamInfo = ({ teamColor, codeMaster, teamMembers }) => (
   >
     <p>
       {teamColor} Team <br />
-      Codemaster: {codeMaster} <br />
-      Team: {teamMembers.join()}
+      <Mutation
+        mutation={SWITCH_TEAM_MUTATION}
+        variables={{
+          id: id,
+          username: username,
+          teamName: teamColor === BLUE_TEAM_STRING ? "blueTeam" : "redTeam",
+          isCodemaster: true,
+        }}
+      >
+        {(switchTeam, { loading, error }) => {
+          return (
+            <span>
+              Codemaster: {codeMaster} <br />
+              <Button
+                onClickHandler={async () => await switchTeam()}
+                label="Switch Team"
+                backgroundColor="grey"
+              />
+            </span>
+          )
+        }}
+      </Mutation>
+      <Mutation
+        mutation={SWITCH_TEAM_MUTATION}
+        variables={{
+          id: id,
+          username: username,
+          teamName: teamColor === BLUE_TEAM_STRING ? "blueTeam" : "redTeam",
+          isCodemaster: false,
+        }}
+      >
+        {(switchTeam, { loading, error }) => {
+          return (
+            <span>
+              Team: {teamMembers.join()}
+              <Button
+                onClickHandler={async () => await switchTeam()}
+                label="Switch Team"
+                backgroundColor="grey"
+              />
+            </span>
+          )
+        }}
+      </Mutation>
     </p>
   </StyledTeamInfo>
 )
