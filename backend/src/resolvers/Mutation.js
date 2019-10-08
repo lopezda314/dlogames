@@ -168,7 +168,7 @@ const Mutation = {
     const newTeam = args.teamName
     const existingGame = await ctx.db.query.dlonamesGame(
       { where: { id: args.id } },
-      ` { blueTeam redTeam blueCodemaster redCodemaster } `
+      ` { id blueTeam redTeam blueCodemaster redCodemaster } `
     )
     if (newTeam !== "redTeam" && newTeam !== "blueTeam") {
       return existingGame
@@ -176,23 +176,26 @@ const Mutation = {
     const update = {}
     update.where = { id: args.id }
     update.data = {}
+
     const username = args.username.toLowerCase()
     const bluePlayers = new Set(existingGame.blueTeam)
     const redPlayers = new Set(existingGame.redTeam)
 
     const oldTeam = bluePlayers.has(username) ? blueTeam : redTeam
-    const isTeamSwitch = oldTeam === newTeam
+    const isTeamSwitch = oldTeam !== newTeam
+    const userIsCodemaster =
+      username === existingGame.redCodemaster ||
+      username === existingGame.blueCodemaster
+
     if (args.isCodemaster) {
       if (existingGame[teamToCodemaster[newTeam]]) {
         // Don't let players override another codemaster.
         return existingGame
       }
       update.data[teamToCodemaster[newTeam]] = username
+      if (userIsCodemaster) update.data[teamToCodemaster[oldTeam]] = ""
     } else {
-      if (
-        username === existingGame.blueCodemaster ||
-        username === existingGame.redCodemaster
-      ) {
+      if (userIsCodemaster) {
         update.data[teamToCodemaster[oldTeam]] = ""
       }
     }
