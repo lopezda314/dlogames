@@ -58,14 +58,14 @@ const TeamInfo = ({
       >
         {(switchTeam, { loading, error }) => {
           return (
-            <span>
-              Codemaster: {codeMaster} <br />
-              <Button
-                onClickHandler={async () => await switchTeam()}
-                label="Switch Team"
-                backgroundColor="grey"
-              />
-            </span>
+            <Button
+              disabled={canUserSwitch}
+              onClickHandler={async () => await switchTeam()}
+              label={"Codemaster: " + codeMaster}
+              backgroundColor={
+                teamColor === BLUE_TEAM_STRING ? "#50AEB5" : "#FF69B4"
+              }
+            />
           )
         }}
       </Mutation>
@@ -80,14 +80,14 @@ const TeamInfo = ({
       >
         {(switchTeam, { loading, error }) => {
           return (
-            <span>
-              Team: {teamMembers.join()}
-              <Button
-                onClickHandler={async () => await switchTeam()}
-                label="Switch Team"
-                backgroundColor="grey"
-              />
-            </span>
+            <Button
+              disabled={canUserSwitch}
+              onClickHandler={async () => await switchTeam()}
+              label={"Team: " + teamMembers.join()}
+              backgroundColor={
+                teamColor === BLUE_TEAM_STRING ? "#50AEB5" : "#FF69B4"
+              }
+            />
           )
         }}
       </Mutation>
