@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import gql from "graphql-tag"
 import styled from "styled-components"
 import { Mutation } from "react-apollo"
+import { getProfile } from "../../utils/auth"
 
 const GuessForm = styled.form`
   padding: 0 0.75rem;
@@ -32,8 +33,14 @@ const SUBMIT_CLUE_MUTATION = gql`
     $id: String!
     $clue: String!
     $numGuesses: Int!
+    $username: String!
   ) {
-    submitClue(id: $id, clue: $clue, numGuesses: $numGuesses) {
+    submitClue(
+      id: $id
+      clue: $clue
+      numGuesses: $numGuesses
+      username: $username
+    ) {
       clue
       numGuesses
     }
@@ -60,6 +67,7 @@ class GuessInfo extends Component {
           id: this.props.id,
           clue: this.state.clue,
           numGuesses: this.state.numGuesses,
+          username: getProfile().nickname,
         }}
       >
         {(submitClue, { error }) => {

@@ -168,6 +168,7 @@ class DlonamesBoard extends Component {
                 deathWord={deathWord}
                 wordsGuessed={wordsGuessed}
                 id={gameId}
+                username={currentUser.nickname.toLowerCase()}
               />
             )
           }
@@ -218,8 +219,12 @@ class DlonamesBoard extends Component {
 }
 
 export const GUESS_WORD_MUTATION = gql`
-  mutation GUESS_WORD_MUTATION($id: String!, $wordGuessed: String!) {
-    guessWord(id: $id, word: $wordGuessed) {
+  mutation GUESS_WORD_MUTATION(
+    $id: String!
+    $wordGuessed: String!
+    $username: String!
+  ) {
+    guessWord(id: $id, word: $wordGuessed, username: $username) {
       numGuesses
       wordsGuessed
     }
@@ -256,11 +261,20 @@ const getColorForWord = (
   return wordHasBeenGuessed ? gray : grayTranslucent
 }
 
-const Row = ({ words, blueWords, redWords, deathWord, id, wordsGuessed }) => (
+const Row = ({
+  words,
+  blueWords,
+  redWords,
+  deathWord,
+  id,
+  wordsGuessed,
+  username,
+}) => (
   <Mutation
     mutation={GUESS_WORD_MUTATION}
     variables={{
       id: id,
+      username: username,
     }}
   >
     {(guessWord, { error }) => {

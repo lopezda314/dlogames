@@ -1,13 +1,23 @@
 # import * from './generated/prisma.graphql'
 
 type Query {
-    game(id: ID!, username: String): DlonamesGame! 
+  game(id: ID!, username: String): DlonamesGame!
 }
 
 type Mutation {
-    createGame(creatorName: String!): DlonamesGame!
-    joinGame(username: String!, id: String!): DlonamesGame!
-    switchTeam(id: String!, username: String!, teamName: String!, isCodemaster: Boolean!): DlonamesGame!
-    submitClue(id: String!, clue: String!, numGuesses: Int!): DlonamesGame!
-    guessWord(id: String!, word: String!): DlonamesGame!
+  createGame(creatorName: String!): DlonamesGame!
+  joinGame(username: String!, id: String!): DlonamesGame!
+  switchTeam(
+    id: String!
+    username: String!
+    teamName: String!
+    isCodemaster: Boolean!
+  ): DlonamesGame!
+  submitClue(
+    id: String!
+    clue: String!
+    numGuesses: Int!
+    username: String!
+  ): DlonamesGame!
+  guessWord(id: String!, word: String!, username: String!): DlonamesGame!
 }
