@@ -33,7 +33,7 @@ const isLowContrastAgainstWhite = color =>
   color === red ||
   color === redTranslucent
 
-const Button = ({ label, onClickHandler, backgroundColor }) => (
+const WordButton = ({ label, onClickHandler, backgroundColor }) => (
   <StyledButton
     onClick={onClickHandler}
     value={label}
@@ -46,4 +46,4 @@ const Button = ({ label, onClickHandler, backgroundColor }) => (
   </StyledButton>
 )
 
-export default Button
+export default WordButton

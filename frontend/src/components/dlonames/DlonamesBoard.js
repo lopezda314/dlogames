@@ -14,9 +14,9 @@ import Button, {
   red,
   black,
   gray,
-} from "../styled/button"
+} from "./WordButton"
+import { gameIdQuery } from "../../utils/history-helper"
 
-export const gameIdQuery = "gid"
 const STAGE = {
   NOT_STARTED: "NOT_STARTED",
   IN_PROGRESS: "IN_PROGRESS",

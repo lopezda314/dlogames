@@ -2,6 +2,7 @@ import React from "react"
 import { ApolloProvider } from "react-apollo"
 import { client } from "./src/apollo/client"
 import { silentAuth } from "./src/utils/auth"
+import { setDlonamesHistory, gameIdQuery } from "./src/utils/history-helper"
 
 class SessionCheck extends React.Component {
   constructor(props) {
@@ -9,6 +10,7 @@ class SessionCheck extends React.Component {
     this.state = {
       loading: true,
     }
+    this.gid = new URLSearchParams(window.location.search).get(gameIdQuery)
   }
 
   handleCheckSession = () => {
@@ -16,6 +18,9 @@ class SessionCheck extends React.Component {
   }
 
   componentDidMount() {
+    if (this.gid) {
+      setDlonamesHistory(this.gid)
+    }
     silentAuth(this.handleCheckSession)
   }
 

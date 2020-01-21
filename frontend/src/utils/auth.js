@@ -1,5 +1,6 @@
 import auth0 from "auth0-js"
 import { navigate } from "gatsby"
+import { getDlonamesHistory } from "./history-helper"
 
 const isBrowser = typeof window !== "undefined"
 const INITIAL_LOGIN_CALLBACK = () => "initial login"
@@ -39,12 +40,10 @@ export const login = () => {
 }
 
 const setSession = (cb = () => {}) => (err, authResult) => {
-  let dlogamesHistory = JSON.parse(localStorage.getItem("dlogamesHistory"))
+  const dlonamesId = getDlonamesHistory()
   if (err) {
-    const errRedirectUri =
-      dlogamesHistory && dlogamesHistory.dlonames
-        ? "/dlonames/game?gid=" + dlogamesHistory.dlonames
-        : "/"
+    if (err.code === "login_required") login()
+    const errRedirectUri = dlonamesId ? "/dlonames/game?gid=" + dlonamesId : "/"
     navigate(errRedirectUri)
     cb()
     return
@@ -67,11 +66,13 @@ const setSession = (cb = () => {}) => (err, authResult) => {
   if (cb === INITIAL_LOGIN_CALLBACK) {
     // Only force navigation for post auth0 portal logins.
     // Don't need to redirect on silent auth.
-    const redirectUri =
-      dlogamesHistory && dlogamesHistory.dlonames
-        ? "/dlonames/game?gid=" + dlogamesHistory.dlonames
-        : "dlonames/game"
-    if (dlogamesHistory && dlogamesHistory.dlonames) {
+    const redirectUri = dlonamesId
+      ? "/dlonames/game?gid=" + dlonamesId
+      : "dlonames/game"
+    if (dlonamesId) {
+      const dlogamesHistory = JSON.parse(
+        localStorage.getItem("dlogamesHistory")
+      )
       delete dlogamesHistory.dlonames
       localStorage.setItem("dlogamesHistory", JSON.stringify(dlogamesHistory))
     }
