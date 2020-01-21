@@ -66,6 +66,7 @@ const TeamInfo = ({
             backgroundColor={
               teamColor === BLUE_TEAM_STRING ? "#50AEB5" : "#FF69B4"
             }
+            isCodemaster
           />
         )
       }}

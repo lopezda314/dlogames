@@ -6,6 +6,9 @@ const StyledButton = styled.button`
   border: none;
   border-radius: 8px;
   font-size: 0.75rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  max-width: 80%;
   text-decoration: none;
   transition: background 250ms ease-in-out, transform 150ms ease;
   -webkit-appearance: none;
@@ -23,18 +26,14 @@ const TeamButton = ({
   isCodemaster = false,
 }) => {
   const style = { background: backgroundColor }
-  // if (isCodemaster) {
-  //   style
-  // }
-
+  if (!isCodemaster) {
+    style.whiteSpace = "initial"
+    style.overflow = "scroll"
+    style.height = "2rem"
+  }
   return (
-    <StyledButton
-      onClick={onClickHandler}
-      value={label}
-      style={{
-        background: backgroundColor,
-      }}
-    >
+    <StyledButton onClick={onClickHandler} value={label} style={style}>
+      {isCodemaster && "👑"}
       {label}
     </StyledButton>
   )
