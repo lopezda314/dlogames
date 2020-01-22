@@ -67,6 +67,10 @@ const isUserOnATeam = (username, team1, team2) => {
   return new Set(team1).has(username) || new Set(team2).has(username)
 }
 
+const isCurrentUserCodemaster = (username, blueCodemaster, redCodemaster) => {
+  return username === blueCodemaster || username === redCodemaster
+}
+
 class DlonamesBoard extends Component {
   render() {
     const currentUser = getProfile()
@@ -122,18 +126,13 @@ class DlonamesBoard extends Component {
             wordsGuessed,
             stage,
           } = data.game
+          const username = currentUser.nickname.toLowerCase()
 
-          if (
-            !isUserOnATeam(
-              currentUser.nickname.toLowerCase(),
-              redTeam,
-              blueTeam
-            )
-          ) {
+          if (!isUserOnATeam(username, redTeam, blueTeam)) {
             return (
               <Mutation
                 mutation={JOIN_GAME_MUTATION}
-                variables={{ username: currentUser.nickname, id: gameId }}
+                variables={{ username: username, id: gameId }}
               >
                 {(joinGame, { loading, error }) => {
                   if (loading) return <p>Joining game...</p>
@@ -168,7 +167,12 @@ class DlonamesBoard extends Component {
                 deathWord={deathWord}
                 wordsGuessed={wordsGuessed}
                 id={gameId}
-                username={currentUser.nickname.toLowerCase()}
+                username={username}
+                isCurrentUserCodemaster={isCurrentUserCodemaster(
+                  username,
+                  blueCodemaster,
+                  redCodemaster
+                )}
               />
             )
           }
@@ -187,7 +191,7 @@ class DlonamesBoard extends Component {
                   teamMembers={blueTeam}
                   id={gameId}
                   canUserSwitch={stage === STAGE.NOT_STARTED}
-                  username={currentUser.nickname.toLowerCase()}
+                  username={username}
                 />
                 <TeamInfo
                   teamColor={RED_TEAM_STRING}
@@ -195,7 +199,7 @@ class DlonamesBoard extends Component {
                   teamMembers={redTeam}
                   id={gameId}
                   canUserSwitch={stage === STAGE.NOT_STARTED}
-                  username={currentUser.nickname.toLowerCase()}
+                  username={username}
                 />
               </div>
               <GuessInfo id={gameId} clue={clue} numGuesses={numGuesses} />
@@ -231,22 +235,19 @@ export const GUESS_WORD_MUTATION = gql`
   }
 `
 
-const isCurrentUserCodemaster = () =>
-  // TODO(david): Dynamically determine this based on user and response from server
-  true
-
 const getColorForWord = (
   word,
   blueWords,
   redWords,
   deathWord,
-  wordsGuessed
+  wordsGuessed,
+  isCurrentUserCodemaster
 ) => {
   let wordHasBeenGuessed = false
   if (new Set(wordsGuessed).has(word)) {
     wordHasBeenGuessed = true
   }
-  if (!isCurrentUserCodemaster()) {
+  if (!isCurrentUserCodemaster) {
     if (!wordHasBeenGuessed) return grayTranslucent
   }
   if (new Set(blueWords).has(word)) {
@@ -269,6 +270,7 @@ const Row = ({
   id,
   wordsGuessed,
   username,
+  isCurrentUserCodemaster,
 }) => (
   <Mutation
     mutation={GUESS_WORD_MUTATION}
@@ -298,7 +300,8 @@ const Row = ({
               blueWords,
               redWords,
               deathWord,
-              wordsGuessed
+              wordsGuessed,
+              isCurrentUserCodemaster
             )}
           />
         )
