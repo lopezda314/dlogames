@@ -193,6 +193,26 @@ const Mutation = {
   },
 
   async submitClue(parent, args, ctx, info) {
+    const existingGame = await ctx.db.query.dlonamesGame(
+      { where: { id: args.id } },
+      ` { id stage currentTeam clue numGuesses wordsGuessed
+        blueCodemaster redCodemaster} `
+    )
+    if (existingGame.stage === "FINISHED") return existingGame
+    if (existingGame.clue) return existingGame
+    const username = args.username.toLowerCase()
+    if (
+      existingGame.currentTeam === "redTeam" &&
+      existingGame.redCodemaster !== username
+    ) {
+      return existingGame
+    }
+    if (
+      existingGame.currentTeam === "blueTeam" &&
+      existingGame.blueCodemaster !== username
+    ) {
+      return existingGame
+    }
     return await ctx.db.mutation.updateDlonamesGame(
       {
         where: { id: args.id },
