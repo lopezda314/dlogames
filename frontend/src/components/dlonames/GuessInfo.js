@@ -60,6 +60,13 @@ class GuessInfo extends Component {
   }
 
   render() {
+    const { enabled } = this.props
+    const submitButtonIfEnabled = enabled ? (
+      <button type="submit">Submit Clue</button>
+    ) : (
+      <React.Fragment></React.Fragment>
+    )
+
     return (
       <Mutation
         mutation={SUBMIT_CLUE_MUTATION}
@@ -86,23 +93,31 @@ class GuessInfo extends Component {
                   type="text"
                   name="clue"
                   id="clue"
-                  placeholder="clue"
-                  value={this.state.clue || ""}
+                  placeholder={enabled ? "clue" : "Waiting"}
+                  value={
+                    enabled ? this.state.clue || "" : this.props.clue || ""
+                  }
                   required
                   onChange={this.handleChange}
+                  disabled={!enabled}
                 />
                 <span>for</span>
                 <input
                   type="number"
                   name="numGuesses"
                   id="numGuesses"
-                  placeholder="# guesses"
-                  value={this.state.numGuesses || ""}
+                  placeholder={enabled ? "# guesses" : "Waiting"}
+                  value={
+                    enabled
+                      ? this.state.numGuesses || ""
+                      : this.props.numGuesses || "Waiting"
+                  }
                   required
                   onChange={this.handleChange}
+                  disabled={!enabled}
                 />
               </div>
-              <button type="submit">Submit Clue</button>
+              {submitButtonIfEnabled}
             </GuessForm>
           )
         }}

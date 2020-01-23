@@ -58,10 +58,16 @@ export const GET_GAME_QUERY = gql`
       numGuesses
       wordsGuessed
       stage
-      isUserJoined
+      currentTeam
     }
   }
 `
+
+const isCurrentUserTurn = (username, blueTeam, redTeam, currentTeam) => {
+  if (blueTeam.includes(username) && currentTeam === "blueTeam") return true
+  if (redTeam.includes(username) && currentTeam === "redTeam") return true
+  return false
+}
 
 const isUserOnATeam = (username, team1, team2) => {
   return new Set(team1).has(username) || new Set(team2).has(username)
@@ -125,6 +131,7 @@ class DlonamesBoard extends Component {
             numGuesses,
             wordsGuessed,
             stage,
+            currentTeam,
           } = data.game
           const username = currentUser.nickname.toLowerCase()
 
@@ -202,7 +209,20 @@ class DlonamesBoard extends Component {
                   username={username}
                 />
               </div>
-              <GuessInfo id={gameId} clue={clue} numGuesses={numGuesses} />
+              <GuessInfo
+                id={gameId}
+                clue={clue}
+                numGuesses={numGuesses}
+                enabled={
+                  isCurrentUserCodemaster(
+                    username,
+                    blueCodemaster,
+                    redCodemaster
+                  ) &&
+                  isCurrentUserTurn(username, blueTeam, redTeam, currentTeam) &&
+                  !clue
+                }
+              />
               <div
                 style={{
                   display: "flex",
