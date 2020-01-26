@@ -62,11 +62,12 @@ const getUpdateForWordGuessed = (
   redWords,
   deathWord
 ) => {
+  let newWordsGuessed = [...wordsGuessed, word]
   const update = {
     where: { id: id },
     data: {
       wordsGuessed: {
-        set: [...wordsGuessed, word],
+        set: newWordsGuessed,
       },
     },
   }
@@ -84,7 +85,7 @@ const getUpdateForWordGuessed = (
   } else {
     update.data.numGuesses = numGuesses - 1
   }
-  const correctBlues = wordsGuessed.filter(word => blueWords.includes(word))
+  const correctBlues = newWordsGuessed.filter(word => blueWords.includes(word))
   const correctReds = wordsGuessed.filter(word => redWords.includes(word))
   const isBlueWin = correctBlues.length === blueWords.length
   const isRedWin = correctReds.length === redWords.length
