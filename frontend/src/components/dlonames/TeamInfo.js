@@ -35,14 +35,7 @@ export const SWITCH_TEAM_MUTATION = gql`
   }
 `
 
-const TeamInfo = ({
-  teamColor,
-  codeMaster,
-  teamMembers,
-  id,
-  canUserSwitch,
-  username,
-}) => (
+const TeamInfo = ({ teamColor, codeMaster, teamMembers, id, username }) => (
   <StyledTeamInfo
     style={{
       color: teamColor === BLUE_TEAM_STRING ? "#50AEB5" : "#FF69B4",
@@ -60,7 +53,6 @@ const TeamInfo = ({
       {(switchTeam, { loading, error }) => {
         return (
           <TeamButton
-            disabled={canUserSwitch}
             onClickHandler={async () => await switchTeam()}
             label={codeMaster}
             backgroundColor={
@@ -83,7 +75,6 @@ const TeamInfo = ({
       {(switchTeam, { loading, error }) => {
         return (
           <TeamButton
-            disabled={canUserSwitch}
             onClickHandler={async () => await switchTeam()}
             label={teamMembers.join()}
             backgroundColor={

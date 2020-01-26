@@ -90,15 +90,15 @@ const getUpdateForWordGuessed = (
   const isRedWin = correctReds.length === redWords.length
   if (isBlueWin) {
     update.data.winningTeam = "blueTeam"
-    update.data.stage = "FINISHED"
+    update.data.gameIsFinished = true
   }
   if (isRedWin) {
     update.data.winningTeam = "redTeam"
-    update.data.stage = "FINISHED"
+    update.data.gameIsFinished = true
   }
   if (word == deathWord) {
     update.data.winningTeam = currentTeam === "redTeam" ? "blueTeam" : "redTeam"
-    update.data.stage = "FINISHED"
+    update.data.gameIsFinished = true
   }
   return update
 }
@@ -149,7 +149,7 @@ const Mutation = {
             set: redWords,
           },
           deathWord: deathWord,
-          stage: "NOT_STARTED",
+          gameIsFinished: false,
         },
       },
       info
@@ -205,10 +205,10 @@ const Mutation = {
   async submitClue(parent, args, ctx, info) {
     const existingGame = await ctx.db.query.dlonamesGame(
       { where: { id: args.id } },
-      ` { id stage currentTeam clue numGuesses wordsGuessed
+      ` { id gameIsFinished currentTeam clue numGuesses wordsGuessed
         blueCodemaster redCodemaster} `
     )
-    if (existingGame.stage === "FINISHED") return existingGame
+    if (existingGame.gameIsFinished) return existingGame
     if (existingGame.clue) return existingGame
     const username = args.username.toLowerCase()
     if (
@@ -289,11 +289,11 @@ const Mutation = {
   async guessWord(parent, args, ctx, info) {
     const existingGame = await ctx.db.query.dlonamesGame(
       { where: { id: args.id } },
-      ` { id stage currentTeam clue numGuesses wordsGuessed
+      ` { id gameIsFinished currentTeam clue numGuesses wordsGuessed
         blueTeam redTeam blueCodemaster redCodemaster blueWords
         redWords deathWord } `
     )
-    if (existingGame.stage === "FINISHED") return existingGame
+    if (existingGame.gameIsFinished) return existingGame
     if (!existingGame.clue) return existingGame
     const username = args.username.toLowerCase()
     const bluePlayers = new Set(existingGame.blueTeam)

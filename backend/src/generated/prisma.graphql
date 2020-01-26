@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/david-lopez-fcf066/dlogames/dev
-# timestamp: Sat Jan 25 2020 22:03:35 GMT-0500 (Eastern Standard Time)
+# timestamp: Sat Jan 25 2020 22:13:13 GMT-0500 (Eastern Standard Time)
 
 type AggregateDlonamesGame {
   count: Int!
@@ -31,7 +31,7 @@ type DlonamesGame implements Node {
   redWords: [String!]!
   blueWords: [String!]!
   deathWord: String!
-  stage: GameStage!
+  gameIsFinished: Boolean!
 }
 
 """A connection to a list of items."""
@@ -65,7 +65,7 @@ input DlonamesGameCreateInput {
   clue: String
   numGuesses: Int
   deathWord: String!
-  stage: GameStage!
+  gameIsFinished: Boolean!
   blueTeam: DlonamesGameCreateblueTeamInput
   redTeam: DlonamesGameCreateredTeamInput
   blueClues: DlonamesGameCreateblueCluesInput
@@ -122,8 +122,8 @@ enum DlonamesGameOrderByInput {
   numGuesses_DESC
   deathWord_ASC
   deathWord_DESC
-  stage_ASC
-  stage_DESC
+  gameIsFinished_ASC
+  gameIsFinished_DESC
 }
 
 type DlonamesGamePreviousValues {
@@ -143,7 +143,7 @@ type DlonamesGamePreviousValues {
   redWords: [String!]!
   blueWords: [String!]!
   deathWord: String!
-  stage: GameStage!
+  gameIsFinished: Boolean!
 }
 
 type DlonamesGameSubscriptionPayload {
@@ -205,7 +205,7 @@ input DlonamesGameUpdateInput {
   clue: String
   numGuesses: Int
   deathWord: String
-  stage: GameStage
+  gameIsFinished: Boolean
   blueTeam: DlonamesGameUpdateblueTeamInput
   redTeam: DlonamesGameUpdateredTeamInput
   blueClues: DlonamesGameUpdateblueCluesInput
@@ -224,7 +224,7 @@ input DlonamesGameUpdateManyMutationInput {
   clue: String
   numGuesses: Int
   deathWord: String
-  stage: GameStage
+  gameIsFinished: Boolean
   blueTeam: DlonamesGameUpdateblueTeamInput
   redTeam: DlonamesGameUpdateredTeamInput
   blueClues: DlonamesGameUpdateblueCluesInput
@@ -566,16 +566,10 @@ input DlonamesGameWhereInput {
 
   """All values not ending with the given string."""
   deathWord_not_ends_with: String
-  stage: GameStage
+  gameIsFinished: Boolean
 
   """All values that are not equal to given value."""
-  stage_not: GameStage
-
-  """All values that are contained in given list."""
-  stage_in: [GameStage!]
-
-  """All values that are not contained in given list."""
-  stage_not_in: [GameStage!]
+  gameIsFinished_not: Boolean
 }
 
 input DlonamesGameWhereUniqueInput {
@@ -908,12 +902,6 @@ input DlonamesStatsWhereInput {
 
 input DlonamesStatsWhereUniqueInput {
   id: ID
-}
-
-enum GameStage {
-  NOT_STARTED
-  IN_PROGRESS
-  FINISHED
 }
 
 """

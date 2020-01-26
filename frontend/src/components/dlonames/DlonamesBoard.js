@@ -17,11 +17,6 @@ import Button, {
 } from "./WordButton"
 import { gameIdQuery } from "../../utils/history-helper"
 
-const STAGE = {
-  NOT_STARTED: "NOT_STARTED",
-  IN_PROGRESS: "IN_PROGRESS",
-  FINISHED: "FINISHED",
-}
 export const BLUE_TEAM_STRING = "Blue"
 export const RED_TEAM_STRING = "Red"
 const ROWS_PER_GAME = 5
@@ -197,7 +192,6 @@ class DlonamesBoard extends Component {
                   codeMaster={blueCodemaster}
                   teamMembers={blueTeam}
                   id={gameId}
-                  canUserSwitch={stage === STAGE.NOT_STARTED}
                   username={username}
                 />
                 <TeamInfo
@@ -205,7 +199,6 @@ class DlonamesBoard extends Component {
                   codeMaster={redCodemaster}
                   teamMembers={redTeam}
                   id={gameId}
-                  canUserSwitch={stage === STAGE.NOT_STARTED}
                   username={username}
                 />
               </div>
