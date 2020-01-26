@@ -253,6 +253,7 @@ class DlonamesBoard extends Component {
                 <ChangeTurnButton
                   id={gameId}
                   shouldHide={
+                    gameIsFinished ||
                     !clue ||
                     isCurrentUserCodemaster(
                       username,
