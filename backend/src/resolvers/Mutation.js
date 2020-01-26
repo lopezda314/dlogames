@@ -88,8 +88,18 @@ const getUpdateForWordGuessed = (
   const correctReds = wordsGuessed.filter(word => redWords.includes(word))
   const isBlueWin = correctBlues.length === blueWords.length
   const isRedWin = correctReds.length === redWords.length
-  if (isBlueWin || isRedWin) update.data.stage = "FINISHED"
-  if (word == deathWord) update.data.stage = "FINISHED"
+  if (isBlueWin) {
+    update.data.winningTeam = "blueTeam"
+    update.data.stage = "FINISHED"
+  }
+  if (isRedWin) {
+    update.data.winningTeam = "redTeam"
+    update.data.stage = "FINISHED"
+  }
+  if (word == deathWord) {
+    update.data.winningTeam = currentTeam === "redTeam" ? "blueTeam" : "redTeam"
+    update.data.stage = "FINISHED"
+  }
   return update
 }
 

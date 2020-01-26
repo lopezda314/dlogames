@@ -11,6 +11,7 @@ type DlonamesGame {
   redTeam: [String!]! @scalarList(strategy: RELATION)
   redCodemaster: String!
   currentTeam: String!
+  winningTeam: String
   clue: String
   blueClues: [String!]! @scalarList(strategy: RELATION)
   redClues: [String!]! @scalarList(strategy: RELATION)
@@ -21,7 +22,6 @@ type DlonamesGame {
   blueWords: [String!]! @scalarList(strategy: RELATION)
   deathWord: String!
   stage: GameStage!
-  isUserJoined: Boolean
 }
 
 type DlonamesStats {
@@ -32,5 +32,4 @@ type DlonamesStats {
   numberOfGuesses: Int
   numberOfCorrectGuesses: Int
   numberOfGamesPlayed: Int
-  numberOfCharlieGames: Int
 }

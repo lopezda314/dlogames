@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/david-lopez-fcf066/dlogames/dev
-# timestamp: Thu Oct 03 2019 07:59:00 GMT-0400 (Eastern Daylight Time)
+# timestamp: Sat Jan 25 2020 22:03:35 GMT-0500 (Eastern Standard Time)
 
 type AggregateDlonamesGame {
   count: Int!
@@ -21,6 +21,7 @@ type DlonamesGame implements Node {
   redTeam: [String!]!
   redCodemaster: String!
   currentTeam: String!
+  winningTeam: String
   clue: String
   blueClues: [String!]!
   redClues: [String!]!
@@ -31,7 +32,6 @@ type DlonamesGame implements Node {
   blueWords: [String!]!
   deathWord: String!
   stage: GameStage!
-  isUserJoined: Boolean
 }
 
 """A connection to a list of items."""
@@ -61,11 +61,11 @@ input DlonamesGameCreateInput {
   blueCodemaster: String!
   redCodemaster: String!
   currentTeam: String!
+  winningTeam: String
   clue: String
   numGuesses: Int
   deathWord: String!
   stage: GameStage!
-  isUserJoined: Boolean
   blueTeam: DlonamesGameCreateblueTeamInput
   redTeam: DlonamesGameCreateredTeamInput
   blueClues: DlonamesGameCreateblueCluesInput
@@ -114,6 +114,8 @@ enum DlonamesGameOrderByInput {
   redCodemaster_DESC
   currentTeam_ASC
   currentTeam_DESC
+  winningTeam_ASC
+  winningTeam_DESC
   clue_ASC
   clue_DESC
   numGuesses_ASC
@@ -122,8 +124,6 @@ enum DlonamesGameOrderByInput {
   deathWord_DESC
   stage_ASC
   stage_DESC
-  isUserJoined_ASC
-  isUserJoined_DESC
 }
 
 type DlonamesGamePreviousValues {
@@ -133,6 +133,7 @@ type DlonamesGamePreviousValues {
   redTeam: [String!]!
   redCodemaster: String!
   currentTeam: String!
+  winningTeam: String
   clue: String
   blueClues: [String!]!
   redClues: [String!]!
@@ -143,7 +144,6 @@ type DlonamesGamePreviousValues {
   blueWords: [String!]!
   deathWord: String!
   stage: GameStage!
-  isUserJoined: Boolean
 }
 
 type DlonamesGameSubscriptionPayload {
@@ -201,11 +201,11 @@ input DlonamesGameUpdateInput {
   blueCodemaster: String
   redCodemaster: String
   currentTeam: String
+  winningTeam: String
   clue: String
   numGuesses: Int
   deathWord: String
   stage: GameStage
-  isUserJoined: Boolean
   blueTeam: DlonamesGameUpdateblueTeamInput
   redTeam: DlonamesGameUpdateredTeamInput
   blueClues: DlonamesGameUpdateblueCluesInput
@@ -220,11 +220,11 @@ input DlonamesGameUpdateManyMutationInput {
   blueCodemaster: String
   redCodemaster: String
   currentTeam: String
+  winningTeam: String
   clue: String
   numGuesses: Int
   deathWord: String
   stage: GameStage
-  isUserJoined: Boolean
   blueTeam: DlonamesGameUpdateblueTeamInput
   redTeam: DlonamesGameUpdateredTeamInput
   blueClues: DlonamesGameUpdateblueCluesInput
@@ -424,6 +424,46 @@ input DlonamesGameWhereInput {
 
   """All values not ending with the given string."""
   currentTeam_not_ends_with: String
+  winningTeam: String
+
+  """All values that are not equal to given value."""
+  winningTeam_not: String
+
+  """All values that are contained in given list."""
+  winningTeam_in: [String!]
+
+  """All values that are not contained in given list."""
+  winningTeam_not_in: [String!]
+
+  """All values less than the given value."""
+  winningTeam_lt: String
+
+  """All values less than or equal the given value."""
+  winningTeam_lte: String
+
+  """All values greater than the given value."""
+  winningTeam_gt: String
+
+  """All values greater than or equal the given value."""
+  winningTeam_gte: String
+
+  """All values containing the given string."""
+  winningTeam_contains: String
+
+  """All values not containing the given string."""
+  winningTeam_not_contains: String
+
+  """All values starting with the given string."""
+  winningTeam_starts_with: String
+
+  """All values not starting with the given string."""
+  winningTeam_not_starts_with: String
+
+  """All values ending with the given string."""
+  winningTeam_ends_with: String
+
+  """All values not ending with the given string."""
+  winningTeam_not_ends_with: String
   clue: String
 
   """All values that are not equal to given value."""
@@ -536,10 +576,6 @@ input DlonamesGameWhereInput {
 
   """All values that are not contained in given list."""
   stage_not_in: [GameStage!]
-  isUserJoined: Boolean
-
-  """All values that are not equal to given value."""
-  isUserJoined_not: Boolean
 }
 
 input DlonamesGameWhereUniqueInput {
@@ -554,7 +590,6 @@ type DlonamesStats implements Node {
   numberOfGuesses: Int
   numberOfCorrectGuesses: Int
   numberOfGamesPlayed: Int
-  numberOfCharlieGames: Int
 }
 
 """A connection to a list of items."""
@@ -575,7 +610,6 @@ input DlonamesStatsCreateInput {
   numberOfGuesses: Int
   numberOfCorrectGuesses: Int
   numberOfGamesPlayed: Int
-  numberOfCharlieGames: Int
 }
 
 """An edge in a connection."""
@@ -602,8 +636,6 @@ enum DlonamesStatsOrderByInput {
   numberOfCorrectGuesses_DESC
   numberOfGamesPlayed_ASC
   numberOfGamesPlayed_DESC
-  numberOfCharlieGames_ASC
-  numberOfCharlieGames_DESC
 }
 
 type DlonamesStatsPreviousValues {
@@ -614,7 +646,6 @@ type DlonamesStatsPreviousValues {
   numberOfGuesses: Int
   numberOfCorrectGuesses: Int
   numberOfGamesPlayed: Int
-  numberOfCharlieGames: Int
 }
 
 type DlonamesStatsSubscriptionPayload {
@@ -663,7 +694,6 @@ input DlonamesStatsUpdateInput {
   numberOfGuesses: Int
   numberOfCorrectGuesses: Int
   numberOfGamesPlayed: Int
-  numberOfCharlieGames: Int
 }
 
 input DlonamesStatsUpdateManyMutationInput {
@@ -673,7 +703,6 @@ input DlonamesStatsUpdateManyMutationInput {
   numberOfGuesses: Int
   numberOfCorrectGuesses: Int
   numberOfGamesPlayed: Int
-  numberOfCharlieGames: Int
 }
 
 input DlonamesStatsWhereInput {
@@ -875,28 +904,6 @@ input DlonamesStatsWhereInput {
 
   """All values greater than or equal the given value."""
   numberOfGamesPlayed_gte: Int
-  numberOfCharlieGames: Int
-
-  """All values that are not equal to given value."""
-  numberOfCharlieGames_not: Int
-
-  """All values that are contained in given list."""
-  numberOfCharlieGames_in: [Int!]
-
-  """All values that are not contained in given list."""
-  numberOfCharlieGames_not_in: [Int!]
-
-  """All values less than the given value."""
-  numberOfCharlieGames_lt: Int
-
-  """All values less than or equal the given value."""
-  numberOfCharlieGames_lte: Int
-
-  """All values greater than the given value."""
-  numberOfCharlieGames_gt: Int
-
-  """All values greater than or equal the given value."""
-  numberOfCharlieGames_gte: Int
 }
 
 input DlonamesStatsWhereUniqueInput {
