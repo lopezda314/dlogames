@@ -348,7 +348,7 @@ const Mutation = {
       return existingGame
     }
     const update = {
-      where: { id: id },
+      where: { id: args.id },
       data: {
         currentTeam:
           existingGame.currentTeam === "redTeam" ? "blueTeam" : "redTeam",

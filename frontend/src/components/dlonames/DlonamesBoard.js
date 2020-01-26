@@ -5,6 +5,7 @@ import { getProfile } from "../../utils/auth"
 import gql from "graphql-tag"
 import GuessInfo from "./GuessInfo"
 import TeamInfo from "./TeamInfo"
+import ChangeTurnButton from "./ChangeTurnButton"
 import Button, {
   blueTranslucent,
   redTranslucent,
@@ -246,8 +247,8 @@ class DlonamesBoard extends Component {
                   margin: "0 -.75rem",
                 }}
               >
-                {/* Refactor this to use context providers or hooks instead of big lists of props. */}
                 {rows}
+                <ChangeTurnButton id={gameId} />
               </div>
             </React.Fragment>
           )
