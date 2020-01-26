@@ -312,7 +312,7 @@ const Mutation = {
     if (existingGame.currentTeam === "blueTeam" && redPlayers.has(username)) {
       return existingGame
     }
-    if (wordsGuessed.includes(args.word)) {
+    if (existingGame.wordsGuessed.includes(args.word)) {
       return existingGame
     }
 
