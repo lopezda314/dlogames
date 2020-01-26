@@ -54,6 +54,7 @@ export const GET_GAME_QUERY = gql`
       wordsGuessed
       gameIsFinished
       currentTeam
+      winningTeam
     }
   }
 `
@@ -126,9 +127,38 @@ class DlonamesBoard extends Component {
             numGuesses,
             wordsGuessed,
             gameIsFinished,
+            winningTeam,
             currentTeam,
           } = data.game
+
           const username = currentUser.nickname.toLowerCase()
+
+          let guessInfoOrTeamWinInfo
+          if (gameIsFinished) {
+            guessInfoOrTeamWinInfo = (
+              <p>
+                🎉 {winningTeam === "redTeam" ? "Red Team" : "Blue Team"} wins!
+                🎉
+              </p>
+            )
+          } else {
+            guessInfoOrTeamWinInfo = (
+              <GuessInfo
+                id={gameId}
+                clue={clue}
+                numGuesses={numGuesses}
+                enabled={
+                  isCurrentUserCodemaster(
+                    username,
+                    blueCodemaster,
+                    redCodemaster
+                  ) &&
+                  isCurrentUserTurn(username, blueTeam, redTeam, currentTeam) &&
+                  !clue
+                }
+              />
+            )
+          }
 
           if (!isUserOnATeam(username, redTeam, blueTeam)) {
             return (
@@ -202,20 +232,7 @@ class DlonamesBoard extends Component {
                   username={username}
                 />
               </div>
-              <GuessInfo
-                id={gameId}
-                clue={clue}
-                numGuesses={numGuesses}
-                enabled={
-                  isCurrentUserCodemaster(
-                    username,
-                    blueCodemaster,
-                    redCodemaster
-                  ) &&
-                  isCurrentUserTurn(username, blueTeam, redTeam, currentTeam) &&
-                  !clue
-                }
-              />
+              {guessInfoOrTeamWinInfo}
               <div
                 style={{
                   display: "flex",
