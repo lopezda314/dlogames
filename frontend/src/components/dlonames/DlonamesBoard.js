@@ -205,6 +205,7 @@ class DlonamesBoard extends Component {
                   blueCodemaster,
                   redCodemaster
                 )}
+                gameIsFinished={gameIsFinished}
               />
             )
           }
@@ -271,13 +272,14 @@ const getColorForWord = (
   redWords,
   deathWord,
   wordsGuessed,
-  isCurrentUserCodemaster
+  isCurrentUserCodemaster,
+  gameIsFinished
 ) => {
   let wordHasBeenGuessed = false
   if (new Set(wordsGuessed).has(word)) {
     wordHasBeenGuessed = true
   }
-  if (!isCurrentUserCodemaster) {
+  if (!gameIsFinished && !isCurrentUserCodemaster) {
     if (!wordHasBeenGuessed) return grayTranslucent
   }
   if (new Set(blueWords).has(word)) {
@@ -301,6 +303,7 @@ const Row = ({
   wordsGuessed,
   username,
   isCurrentUserCodemaster,
+  gameIsFinished,
 }) => (
   <Mutation
     mutation={GUESS_WORD_MUTATION}
@@ -331,7 +334,8 @@ const Row = ({
               redWords,
               deathWord,
               wordsGuessed,
-              isCurrentUserCodemaster
+              isCurrentUserCodemaster,
+              gameIsFinished
             )}
           />
         )
