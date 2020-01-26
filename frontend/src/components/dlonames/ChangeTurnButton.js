@@ -5,13 +5,13 @@ import styled from "styled-components"
 import { getProfile } from "../../utils/auth"
 
 const StyledButton = styled.button`
-  background: none;
+  background: yellowgreen;
   border: none;
-  border-radius: 50%;
+  border-radius: 8px;
+  display: block;
   font-size: 0.75rem;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-  max-width: 80%;
+  height: 3rem;
+  margin: 2rem auto 0;
   text-decoration: none;
   transition: background 250ms ease-in-out, transform 150ms ease;
   -webkit-appearance: none;
@@ -29,7 +29,7 @@ const CHANGE_TURN_MUTATION = gql`
   }
 `
 
-const ChangeTurnButton = ({id}) => {
+const ChangeTurnButton = ({ id }) => {
   return (
     <Mutation
       mutation={CHANGE_TURN_MUTATION}

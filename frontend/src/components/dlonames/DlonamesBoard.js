@@ -248,6 +248,8 @@ class DlonamesBoard extends Component {
                 }}
               >
                 {rows}
+              </div>
+              <div>
                 <ChangeTurnButton id={gameId} />
               </div>
             </React.Fragment>

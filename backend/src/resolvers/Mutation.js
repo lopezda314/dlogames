@@ -338,9 +338,10 @@ const Mutation = {
   async changeTurn(parent, args, ctx, info) {
     const existingGame = await ctx.db.query.dlonamesGame(
       { where: { id: args.id } },
-      ` { id gameIsFinished currentTeam blueCodemaster redCodemaster } `
+      ` { id clue gameIsFinished currentTeam blueCodemaster redCodemaster } `
     )
     if (existingGame.gameIsFinished) return existingGame
+    if (!existingGame.clue) return existingGame
     if (
       args.username === existingGame.blueCodemaster ||
       args.username === existingGame.redCodemaster
