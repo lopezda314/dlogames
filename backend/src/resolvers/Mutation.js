@@ -90,12 +90,10 @@ const getUpdateForWordGuessed = (
   const isBlueWin = correctBlues.length === blueWords.length
   const isRedWin = correctReds.length === redWords.length
   if (isBlueWin) {
-    console.log("blue win")
     update.data.winningTeam = "blueTeam"
     update.data.gameIsFinished = true
   }
   if (isRedWin) {
-    console.log("red win")
     update.data.winningTeam = "redTeam"
     update.data.gameIsFinished = true
   }
@@ -353,6 +351,8 @@ const Mutation = {
       data: {
         currentTeam:
           existingGame.currentTeam === "redTeam" ? "blueTeam" : "redTeam",
+        clue: "",
+        numGuesses: 0,
       },
     }
     return await ctx.db.mutation.updateDlonamesGame(update, info)
