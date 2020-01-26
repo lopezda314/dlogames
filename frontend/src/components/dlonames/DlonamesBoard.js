@@ -250,7 +250,18 @@ class DlonamesBoard extends Component {
                 {rows}
               </div>
               <div>
-                <ChangeTurnButton id={gameId} />
+                <ChangeTurnButton
+                  id={gameId}
+                  shouldHide={
+                    !clue ||
+                    isCurrentUserCodemaster(
+                      username,
+                      blueCodemaster,
+                      redCodemaster
+                    ) ||
+                    !isCurrentUserTurn(username, blueTeam, redTeam, currentTeam)
+                  }
+                />
               </div>
             </React.Fragment>
           )

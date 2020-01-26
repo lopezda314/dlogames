@@ -29,15 +29,19 @@ const CHANGE_TURN_MUTATION = gql`
   }
 `
 
-const ChangeTurnButton = ({ id }) => {
+const ChangeTurnButton = ({ id, shouldHide }) => {
   return (
     <Mutation
       mutation={CHANGE_TURN_MUTATION}
       variables={{ id: id, username: getProfile().nickname }}
     >
       {changeTurn => {
+        let style = {}
+        if (shouldHide) {
+          style = { display: "none" }
+        }
         return (
-          <StyledButton onClick={() => changeTurn()}>
+          <StyledButton onClick={() => changeTurn()} style={style}>
             Done Guessing
           </StyledButton>
         )
