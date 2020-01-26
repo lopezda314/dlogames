@@ -52,7 +52,7 @@ export const GET_GAME_QUERY = gql`
       clue
       numGuesses
       wordsGuessed
-      stage
+      gameIsFinished
       currentTeam
     }
   }
@@ -125,7 +125,7 @@ class DlonamesBoard extends Component {
             clue,
             numGuesses,
             wordsGuessed,
-            stage,
+            gameIsFinished,
             currentTeam,
           } = data.game
           const username = currentUser.nickname.toLowerCase()
