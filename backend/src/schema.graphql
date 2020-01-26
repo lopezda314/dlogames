@@ -20,4 +20,5 @@ type Mutation {
     username: String!
   ): DlonamesGame!
   guessWord(id: String!, word: String!, username: String!): DlonamesGame!
+  changeTurn(id: String!, username: String!): DlonamesGame!
 }

@@ -334,6 +334,28 @@ const Mutation = {
       info
     )
   },
+
+  async changeTurn(parent, args, ctx, info) {
+    const existingGame = await ctx.db.query.dlonamesGame(
+      { where: { id: args.id } },
+      ` { id gameIsFinished currentTeam blueCodemaster redCodemaster } `
+    )
+    if (existingGame.gameIsFinished) return existingGame
+    if (
+      args.username === existingGame.blueCodemaster ||
+      args.username === existingGame.redCodemaster
+    ) {
+      return existingGame
+    }
+    const update = {
+      where: { id: id },
+      data: {
+        currentTeam:
+          existingGame.currentTeam === "redTeam" ? "blueTeam" : "redTeam",
+      },
+    }
+    return await ctx.db.mutation.updateDlonamesGame(update, info)
+  },
 }
 
 module.exports = Mutation
