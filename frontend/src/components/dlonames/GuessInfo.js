@@ -49,8 +49,8 @@ const SUBMIT_CLUE_MUTATION = gql`
 
 class GuessInfo extends Component {
   state = {
-    clue: this.props.clue,
-    numGuesses: this.props.numGuesses,
+    clue: "",
+    numGuesses: "",
   }
 
   handleChange = e => {
@@ -86,6 +86,7 @@ class GuessInfo extends Component {
                 e.preventDefault()
 
                 await submitClue()
+                this.setState({ clue: "", numGuesses: "" })
               }}
             >
               <div role="group">
@@ -106,11 +107,17 @@ class GuessInfo extends Component {
                   type="number"
                   name="numGuesses"
                   id="numGuesses"
-                  placeholder={enabled ? "# guesses" : "Waiting"}
+                  placeholder={
+                    enabled
+                      ? "# guesses"
+                      : this.props.clue
+                      ? "Bonus"
+                      : "Waiting"
+                  }
                   value={
                     enabled
                       ? this.state.numGuesses || ""
-                      : this.props.numGuesses || "Waiting"
+                      : this.props.numGuesses || ""
                   }
                   required
                   onChange={this.handleChange}
