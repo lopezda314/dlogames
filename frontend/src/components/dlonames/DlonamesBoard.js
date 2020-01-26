@@ -137,8 +137,9 @@ class DlonamesBoard extends Component {
           if (gameIsFinished) {
             guessInfoOrTeamWinInfo = (
               <p style={{ textAlign: "center" }}>
-                🎉 {winningTeam === "redTeam" ? "Red Team" : "Blue Team"} wins!
-                🎉
+                {"🎉"}
+                {winningTeam === "redTeam" ? "Red Team" : "Blue Team"} wins!
+                {"🎉"}
               </p>
             )
           } else {
@@ -165,6 +166,9 @@ class DlonamesBoard extends Component {
               <Mutation
                 mutation={JOIN_GAME_MUTATION}
                 variables={{ username: username, id: gameId }}
+                refetchQueries={[
+                  { query: GET_GAME_QUERY, variables: { id: gameId } },
+                ]}
               >
                 {(joinGame, { loading, error }) => {
                   if (loading) return <p>Joining game...</p>

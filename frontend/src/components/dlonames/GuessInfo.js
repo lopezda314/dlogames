@@ -86,7 +86,6 @@ class GuessInfo extends Component {
                 e.preventDefault()
 
                 await submitClue()
-                this.setState({ clue: "", numGuesses: "" })
               }}
             >
               <div role="group">
