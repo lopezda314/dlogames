@@ -132,7 +132,7 @@ const Mutation = {
             set: [],
           },
           redCodemaster: "",
-          currentTeam: getRandomTeam(),
+          currentTeam: firstTeam,
           blueClues: {
             set: [],
           },
