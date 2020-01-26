@@ -13,6 +13,7 @@ const StyledTeamInfo = styled.div`
   flex-direction: column;
   align-items: center;
   font-size: 0.75rem;
+  margin: 0 0.75rem;
   padding: 0.825rem 0.825rem;
   width: 45vw;
 `
