@@ -26,6 +26,7 @@ type DlonamesStats {
 
 type DlonamesClue {
   id: ID! @id
+  gameId: String!
   codemaster: Boolean!
   clue: String!
   numCorrectGuesses: Int
