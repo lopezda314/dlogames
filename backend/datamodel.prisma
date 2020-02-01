@@ -21,9 +21,13 @@ type DlonamesGame {
 type DlonamesStats {
   id: ID! @id
   username: String!
-  numberOfCluesGiven: Int
-  numberOfCluesGuessedCorrectly: Int
-  numberOfGuesses: Int
-  numberOfCorrectGuesses: Int
-  numberOfGamesPlayed: Int
+  clues: [DlonamesClue!] @scalarList(strategy: RELATION)
+}
+
+type DlonamesClue {
+  id: ID! @id
+  codemaster: Boolean!
+  clue: String!
+  numCorrectGuesses: Int
+  isGameWinning: Boolean
 }
