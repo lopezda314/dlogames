@@ -127,6 +127,27 @@ const maybeCreateUserDlonamesStats = async (username, database) => {
   })
 }
 
+const recordDlonamesClue = (
+  gameId,
+  codemaster,
+  clue,
+  numGuesses,
+  redClues,
+  blueClues,
+  database
+) => {
+  const numCluesGiven = redClues.length + blueClues.length
+  database.mutation.createDlonamesClue({
+    data: {
+      gameId,
+      codemaster,
+      numCluesGiven,
+      clue,
+      numGuesses,
+    },
+  })
+}
+
 const Mutation = {
   async createGame(parent, args, ctx, info) {
     const creatorName = args.creatorName.toLowerCase()
@@ -255,6 +276,17 @@ const Mutation = {
     ) {
       return existingGame
     }
+    recordDlonamesClue(
+      existingGame.id,
+      existingGame.currentTeam === "redTeam"
+        ? existingGame.redCodemaster
+        : existingGame.blueCodemaster,
+      existingGame.clue,
+      existingGame.numGuesses,
+      existingGame.redClues,
+      existingGame.blueClues,
+      ctx.db
+    )
     return await ctx.db.mutation.updateDlonamesGame(
       {
         where: { id: args.id },
