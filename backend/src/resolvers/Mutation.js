@@ -54,6 +54,7 @@ const getDlonamesIndices = () => {
 
 const getUpdateForWordGuessed = ({
   id,
+  clue,
   word,
   wordsGuessed,
   numGuesses,
@@ -82,10 +83,10 @@ const getUpdateForWordGuessed = ({
   }
   if (!isCorrectGuess || numGuesses === 0) {
     if (currentTeam === "redTeam") {
-      redClues.push(word)
+      redClues.push(clue)
       update.data.redClues = { set: redClues }
     } else {
-      blueClues.push(word)
+      blueClues.push(clue)
       update.data.blueClues = { set: blueClues }
     }
     update.data.currentTeam = currentTeam === "redTeam" ? "blueTeam" : "redTeam"
@@ -127,23 +128,25 @@ const maybeCreateUserDlonamesStats = async (username, database) => {
   })
 }
 
-const recordDlonamesClue = (
-  gameId,
-  codemaster,
-  clue,
-  numGuesses,
-  redClues,
-  blueClues,
-  database
-) => {
+const recordDlonamesClue = ({
+  gameId: gameId,
+  codemaster: codemaster,
+  clue: clue,
+  numGuesses: numGuesses,
+  redClues: redClues,
+  blueClues: blueClues,
+  database: database,
+}) => {
+  console.log(clue)
+  console.log(numGuesses)
   const numCluesGiven = redClues.length + blueClues.length
   database.mutation.createDlonamesClue({
     data: {
-      gameId,
-      codemaster,
-      numCluesGiven,
-      clue,
-      numGuesses,
+      gameId: gameId,
+      codemaster: codemaster,
+      numCluesGiven: numCluesGiven,
+      clue: clue,
+      numGuesses: numGuesses,
     },
   })
 }
@@ -258,7 +261,7 @@ const Mutation = {
   async submitClue(parent, args, ctx, info) {
     const existingGame = await ctx.db.query.dlonamesGame(
       { where: { id: args.id } },
-      ` { id gameIsFinished currentTeam clue numGuesses wordsGuessed
+      ` { id gameIsFinished currentTeam clue wordsGuessed
         blueCodemaster redCodemaster blueClues redClues} `
     )
     if (existingGame.gameIsFinished) return existingGame
@@ -276,17 +279,18 @@ const Mutation = {
     ) {
       return existingGame
     }
-    recordDlonamesClue(
-      existingGame.id,
-      existingGame.currentTeam === "redTeam"
-        ? existingGame.redCodemaster
-        : existingGame.blueCodemaster,
-      existingGame.clue,
-      existingGame.numGuesses,
-      existingGame.redClues,
-      existingGame.blueClues,
-      ctx.db
-    )
+    recordDlonamesClue({
+      gameId: existingGame.id,
+      codemaster:
+        existingGame.currentTeam === "redTeam"
+          ? existingGame.redCodemaster
+          : existingGame.blueCodemaster,
+      clue: args.clue,
+      numGuesses: args.numGuesses,
+      redClues: existingGame.redClues,
+      blueClues: existingGame.blueClues,
+      database: ctx.db,
+    })
     return await ctx.db.mutation.updateDlonamesGame(
       {
         where: { id: args.id },
@@ -384,6 +388,7 @@ const Mutation = {
     return await ctx.db.mutation.updateDlonamesGame(
       getUpdateForWordGuessed({
         id: args.id,
+        clue: existingGame.clue,
         word: args.word,
         wordsGuessed: existingGame.wordsGuessed,
         numGuesses: existingGame.numGuesses,
@@ -401,7 +406,8 @@ const Mutation = {
   async changeTurn(parent, args, ctx, info) {
     const existingGame = await ctx.db.query.dlonamesGame(
       { where: { id: args.id } },
-      ` { id clue gameIsFinished currentTeam blueCodemaster redCodemaster } `
+      ` { id clue gameIsFinished currentTeam clue
+         blueCodemaster redCodemaster blueClues redClues } `
     )
     if (existingGame.gameIsFinished) return existingGame
     if (!existingGame.clue) return existingGame
@@ -411,14 +417,22 @@ const Mutation = {
     ) {
       return existingGame
     }
+    const data = {
+      currentTeam:
+        existingGame.currentTeam === "redTeam" ? "blueTeam" : "redTeam",
+      clue: "",
+      numGuesses: 0,
+    }
+    if (existingGame.currentTeam === "redTeam") {
+      existingGame.redClues.push(existingGame.clue)
+      data.redClues = { set: existingGame.redClues }
+    } else {
+      existingGame.blueClues.push(existingGame.clue)
+      data.blueClues = { set: existingGame.blueClues }
+    }
     const update = {
       where: { id: args.id },
-      data: {
-        currentTeam:
-          existingGame.currentTeam === "redTeam" ? "blueTeam" : "redTeam",
-        clue: "",
-        numGuesses: 0,
-      },
+      data: data,
     }
     return await ctx.db.mutation.updateDlonamesGame(update, info)
   },
