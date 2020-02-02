@@ -52,7 +52,7 @@ const getDlonamesIndices = () => {
     })
 }
 
-const getUpdateForWordGuessed = (
+const getUpdateForWordGuessed = ({
   id,
   word,
   wordsGuessed,
@@ -60,8 +60,10 @@ const getUpdateForWordGuessed = (
   currentTeam,
   blueWords,
   redWords,
-  deathWord
-) => {
+  deathWord,
+  redClues,
+  blueClues,
+}) => {
   let newWordsGuessed = [...wordsGuessed, word]
   const update = {
     where: { id: id },
@@ -79,6 +81,13 @@ const getUpdateForWordGuessed = (
     isCorrectGuess = true
   }
   if (!isCorrectGuess || numGuesses === 0) {
+    if (currentTeam === "redTeam") {
+      redClues.push(word)
+      update.data.redClues = { set: redClues }
+    } else {
+      blueClues.push(word)
+      update.data.blueClues = { set: blueClues }
+    }
     update.data.currentTeam = currentTeam === "redTeam" ? "blueTeam" : "redTeam"
     update.data.numGuesses = 0
     update.data.clue = ""
@@ -229,7 +238,7 @@ const Mutation = {
     const existingGame = await ctx.db.query.dlonamesGame(
       { where: { id: args.id } },
       ` { id gameIsFinished currentTeam clue numGuesses wordsGuessed
-        blueCodemaster redCodemaster} `
+        blueCodemaster redCodemaster blueClues redClues} `
     )
     if (existingGame.gameIsFinished) return existingGame
     if (existingGame.clue) return existingGame
@@ -314,7 +323,7 @@ const Mutation = {
       { where: { id: args.id } },
       ` { id gameIsFinished currentTeam clue numGuesses wordsGuessed
         blueTeam redTeam blueCodemaster redCodemaster blueWords
-        redWords deathWord } `
+        redWords deathWord blueClues redClues } `
     )
     if (existingGame.gameIsFinished) return existingGame
     if (!existingGame.clue) return existingGame
@@ -341,16 +350,18 @@ const Mutation = {
       existingGame.wordsGuessed = []
     }
     return await ctx.db.mutation.updateDlonamesGame(
-      getUpdateForWordGuessed(
-        args.id,
-        args.word,
-        existingGame.wordsGuessed,
-        existingGame.numGuesses,
-        existingGame.currentTeam,
-        existingGame.blueWords,
-        existingGame.redWords,
-        existingGame.deathWord
-      ),
+      getUpdateForWordGuessed({
+        id: args.id,
+        word: args.word,
+        wordsGuessed: existingGame.wordsGuessed,
+        numGuesses: existingGame.numGuesses,
+        currentTeam: existingGame.currentTeam,
+        blueWords: existingGame.blueWords,
+        redWords: existingGame.redWords,
+        deathWord: existingGame.deathWord,
+        blueClues: existingGame.blueClues,
+        redClues: existingGame.redClues,
+      }),
       info
     )
   },
