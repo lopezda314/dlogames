@@ -18,17 +18,32 @@ type DlonamesGame {
   gameIsFinished: Boolean!
 }
 
-type DlonamesStats {
+type UserDlonamesStats {
   id: ID! @id
-  username: String!
-  clues: [DlonamesClue!] @scalarList(strategy: RELATION)
+  username: String! @unique
+  clueStats: [DlonamesPerClueStats!] @scalarList(strategy: RELATION)
+}
+
+type DlonamesPerClueStats {
+  id: ID! @id
+  clue: DlonamesClue! @unique
+  # The users who made correct guesses.
+  # Order is determined by guessing order.
+  userCorrectGuesses: [String!] @scalarList(strategy: RELATION)
+  # The user who made the incorrect guess.
+  # Only present when an incorrect guess is made.
+  incorrectGuess: String
+  # Implies that the last person to guess correctly won their team the game.
+  isHeroPlay: Boolean
+  # Implies that the person who made an incorrect guess lost their team the game.
+  isVillainPlay: Boolean
 }
 
 type DlonamesClue {
   id: ID! @id
   gameId: String!
-  codemaster: Boolean!
+  codemaster: String!
+  numCluesGiven: Int!
   clue: String!
-  numCorrectGuesses: Int
-  isGameWinning: Boolean
+  numGuesses: Int!
 }

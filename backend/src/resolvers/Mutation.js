@@ -104,9 +104,24 @@ const getUpdateForWordGuessed = (
   return update
 }
 
+const maybeCreateUserDlonamesStats = async (username, database) => {
+  const userStats = await database.query.userDlonamesStats({
+    where: { username: username },
+  })
+  if (userStats) {
+    return
+  }
+  await database.mutation.createUserDlonamesStats({
+    data: {
+      username: username,
+    },
+  })
+}
+
 const Mutation = {
   async createGame(parent, args, ctx, info) {
     const creatorName = args.creatorName.toLowerCase()
+    maybeCreateUserDlonamesStats(creatorName, ctx.db)
     const indices = getDlonamesIndices()
     const firstTeam = getRandomTeam()
     const words = getDlonamesWords()
@@ -165,6 +180,7 @@ const Mutation = {
       `{ blueTeam redTeam blueCodemaster redCodemaster }`
     )
     const username = args.username.toLowerCase()
+    maybeCreateUserDlonamesStats(username, ctx.db)
     if (
       new Set(existingGame.blueTeam).has(username) ||
       new Set(existingGame.redTeam).has(username)
@@ -177,7 +193,9 @@ const Mutation = {
         where: { id: args.id },
         data: {
           blueCodemaster: username,
-          blueTeam: { set: existingGame.blueTeam },
+          blueTeam: {
+            set: existingGame.blueTeam,
+          },
         },
       })
     }
@@ -187,7 +205,9 @@ const Mutation = {
         where: { id: args.id },
         data: {
           redCodemaster: username,
-          redTeam: { set: existingGame.redTeam },
+          redTeam: {
+            set: existingGame.redTeam,
+          },
         },
       })
     }
@@ -199,7 +219,9 @@ const Mutation = {
     const update = {}
     update.where = { id: args.id }
     update.data = {}
-    update.data[teamToUpdate] = { set: existingGame[teamToUpdate] }
+    update.data[teamToUpdate] = {
+      set: existingGame[teamToUpdate],
+    }
     return await ctx.db.mutation.updateDlonamesGame(update, info)
   },
 
