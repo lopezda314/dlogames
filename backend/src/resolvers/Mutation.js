@@ -64,6 +64,8 @@ const getUpdateForWordGuessed = ({
   deathWord,
   redClues,
   blueClues,
+  guesser,
+  database,
 }) => {
   let newWordsGuessed = [...wordsGuessed, word]
   const update = {
@@ -111,14 +113,31 @@ const getUpdateForWordGuessed = ({
     update.data.winningTeam = currentTeam === "redTeam" ? "blueTeam" : "redTeam"
     update.data.gameIsFinished = true
   }
+  createOrUpdatePerClueStatsAndAddToRelevantUsers({
+    gameId: id,
+    codemaster:
+      existingGame.currentTeam === "redTeam"
+        ? existingGame.redCodemaster
+        : existingGame.blueCodemaster,
+    numCluesGiven: redClues.length + blueClues.length,
+    clue,
+    guesser,
+    isHeroPlay: isCorrectGuess && (isRedWin || isBlueWin),
+    isVillainPlay: !isCorrectGuess && (isRedWin || isBlueWin),
+    isCorrectGuess,
+    database,
+  })
   return update
 }
 
 const maybeCreateUserDlonamesStats = async (username, database) => {
-  const userStats = await database.query.userDlonamesStats({
-    where: { username: username },
-  })
-  if (userStats) {
+  const userStats = await database.query.userDlonamesStats(
+    {
+      where: { username: username },
+    },
+    `id`
+  )
+  if (userStats.id) {
     return
   }
   await database.mutation.createUserDlonamesStats({
@@ -137,8 +156,6 @@ const recordDlonamesClue = ({
   blueClues: blueClues,
   database: database,
 }) => {
-  console.log(clue)
-  console.log(numGuesses)
   const numCluesGiven = redClues.length + blueClues.length
   database.mutation.createDlonamesClue({
     data: {
@@ -149,6 +166,34 @@ const recordDlonamesClue = ({
       numGuesses: numGuesses,
     },
   })
+}
+
+const createOrUpdatePerClueStatsAndAddToRelevantUsers = async ({
+  gameId,
+  codemaster,
+  numCluesGiven,
+  clue,
+  guesser,
+  isHeroPlay,
+  isVillainPlay,
+  isCorrectGuess,
+  database,
+}) => {
+  const dlonamesPerClueStats = await database.query.dlonamesPerClueStats(
+    {
+      where: {
+        clue: {
+          gameId,
+          clue,
+          numCluesGiven,
+        },
+      },
+    },
+    `id userCorrectGuesses`
+  )
+  if (dlonamesPerClueStats.id) {
+    
+  }
 }
 
 const Mutation = {
@@ -398,6 +443,8 @@ const Mutation = {
         deathWord: existingGame.deathWord,
         blueClues: existingGame.blueClues,
         redClues: existingGame.redClues,
+        guesser: username,
+        database: ctx.db,
       }),
       info
     )
