@@ -59,6 +59,8 @@ const getUpdateForWordGuessed = ({
   wordsGuessed,
   numGuesses,
   currentTeam,
+  redCodemaster,
+  blueCodemaster,
   blueWords,
   redWords,
   deathWord,
@@ -85,11 +87,9 @@ const getUpdateForWordGuessed = ({
   }
   if (!isCorrectGuess || numGuesses === 0) {
     if (currentTeam === "redTeam") {
-      redClues.push(clue)
-      update.data.redClues = { set: redClues }
+      update.data.redClues = { set: [...redClues, clue] }
     } else {
-      blueClues.push(clue)
-      update.data.blueClues = { set: blueClues }
+      update.data.blueClues = { set: [...blueClues, clue] }
     }
     update.data.currentTeam = currentTeam === "redTeam" ? "blueTeam" : "redTeam"
     update.data.numGuesses = 0
@@ -115,10 +115,7 @@ const getUpdateForWordGuessed = ({
   }
   createOrUpdatePerClueStatsAndAddToRelevantUsers({
     gameId: id,
-    codemaster:
-      existingGame.currentTeam === "redTeam"
-        ? existingGame.redCodemaster
-        : existingGame.blueCodemaster,
+    codemaster: currentTeam === "redTeam" ? redCodemaster : blueCodemaster,
     numCluesGiven: redClues.length + blueClues.length,
     clue,
     guesser,
@@ -131,13 +128,10 @@ const getUpdateForWordGuessed = ({
 }
 
 const maybeCreateUserDlonamesStats = async (username, database) => {
-  const userStats = await database.query.userDlonamesStats(
-    {
-      where: { username: username },
-    },
-    `id`
-  )
-  if (userStats.id) {
+  const userStats = await database.query.userDlonamesStats({
+    where: { username: username },
+  })
+  if (userStats) {
     return
   }
   await database.mutation.createUserDlonamesStats({
@@ -147,7 +141,7 @@ const maybeCreateUserDlonamesStats = async (username, database) => {
   })
 }
 
-const recordDlonamesClue = ({
+const recordDlonamesClue = async ({
   gameId: gameId,
   codemaster: codemaster,
   clue: clue,
@@ -157,7 +151,7 @@ const recordDlonamesClue = ({
   database: database,
 }) => {
   const numCluesGiven = redClues.length + blueClues.length
-  database.mutation.createDlonamesClue({
+  await database.mutation.createDlonamesClue({
     data: {
       gameId: gameId,
       codemaster: codemaster,
@@ -179,21 +173,91 @@ const createOrUpdatePerClueStatsAndAddToRelevantUsers = async ({
   isCorrectGuess,
   database,
 }) => {
-  const dlonamesPerClueStats = await database.query.dlonamesPerClueStats(
+  const dlonamesClues = await database.query.dlonamesClues(
+    { where: { gameId: gameId, numCluesGiven: numCluesGiven, clue: clue } },
+    `{ id gameId codemaster numCluesGiven clue numGuesses}`
+  )
+  const dlonamesClue = dlonamesClues[0]
+  const dlonamesPerClueStatses = await database.query.dlonamesPerClueStatses(
     {
       where: {
         clue: {
-          gameId,
-          clue,
-          numCluesGiven,
+          id: dlonamesClue.id,
         },
       },
     },
-    `id userCorrectGuesses`
+    `{ id userCorrectGuesses }`
   )
-  if (dlonamesPerClueStats.id) {
-    
+  if (dlonamesPerClueStatses.length == 0) {
+    let newDlonamesPerClueStats
+    if (isCorrectGuess) {
+      newDlonamesPerClueStats = await database.mutation.createDlonamesPerClueStats(
+        {
+          data: {
+            clue: { connect: { id: dlonamesClue.id } },
+            userCorrectGuesses: { set: [guesser] },
+            isHeroPlay: isHeroPlay,
+            isVillainPlay: isVillainPlay,
+          },
+        }
+      )
+    } else {
+      newDlonamesPerClueStats = await database.mutation.createDlonamesPerClueStats(
+        {
+          data: {
+            clue: { connect: { id: dlonamesClue.id } },
+            incorrectGuess: guesser,
+            isHeroPlay: isHeroPlay,
+            isVillainPlay: isVillainPlay,
+          },
+        }
+      )
+    }
+    addStatsToRelevantUsers(
+      newDlonamesPerClueStats,
+      [codemaster, guesser],
+      database
+    )
+    return
   }
+  const dlonamesPerClueStats = dlonamesPerClueStatses[0]
+  if (!dlonamesPerClueStats.userCorrectGuesses.includes(guesser)) {
+    addStatsToRelevantUsers(dlonamesPerClueStats, user, database)
+  }
+  const update = {
+    where: { id: dlonamesPerClueStats.id },
+    data: {
+      clue: { connect: { id: dlonamesClue.id } },
+      isHeroPlay: isHeroPlay,
+      isVillainPlay: isVillainPlay,
+    },
+  }
+  if (isCorrectGuess) {
+    update.userCorrectGuesses = {
+      set: [...dlonamesPerClueStats.userCorrectGuesses, guesser],
+    }
+  } else {
+    update[incorrectGuess] = guesser
+  }
+  await database.mutation.updateDlonamesPerClueStats(update)
+}
+
+const addStatsToRelevantUsers = (stats, users, database) => {
+  users.forEach(user => {
+    if (!user) {
+      return
+    }
+    const userOldStats = database.query.userDlonamesStats(
+      { where: { username: user } },
+      `{ clueStats }`
+    )
+    database.mutation.updateUserDlonamesStats({
+      where: { username: user },
+      data: {
+        clueStats: { connect: [{ id: stats.id }] },
+      },
+    })
+  })
 }
 
 const Mutation = {
@@ -324,7 +388,7 @@ const Mutation = {
     ) {
       return existingGame
     }
-    recordDlonamesClue({
+    await recordDlonamesClue({
       gameId: existingGame.id,
       codemaster:
         existingGame.currentTeam === "redTeam"
@@ -438,6 +502,8 @@ const Mutation = {
         wordsGuessed: existingGame.wordsGuessed,
         numGuesses: existingGame.numGuesses,
         currentTeam: existingGame.currentTeam,
+        redCodemaster: existingGame.redCodemaster,
+        blueCodemaster: existingGame.blueCodemaster,
         blueWords: existingGame.blueWords,
         redWords: existingGame.redWords,
         deathWord: existingGame.deathWord,
