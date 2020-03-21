@@ -5,6 +5,7 @@ import { useStaticQuery, graphql } from "gatsby"
 import Header from "./header"
 import MobileNav from "./mobile-nav"
 import "./layout.css"
+import Helmet from "react-helmet"
 
 const Layout = ({ children, location }) => {
   const data = useStaticQuery(graphql`
@@ -19,6 +20,12 @@ const Layout = ({ children, location }) => {
 
   return (
     <React.Fragment>
+      <Helmet>
+        <link
+          href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+          rel="stylesheet"
+        ></link>
+      </Helmet>
       <Header siteTitle={data.site.siteMetadata.title} />
       <MobileNav />
       <div

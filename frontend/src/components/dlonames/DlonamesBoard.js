@@ -6,7 +6,7 @@ import gql from "graphql-tag"
 import GuessInfo from "./GuessInfo"
 import TeamInfo from "./TeamInfo"
 import ChangeTurnButton from "./ChangeTurnButton"
-import Button, {
+import WordButton, {
   blueTranslucent,
   redTranslucent,
   blackTranslucent,
@@ -17,6 +17,7 @@ import Button, {
   gray,
 } from "./WordButton"
 import { gameIdQuery } from "../../utils/history-helper"
+import ActionButton from "../styled/ActionButton"
 
 export const BLUE_TEAM_STRING = "Blue"
 export const RED_TEAM_STRING = "Red"
@@ -67,7 +68,7 @@ const isCurrentUserTurn = (username, blueTeam, redTeam, currentTeam) => {
 }
 
 const isUserOnATeam = (username, team1, team2) => {
-  return new Set(team1).has(username) || new Set(team2).has(username)
+  return team1.includes(username) || team2.includes(username)
 }
 
 const isCurrentUserCodemaster = (username, blueCodemaster, redCodemaster) => {
@@ -89,15 +90,38 @@ class DlonamesBoard extends Component {
             if (loading) return <p>Creating game...</p>
             if (error) return <p>Error: {error.message}</p>
             return (
-              <Button
-                onClickHandler={async () => {
-                  const createGameResponse = await createGame()
-                  gameId = createGameResponse.data.createGame.id
-                  navigate("/dlonames/game?" + gameIdQuery + "=" + gameId)
-                }}
-                label="Create Game"
-                backgroundColor="grey"
-              />
+              <React.Fragment>
+                <h3 style={{ paddingTop: "2rem" }}>
+                  {" "}
+                  Here's a list of things coming soon to dlonames:
+                </h3>
+                <ul>
+                  <li>Displaying your codenames stats</li>
+                  <li>Looking up other players' stats</li>
+                  <li>Being able to start a new game after finishing a game</li>
+                </ul>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <ActionButton
+                    onClickHandler={async () => {
+                      const createGameResponse = await createGame()
+                      gameId = createGameResponse.data.createGame.id
+                      navigate("/dlonames/game?" + gameIdQuery + "=" + gameId)
+                    }}
+                    label="Create Game"
+                    backgroundColor="grey"
+                  />
+                </div>
+                <h3 style={{ paddingTop: "2rem" }}>
+                  {" "}
+                  Reach out to me with any other ideas!
+                </h3>
+              </React.Fragment>
             )
           }}
         </Mutation>
@@ -109,7 +133,7 @@ class DlonamesBoard extends Component {
       <Query
         query={GET_GAME_QUERY}
         variables={{ id: gameId, username: currentUser.nickname }}
-        pollInterval={5000}
+        pollInterval={250}
       >
         {({ data, loading, error }) => {
           if (loading) return <p>Loading game...</p>
@@ -167,6 +191,7 @@ class DlonamesBoard extends Component {
               <Mutation
                 mutation={JOIN_GAME_MUTATION}
                 variables={{ username: username, id: gameId }}
+                awaitRefetchQueries={true}
                 refetchQueries={[
                   { query: GET_GAME_QUERY, variables: { id: gameId } },
                 ]}
@@ -175,7 +200,7 @@ class DlonamesBoard extends Component {
                   if (loading) return <p>Joining game...</p>
                   if (error) return <p>Error: {error.message}</p>
                   return (
-                    <Button
+                    <ActionButton
                       onClickHandler={async () => {
                         await joinGame()
                       }}
@@ -295,16 +320,16 @@ const getColorForWord = (
   gameIsFinished
 ) => {
   let wordHasBeenGuessed = false
-  if (new Set(wordsGuessed).has(word)) {
+  if (wordsGuessed.includes(word)) {
     wordHasBeenGuessed = true
   }
   if (!gameIsFinished && !isCurrentUserCodemaster) {
     if (!wordHasBeenGuessed) return grayTranslucent
   }
-  if (new Set(blueWords).has(word)) {
+  if (blueWords.includes(word)) {
     return wordHasBeenGuessed ? blue : blueTranslucent
   }
-  if (new Set(redWords).has(word)) {
+  if (redWords.includes(word)) {
     return wordHasBeenGuessed ? red : redTranslucent
   }
   if (word === deathWord) {
@@ -337,7 +362,7 @@ const Row = ({
       const buttons = []
       for (let i = 0; i < WORDS_PER_ROW; i++) {
         buttons.push(
-          <Button
+          <WordButton
             key={words[i]}
             label={words[i]}
             onClickHandler={e =>
