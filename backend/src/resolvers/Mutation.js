@@ -52,7 +52,7 @@ const getDlonamesIndices = () => {
     })
 }
 
-const getUpdateForWordGuessed = ({
+const getUpdateForWordGuessed = async ({
   id,
   clue,
   word,
@@ -113,7 +113,7 @@ const getUpdateForWordGuessed = ({
     update.data.winningTeam = currentTeam === "redTeam" ? "blueTeam" : "redTeam"
     update.data.gameIsFinished = true
   }
-  createOrUpdatePerClueStatsAndAddToRelevantUsers({
+  await createOrUpdatePerClueStatsAndAddToRelevantUsers({
     gameId: id,
     codemaster: currentTeam === "redTeam" ? redCodemaster : blueCodemaster,
     numCluesGiven: redClues.length + blueClues.length,
@@ -207,6 +207,7 @@ const createOrUpdatePerClueStatsAndAddToRelevantUsers = async ({
           data: {
             clue: { connect: { id: dlonamesClue.id } },
             incorrectGuess: guesser,
+            userCorrectGuesses: { set: [] },
             isHeroPlay: isHeroPlay,
             isVillainPlay: isVillainPlay,
           },
@@ -222,7 +223,7 @@ const createOrUpdatePerClueStatsAndAddToRelevantUsers = async ({
   }
   const dlonamesPerClueStats = dlonamesPerClueStatses[0]
   if (!dlonamesPerClueStats.userCorrectGuesses.includes(guesser)) {
-    addStatsToRelevantUsers(dlonamesPerClueStats, user, database)
+    addStatsToRelevantUsers(dlonamesPerClueStats, [user], database)
   }
   const update = {
     where: { id: dlonamesPerClueStats.id },
@@ -233,13 +234,19 @@ const createOrUpdatePerClueStatsAndAddToRelevantUsers = async ({
     },
   }
   if (isCorrectGuess) {
+    console.log("adding guesser " + guesser + " to correct guesses ")
+    dlonamesPerClueStats.userCorrectGuesses.push(guesser)
+    dlonamesPerClueStats.userCorrectGuesses
     update.userCorrectGuesses = {
-      set: [...dlonamesPerClueStats.userCorrectGuesses, guesser],
+      set: dlonamesPerClueStats.userCorrectGuesses,
     }
   } else {
-    update[incorrectGuess] = guesser
+    update.incorrectGuess = guesser
+    console.log("adding guesser " + guesser + " to wrong answers ")
   }
-  await database.mutation.updateDlonamesPerClueStats(update)
+  console.log(dlonamesPerClueStats)
+  console.log(update)
+  return await database.mutation.updateDlonamesPerClueStats(update)
 }
 
 const addStatsToRelevantUsers = (stats, users, database) => {
@@ -516,24 +523,25 @@ const Mutation = {
     if (!existingGame.wordsGuessed) {
       existingGame.wordsGuessed = []
     }
+    const update = await getUpdateForWordGuessed({
+      id: args.id,
+      clue: existingGame.clue,
+      word: args.word,
+      wordsGuessed: existingGame.wordsGuessed,
+      numGuesses: existingGame.numGuesses,
+      currentTeam: existingGame.currentTeam,
+      redCodemaster: existingGame.redCodemaster,
+      blueCodemaster: existingGame.blueCodemaster,
+      blueWords: existingGame.blueWords,
+      redWords: existingGame.redWords,
+      deathWord: existingGame.deathWord,
+      blueClues: existingGame.blueClues,
+      redClues: existingGame.redClues,
+      guesser: username,
+      database: ctx.db,
+    })
     const updatedGame = await ctx.db.mutation.updateDlonamesGame(
-      getUpdateForWordGuessed({
-        id: args.id,
-        clue: existingGame.clue,
-        word: args.word,
-        wordsGuessed: existingGame.wordsGuessed,
-        numGuesses: existingGame.numGuesses,
-        currentTeam: existingGame.currentTeam,
-        redCodemaster: existingGame.redCodemaster,
-        blueCodemaster: existingGame.blueCodemaster,
-        blueWords: existingGame.blueWords,
-        redWords: existingGame.redWords,
-        deathWord: existingGame.deathWord,
-        blueClues: existingGame.blueClues,
-        redClues: existingGame.redClues,
-        guesser: username,
-        database: ctx.db,
-      }),
+      update,
       ` { id gameIsFinished currentTeam clue numGuesses wordsGuessed
         blueTeam redTeam blueCodemaster redCodemaster blueWords
         redWords deathWord blueClues redClues } `
