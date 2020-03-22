@@ -364,7 +364,16 @@ const Mutation = {
     update.data[teamToUpdate] = {
       set: existingGame[teamToUpdate],
     }
-    return await ctx.db.mutation.updateDlonamesGame(update, info)
+    const updatedGame = await ctx.db.mutation.updateDlonamesGame(
+      update,
+      ` { id gameIsFinished currentTeam clue numGuesses wordsGuessed
+        blueTeam redTeam blueCodemaster redCodemaster blueWords
+        redWords deathWord blueClues redClues } `
+    )
+    ctx.pubsub.publish(args.id, {
+      game: updatedGame,
+    })
+    return updatedGame
   },
 
   async submitClue(parent, args, ctx, info) {
@@ -400,7 +409,7 @@ const Mutation = {
       blueClues: existingGame.blueClues,
       database: ctx.db,
     })
-    return await ctx.db.mutation.updateDlonamesGame(
+    const updatedGame = await ctx.db.mutation.updateDlonamesGame(
       {
         where: { id: args.id },
         data: {
@@ -410,6 +419,10 @@ const Mutation = {
       },
       info
     )
+    ctx.pubsub.publish(args.id, {
+      game: updatedGame,
+    })
+    return updatedGame
   },
 
   async switchTeam(parent, args, ctx, info) {
@@ -460,7 +473,16 @@ const Mutation = {
       set:
         oldTeam === blueTeam ? Array.from(bluePlayers) : Array.from(redPlayers),
     }
-    return await ctx.db.mutation.updateDlonamesGame(update, info)
+    const updatedGame = await ctx.db.mutation.updateDlonamesGame(
+      update,
+      ` { id gameIsFinished currentTeam clue numGuesses wordsGuessed
+        blueTeam redTeam blueCodemaster redCodemaster blueWords
+        redWords deathWord blueClues redClues } `
+    )
+    ctx.pubsub.publish(args.id, {
+      game: updatedGame,
+    })
+    return updatedGame
   },
 
   async guessWord(parent, args, ctx, info) {
@@ -494,7 +516,7 @@ const Mutation = {
     if (!existingGame.wordsGuessed) {
       existingGame.wordsGuessed = []
     }
-    return await ctx.db.mutation.updateDlonamesGame(
+    const updatedGame = await ctx.db.mutation.updateDlonamesGame(
       getUpdateForWordGuessed({
         id: args.id,
         clue: existingGame.clue,
@@ -512,8 +534,14 @@ const Mutation = {
         guesser: username,
         database: ctx.db,
       }),
-      info
+      ` { id gameIsFinished currentTeam clue numGuesses wordsGuessed
+        blueTeam redTeam blueCodemaster redCodemaster blueWords
+        redWords deathWord blueClues redClues } `
     )
+    ctx.pubsub.publish(args.id, {
+      game: updatedGame,
+    })
+    return updatedGame
   },
 
   async changeTurn(parent, args, ctx, info) {
@@ -547,7 +575,16 @@ const Mutation = {
       where: { id: args.id },
       data: data,
     }
-    return await ctx.db.mutation.updateDlonamesGame(update, info)
+    const updatedGame = await ctx.db.mutation.updateDlonamesGame(
+      update,
+      ` { id gameIsFinished currentTeam clue numGuesses wordsGuessed
+        blueTeam redTeam blueCodemaster redCodemaster blueWords
+        redWords deathWord blueClues redClues } `
+    )
+    ctx.pubsub.publish(args.id, {
+      game: updatedGame,
+    })
+    return updatedGame
   },
 }
 

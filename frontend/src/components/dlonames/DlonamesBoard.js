@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Mutation, Query } from "react-apollo"
+import { Mutation, Query, Subscription } from "react-apollo"
 import { navigate } from "@reach/router"
 import { getProfile } from "../../utils/auth"
 import gql from "graphql-tag"
@@ -19,6 +19,7 @@ import WordButton, {
 import { gameIdQuery } from "../../utils/history-helper"
 import ActionButton from "../styled/ActionButton"
 
+const DEFAULT_POLL_INTERVAL_MS = 1000
 export const BLUE_TEAM_STRING = "Blue"
 export const RED_TEAM_STRING = "Red"
 const ROWS_PER_GAME = 5
@@ -28,6 +29,26 @@ export const CREATE_GAME_MUTATION = gql`
   mutation CREATE_GAME_MUTATION($creatorName: String!) {
     createGame(creatorName: $creatorName) {
       id
+    }
+  }
+`
+const GET_GAME_SUBSCRIPTION = gql`
+  subscription GET_GAME_SUBSCRIPTION($id: ID!) {
+    game(id: $id) {
+      redCodemaster
+      blueCodemaster
+      redTeam
+      blueTeam
+      words
+      blueWords
+      redWords
+      deathWord
+      clue
+      numGuesses
+      wordsGuessed
+      gameIsFinished
+      currentTeam
+      winningTeam
     }
   }
 `
@@ -133,7 +154,7 @@ class DlonamesBoard extends Component {
       <Query
         query={GET_GAME_QUERY}
         variables={{ id: gameId, username: currentUser.nickname }}
-        pollInterval={250}
+        pollInterval={DEFAULT_POLL_INTERVAL_MS}
       >
         {({ data, loading, error }) => {
           if (loading) return <p>Loading game...</p>
