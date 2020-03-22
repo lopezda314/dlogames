@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Mutation, Query, Subscription } from "react-apollo"
+import { Mutation, Query } from "react-apollo"
 import { navigate } from "@reach/router"
 import { getProfile } from "../../utils/auth"
 import gql from "graphql-tag"
@@ -29,26 +29,6 @@ export const CREATE_GAME_MUTATION = gql`
   mutation CREATE_GAME_MUTATION($creatorName: String!) {
     createGame(creatorName: $creatorName) {
       id
-    }
-  }
-`
-const GET_GAME_SUBSCRIPTION = gql`
-  subscription GET_GAME_SUBSCRIPTION($id: ID!) {
-    game(id: $id) {
-      redCodemaster
-      blueCodemaster
-      redTeam
-      blueTeam
-      words
-      blueWords
-      redWords
-      deathWord
-      clue
-      numGuesses
-      wordsGuessed
-      gameIsFinished
-      currentTeam
-      winningTeam
     }
   }
 `
