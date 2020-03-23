@@ -175,7 +175,7 @@ const createOrUpdatePerClueStatsAndAddToRelevantUsers = async ({
 }) => {
   const dlonamesClues = await database.query.dlonamesClues(
     { where: { gameId: gameId, numCluesGiven: numCluesGiven, clue: clue } },
-    `{ id gameId codemaster numCluesGiven clue numGuesses}`
+    `{ id gameId codemaster numCluesGiven clue numGuesses }`
   )
   const dlonamesClue = dlonamesClues[0]
   const dlonamesPerClueStatses = await database.query.dlonamesPerClueStatses(
@@ -219,7 +219,7 @@ const createOrUpdatePerClueStatsAndAddToRelevantUsers = async ({
       [codemaster, guesser],
       database
     )
-    return
+    return newDlonamesPerClueStats
   }
   const dlonamesPerClueStats = dlonamesPerClueStatses[0]
   if (!dlonamesPerClueStats.userCorrectGuesses.includes(guesser)) {
@@ -228,40 +228,35 @@ const createOrUpdatePerClueStatsAndAddToRelevantUsers = async ({
   const update = {
     where: { id: dlonamesPerClueStats.id },
     data: {
-      clue: { connect: { id: dlonamesClue.id } },
       isHeroPlay: isHeroPlay,
       isVillainPlay: isVillainPlay,
     },
   }
   if (isCorrectGuess) {
-    console.log("adding guesser " + guesser + " to correct guesses ")
     dlonamesPerClueStats.userCorrectGuesses.push(guesser)
-    dlonamesPerClueStats.userCorrectGuesses
-    update.userCorrectGuesses = {
+    update.data.userCorrectGuesses = {
       set: dlonamesPerClueStats.userCorrectGuesses,
     }
   } else {
-    update.incorrectGuess = guesser
-    console.log("adding guesser " + guesser + " to wrong answers ")
+    update.data.incorrectGuess = guesser
   }
-  console.log(dlonamesPerClueStats)
-  console.log(update)
-  return await database.mutation.updateDlonamesPerClueStats(update)
+  await database.mutation.updateDlonamesPerClueStats(update)
 }
 
-const addStatsToRelevantUsers = (stats, users, database) => {
-  users.forEach(user => {
+const addStatsToRelevantUsers = async (stats, users, database) => {
+  await users.forEach(async user => {
     if (!user) {
       return
     }
-    const userOldStats = database.query.userDlonamesStats(
+    const userOldStats = await database.query.userDlonamesStats(
       { where: { username: user } },
-      `{ clueStats }`
+      `{ clueStats { id } }`
     )
-    database.mutation.updateUserDlonamesStats({
+    userOldStats.clueStats.push({ id: stats.id })
+    await database.mutation.updateUserDlonamesStats({
       where: { username: user },
       data: {
-        clueStats: { connect: [{ id: stats.id }] },
+        clueStats: { set: userOldStats.clueStats },
       },
     })
   })
