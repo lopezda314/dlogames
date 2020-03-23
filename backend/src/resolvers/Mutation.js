@@ -224,7 +224,7 @@ const createOrUpdatePerClueStatsAndAddToRelevantUsers = async ({
         }
       )
     }
-    addStatsToRelevantUsers(
+    await addStatsToRelevantUsers(
       newDlonamesPerClueStats,
       [codemaster, guesser],
       database
@@ -233,7 +233,7 @@ const createOrUpdatePerClueStatsAndAddToRelevantUsers = async ({
   }
   const dlonamesPerClueStats = dlonamesPerClueStatses[0]
   if (!dlonamesPerClueStats.userCorrectGuesses.includes(guesser)) {
-    addStatsToRelevantUsers(dlonamesPerClueStats, [user], database)
+    await addStatsToRelevantUsers(dlonamesPerClueStats, [user], database)
   }
   const update = {
     where: { id: dlonamesPerClueStats.id },
@@ -294,7 +294,7 @@ const Mutation = {
           blueTeam: {
             set: [creatorName],
           },
-          blueCodemaster: creatorName,
+          blueCodemaster: "",
           redTeam: {
             set: [],
           },
@@ -340,30 +340,6 @@ const Mutation = {
       new Set(existingGame.redTeam).has(username)
     ) {
       return existingGame
-    }
-    if (!existingGame.blueCodemaster) {
-      existingGame.blueTeam.push(args.username)
-      return await ctx.db.mutation.updateDlonamesGame({
-        where: { id: args.id },
-        data: {
-          blueCodemaster: username,
-          blueTeam: {
-            set: existingGame.blueTeam,
-          },
-        },
-      })
-    }
-    if (!existingGame.redCodemaster) {
-      existingGame.redTeam.push(username)
-      return await ctx.db.mutation.updateDlonamesGame({
-        where: { id: args.id },
-        data: {
-          redCodemaster: username,
-          redTeam: {
-            set: existingGame.redTeam,
-          },
-        },
-      })
     }
     const teamToUpdate =
       existingGame.blueTeam.length >= existingGame.redTeam.length
