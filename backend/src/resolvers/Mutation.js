@@ -153,7 +153,7 @@ const recordDlonamesClue = async ({
   const numCluesGiven = redClues.length + blueClues.length
   await database.mutation.createDlonamesClue({
     data: {
-      gameId: gameId,
+      game: { connect: { id: gameId } },
       codemaster: codemaster,
       numCluesGiven: numCluesGiven,
       clue: clue,

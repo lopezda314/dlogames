@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/david-lopez-fcf066/dlogames/dev
-# timestamp: Sun Feb 02 2020 08:21:10 GMT-0500 (Eastern Standard Time)
+# timestamp: Sun Mar 22 2020 21:06:05 GMT-0400 (Eastern Daylight Time)
 
 type AggregateDlonamesClue {
   count: Int!
@@ -26,7 +26,7 @@ type BatchPayload {
 
 type DlonamesClue implements Node {
   id: ID!
-  gameId: String!
+  game: DlonamesGame!
   codemaster: String!
   numCluesGiven: Int!
   clue: String!
@@ -51,11 +51,11 @@ type DlonamesClueConnection {
 
 input DlonamesClueCreateInput {
   id: ID
-  gameId: String!
   codemaster: String!
   numCluesGiven: Int!
   clue: String!
   numGuesses: Int!
+  game: DlonamesGameCreateOneInput!
 }
 
 input DlonamesClueCreateOneInput {
@@ -81,8 +81,6 @@ type DlonamesClueEdge {
 enum DlonamesClueOrderByInput {
   id_ASC
   id_DESC
-  gameId_ASC
-  gameId_DESC
   codemaster_ASC
   codemaster_DESC
   numCluesGiven_ASC
@@ -95,7 +93,6 @@ enum DlonamesClueOrderByInput {
 
 type DlonamesCluePreviousValues {
   id: ID!
-  gameId: String!
   codemaster: String!
   numCluesGiven: Int!
   clue: String!
@@ -148,23 +145,22 @@ input DlonamesClueSubscriptionWhereInput {
 }
 
 input DlonamesClueUpdateDataInput {
-  gameId: String
   codemaster: String
   numCluesGiven: Int
   clue: String
   numGuesses: Int
+  game: DlonamesGameUpdateOneRequiredInput
 }
 
 input DlonamesClueUpdateInput {
-  gameId: String
   codemaster: String
   numCluesGiven: Int
   clue: String
   numGuesses: Int
+  game: DlonamesGameUpdateOneRequiredInput
 }
 
 input DlonamesClueUpdateManyMutationInput {
-  gameId: String
   codemaster: String
   numCluesGiven: Int
   clue: String
@@ -264,72 +260,6 @@ input DlonamesClueWhereInput {
   All values not ending with the given string.
   """
   id_not_ends_with: ID
-  gameId: String
-
-  """
-  All values that are not equal to given value.
-  """
-  gameId_not: String
-
-  """
-  All values that are contained in given list.
-  """
-  gameId_in: [String!]
-
-  """
-  All values that are not contained in given list.
-  """
-  gameId_not_in: [String!]
-
-  """
-  All values less than the given value.
-  """
-  gameId_lt: String
-
-  """
-  All values less than or equal the given value.
-  """
-  gameId_lte: String
-
-  """
-  All values greater than the given value.
-  """
-  gameId_gt: String
-
-  """
-  All values greater than or equal the given value.
-  """
-  gameId_gte: String
-
-  """
-  All values containing the given string.
-  """
-  gameId_contains: String
-
-  """
-  All values not containing the given string.
-  """
-  gameId_not_contains: String
-
-  """
-  All values starting with the given string.
-  """
-  gameId_starts_with: String
-
-  """
-  All values not starting with the given string.
-  """
-  gameId_not_starts_with: String
-
-  """
-  All values ending with the given string.
-  """
-  gameId_ends_with: String
-
-  """
-  All values not ending with the given string.
-  """
-  gameId_not_ends_with: String
   codemaster: String
 
   """
@@ -534,6 +464,7 @@ input DlonamesClueWhereInput {
   All values greater than or equal the given value.
   """
   numGuesses_gte: Int
+  game: DlonamesGameWhereInput
 }
 
 input DlonamesClueWhereUniqueInput {
@@ -606,6 +537,11 @@ input DlonamesGameCreateInput {
   words: DlonamesGameCreatewordsInput
   redWords: DlonamesGameCreateredWordsInput
   blueWords: DlonamesGameCreateblueWordsInput
+}
+
+input DlonamesGameCreateOneInput {
+  create: DlonamesGameCreateInput
+  connect: DlonamesGameWhereUniqueInput
 }
 
 input DlonamesGameCreateredCluesInput {
@@ -741,6 +677,25 @@ input DlonamesGameUpdateblueWordsInput {
   set: [String!]
 }
 
+input DlonamesGameUpdateDataInput {
+  blueCodemaster: String
+  redCodemaster: String
+  currentTeam: String
+  winningTeam: String
+  clue: String
+  numGuesses: Int
+  deathWord: String
+  gameIsFinished: Boolean
+  blueTeam: DlonamesGameUpdateblueTeamInput
+  redTeam: DlonamesGameUpdateredTeamInput
+  blueClues: DlonamesGameUpdateblueCluesInput
+  redClues: DlonamesGameUpdateredCluesInput
+  wordsGuessed: DlonamesGameUpdatewordsGuessedInput
+  words: DlonamesGameUpdatewordsInput
+  redWords: DlonamesGameUpdateredWordsInput
+  blueWords: DlonamesGameUpdateblueWordsInput
+}
+
 input DlonamesGameUpdateInput {
   blueCodemaster: String
   redCodemaster: String
@@ -779,6 +734,13 @@ input DlonamesGameUpdateManyMutationInput {
   blueWords: DlonamesGameUpdateblueWordsInput
 }
 
+input DlonamesGameUpdateOneRequiredInput {
+  create: DlonamesGameCreateInput
+  connect: DlonamesGameWhereUniqueInput
+  update: DlonamesGameUpdateDataInput
+  upsert: DlonamesGameUpsertNestedInput
+}
+
 input DlonamesGameUpdateredCluesInput {
   set: [String!]
 }
@@ -797,6 +759,11 @@ input DlonamesGameUpdatewordsGuessedInput {
 
 input DlonamesGameUpdatewordsInput {
   set: [String!]
+}
+
+input DlonamesGameUpsertNestedInput {
+  update: DlonamesGameUpdateDataInput!
+  create: DlonamesGameCreateInput!
 }
 
 input DlonamesGameWhereInput {
@@ -1842,22 +1809,22 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
-  createDlonamesGame(data: DlonamesGameCreateInput!): DlonamesGame!
   createUserDlonamesStats(
     data: UserDlonamesStatsCreateInput!
   ): UserDlonamesStats!
+  createDlonamesGame(data: DlonamesGameCreateInput!): DlonamesGame!
   createDlonamesPerClueStats(
     data: DlonamesPerClueStatsCreateInput!
   ): DlonamesPerClueStats!
   createDlonamesClue(data: DlonamesClueCreateInput!): DlonamesClue!
-  updateDlonamesGame(
-    data: DlonamesGameUpdateInput!
-    where: DlonamesGameWhereUniqueInput!
-  ): DlonamesGame
   updateUserDlonamesStats(
     data: UserDlonamesStatsUpdateInput!
     where: UserDlonamesStatsWhereUniqueInput!
   ): UserDlonamesStats
+  updateDlonamesGame(
+    data: DlonamesGameUpdateInput!
+    where: DlonamesGameWhereUniqueInput!
+  ): DlonamesGame
   updateDlonamesPerClueStats(
     data: DlonamesPerClueStatsUpdateInput!
     where: DlonamesPerClueStatsWhereUniqueInput!
@@ -1866,24 +1833,24 @@ type Mutation {
     data: DlonamesClueUpdateInput!
     where: DlonamesClueWhereUniqueInput!
   ): DlonamesClue
-  deleteDlonamesGame(where: DlonamesGameWhereUniqueInput!): DlonamesGame
   deleteUserDlonamesStats(
     where: UserDlonamesStatsWhereUniqueInput!
   ): UserDlonamesStats
+  deleteDlonamesGame(where: DlonamesGameWhereUniqueInput!): DlonamesGame
   deleteDlonamesPerClueStats(
     where: DlonamesPerClueStatsWhereUniqueInput!
   ): DlonamesPerClueStats
   deleteDlonamesClue(where: DlonamesClueWhereUniqueInput!): DlonamesClue
-  upsertDlonamesGame(
-    where: DlonamesGameWhereUniqueInput!
-    create: DlonamesGameCreateInput!
-    update: DlonamesGameUpdateInput!
-  ): DlonamesGame!
   upsertUserDlonamesStats(
     where: UserDlonamesStatsWhereUniqueInput!
     create: UserDlonamesStatsCreateInput!
     update: UserDlonamesStatsUpdateInput!
   ): UserDlonamesStats!
+  upsertDlonamesGame(
+    where: DlonamesGameWhereUniqueInput!
+    create: DlonamesGameCreateInput!
+    update: DlonamesGameUpdateInput!
+  ): DlonamesGame!
   upsertDlonamesPerClueStats(
     where: DlonamesPerClueStatsWhereUniqueInput!
     create: DlonamesPerClueStatsCreateInput!
@@ -1894,13 +1861,13 @@ type Mutation {
     create: DlonamesClueCreateInput!
     update: DlonamesClueUpdateInput!
   ): DlonamesClue!
-  updateManyDlonamesGames(
-    data: DlonamesGameUpdateManyMutationInput!
-    where: DlonamesGameWhereInput
-  ): BatchPayload!
   updateManyUserDlonamesStatses(
     data: UserDlonamesStatsUpdateManyMutationInput!
     where: UserDlonamesStatsWhereInput
+  ): BatchPayload!
+  updateManyDlonamesGames(
+    data: DlonamesGameUpdateManyMutationInput!
+    where: DlonamesGameWhereInput
   ): BatchPayload!
   updateManyDlonamesPerClueStatses(
     data: DlonamesPerClueStatsUpdateManyMutationInput!
@@ -1910,10 +1877,10 @@ type Mutation {
     data: DlonamesClueUpdateManyMutationInput!
     where: DlonamesClueWhereInput
   ): BatchPayload!
-  deleteManyDlonamesGames(where: DlonamesGameWhereInput): BatchPayload!
   deleteManyUserDlonamesStatses(
     where: UserDlonamesStatsWhereInput
   ): BatchPayload!
+  deleteManyDlonamesGames(where: DlonamesGameWhereInput): BatchPayload!
   deleteManyDlonamesPerClueStatses(
     where: DlonamesPerClueStatsWhereInput
   ): BatchPayload!
@@ -1962,15 +1929,6 @@ type PageInfo {
 }
 
 type Query {
-  dlonamesGames(
-    where: DlonamesGameWhereInput
-    orderBy: DlonamesGameOrderByInput
-    skip: Int
-    after: String
-    before: String
-    first: Int
-    last: Int
-  ): [DlonamesGame]!
   userDlonamesStatses(
     where: UserDlonamesStatsWhereInput
     orderBy: UserDlonamesStatsOrderByInput
@@ -1980,6 +1938,15 @@ type Query {
     first: Int
     last: Int
   ): [UserDlonamesStats]!
+  dlonamesGames(
+    where: DlonamesGameWhereInput
+    orderBy: DlonamesGameOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [DlonamesGame]!
   dlonamesPerClueStatses(
     where: DlonamesPerClueStatsWhereInput
     orderBy: DlonamesPerClueStatsOrderByInput
@@ -1998,23 +1965,14 @@ type Query {
     first: Int
     last: Int
   ): [DlonamesClue]!
-  dlonamesGame(where: DlonamesGameWhereUniqueInput!): DlonamesGame
   userDlonamesStats(
     where: UserDlonamesStatsWhereUniqueInput!
   ): UserDlonamesStats
+  dlonamesGame(where: DlonamesGameWhereUniqueInput!): DlonamesGame
   dlonamesPerClueStats(
     where: DlonamesPerClueStatsWhereUniqueInput!
   ): DlonamesPerClueStats
   dlonamesClue(where: DlonamesClueWhereUniqueInput!): DlonamesClue
-  dlonamesGamesConnection(
-    where: DlonamesGameWhereInput
-    orderBy: DlonamesGameOrderByInput
-    skip: Int
-    after: String
-    before: String
-    first: Int
-    last: Int
-  ): DlonamesGameConnection!
   userDlonamesStatsesConnection(
     where: UserDlonamesStatsWhereInput
     orderBy: UserDlonamesStatsOrderByInput
@@ -2024,6 +1982,15 @@ type Query {
     first: Int
     last: Int
   ): UserDlonamesStatsConnection!
+  dlonamesGamesConnection(
+    where: DlonamesGameWhereInput
+    orderBy: DlonamesGameOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): DlonamesGameConnection!
   dlonamesPerClueStatsesConnection(
     where: DlonamesPerClueStatsWhereInput
     orderBy: DlonamesPerClueStatsOrderByInput
@@ -2055,12 +2022,12 @@ type Query {
 }
 
 type Subscription {
-  dlonamesGame(
-    where: DlonamesGameSubscriptionWhereInput
-  ): DlonamesGameSubscriptionPayload
   userDlonamesStats(
     where: UserDlonamesStatsSubscriptionWhereInput
   ): UserDlonamesStatsSubscriptionPayload
+  dlonamesGame(
+    where: DlonamesGameSubscriptionWhereInput
+  ): DlonamesGameSubscriptionPayload
   dlonamesPerClueStats(
     where: DlonamesPerClueStatsSubscriptionWhereInput
   ): DlonamesPerClueStatsSubscriptionPayload
