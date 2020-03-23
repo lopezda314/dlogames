@@ -267,6 +267,7 @@ class DlonamesBoard extends Component {
                   teamMembers={blueTeam}
                   id={gameId}
                   username={username}
+                  isCurrentTeam={currentTeam === "blueTeam"}
                 />
                 <TeamInfo
                   teamColor={RED_TEAM_STRING}
@@ -274,6 +275,7 @@ class DlonamesBoard extends Component {
                   teamMembers={redTeam}
                   id={gameId}
                   username={username}
+                  isCurrentTeam={currentTeam === "redTeam"}
                 />
               </div>
               {guessInfoOrTeamWinInfo}

@@ -36,7 +36,14 @@ export const SWITCH_TEAM_MUTATION = gql`
   }
 `
 
-const TeamInfo = ({ teamColor, codeMaster, teamMembers, id, username }) => (
+const TeamInfo = ({
+  teamColor,
+  codeMaster,
+  teamMembers,
+  id,
+  username,
+  isCurrentTeam,
+}) => (
   <StyledTeamInfo
     style={{
       color: teamColor === BLUE_TEAM_STRING ? "#50AEB5" : "#FF69B4",
@@ -60,6 +67,7 @@ const TeamInfo = ({ teamColor, codeMaster, teamMembers, id, username }) => (
               teamColor === BLUE_TEAM_STRING ? "#50AEB5" : "#FF69B4"
             }
             isCodemaster
+            isCurrentTeam={isCurrentTeam}
           />
         )
       }}
