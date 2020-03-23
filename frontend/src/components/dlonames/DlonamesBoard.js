@@ -93,7 +93,6 @@ class DlonamesBoard extends Component {
             return (
               <React.Fragment>
                 <h3 style={{ paddingTop: "2rem" }}>
-                  {" "}
                   Here's a list of things coming soon to dlonames:
                 </h3>
                 <ul>
@@ -119,7 +118,6 @@ class DlonamesBoard extends Component {
                   />
                 </div>
                 <h3 style={{ paddingTop: "2rem" }}>
-                  {" "}
                   Reach out to me with any other ideas!
                 </h3>
               </React.Fragment>
@@ -201,13 +199,27 @@ class DlonamesBoard extends Component {
                   if (loading) return <p>Joining game...</p>
                   if (error) return <p>Error: {error.message}</p>
                   return (
-                    <ActionButton
-                      onClickHandler={async () => {
-                        await joinGame()
-                      }}
-                      label="Join Game"
-                      backgroundColor="grey"
-                    />
+                    <React.Fragment>
+                      <h3 style={{ paddingTop: "2rem" }}>
+                        One day, we'll show who's currently in the game on this
+                        screen!
+                      </h3>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <ActionButton
+                          onClickHandler={async () => {
+                            await joinGame()
+                          }}
+                          label="Join Game"
+                          backgroundColor="grey"
+                        />
+                      </div>
+                    </React.Fragment>
                   )
                 }}
               </Mutation>
