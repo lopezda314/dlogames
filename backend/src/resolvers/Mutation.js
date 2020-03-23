@@ -113,7 +113,7 @@ const getUpdateForWordGuessed = async ({
     update.data.winningTeam = currentTeam === "redTeam" ? "blueTeam" : "redTeam"
     update.data.gameIsFinished = true
   }
-  await createOrUpdatePerClueStatsAndAddToRelevantUsers({
+  createOrUpdatePerClueStatsAndAddToRelevantUsers({
     gameId: id,
     codemaster: currentTeam === "redTeam" ? redCodemaster : blueCodemaster,
     numCluesGiven: redClues.length + blueClues.length,
@@ -224,16 +224,15 @@ const createOrUpdatePerClueStatsAndAddToRelevantUsers = async ({
         }
       )
     }
-    await addStatsToRelevantUsers(
+    addStatsToRelevantUsers(
       newDlonamesPerClueStats,
       [codemaster, guesser],
       database
     )
-    return newDlonamesPerClueStats
   }
   const dlonamesPerClueStats = dlonamesPerClueStatses[0]
   if (!dlonamesPerClueStats.userCorrectGuesses.includes(guesser)) {
-    await addStatsToRelevantUsers(dlonamesPerClueStats, [user], database)
+    addStatsToRelevantUsers(dlonamesPerClueStats, [user], database)
   }
   const update = {
     where: { id: dlonamesPerClueStats.id },
@@ -250,7 +249,7 @@ const createOrUpdatePerClueStatsAndAddToRelevantUsers = async ({
   } else {
     update.data.incorrectGuess = guesser
   }
-  await database.mutation.updateDlonamesPerClueStats(update)
+  database.mutation.updateDlonamesPerClueStats(update)
 }
 
 const addStatsToRelevantUsers = async (stats, users, database) => {
