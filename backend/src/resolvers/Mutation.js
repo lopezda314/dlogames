@@ -119,8 +119,12 @@ const getUpdateForWordGuessed = async ({
     numCluesGiven: redClues.length + blueClues.length,
     clue,
     guesser,
-    isHeroPlay: isCorrectGuess && (isRedWin || isBlueWin),
-    isVillainPlay: !isCorrectGuess && (isRedWin || isBlueWin),
+    isHeroPlay:
+      (currentTeam == "redTeam" && isRedWin) ||
+      (currentTeam == "blueTeam" && isBlueWin),
+    isVillainPlay:
+      (currentTeam == "blueTeam" && isRedWin) ||
+      (currentTeam == "redTeam" && isBlueWin),
     isCorrectGuess,
     database,
   })
@@ -174,8 +178,14 @@ const createOrUpdatePerClueStatsAndAddToRelevantUsers = async ({
   database,
 }) => {
   const dlonamesClues = await database.query.dlonamesClues(
-    { where: { gameId: gameId, numCluesGiven: numCluesGiven, clue: clue } },
-    `{ id gameId codemaster numCluesGiven clue numGuesses }`
+    {
+      where: {
+        game: { id: gameId },
+        numCluesGiven: numCluesGiven,
+        clue: clue,
+      },
+    },
+    `{ id }`
   )
   const dlonamesClue = dlonamesClues[0]
   const dlonamesPerClueStatses = await database.query.dlonamesPerClueStatses(
