@@ -8,7 +8,10 @@ server.start(
   {
     cors: {
       credentials: true,
-      origin: process.env.FRONTEND_URL,
+      origin:
+        process.env.NODE_ENV === "development"
+          ? "http://localhost:8000"
+          : process.env.FRONTEND_URL,
     },
   },
   deets => {
