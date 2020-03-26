@@ -252,8 +252,19 @@ class DlonamesBoard extends Component {
               />
             )
           }
+          const teamColor = currentTeam === "redTeam" ? "#FF69B4" : "#50AEB5"
           return (
             <React.Fragment>
+              <strong
+                style={{
+                  display: "flex",
+                  justifyContent: "space-evenly",
+                  paddingTop: "1rem",
+                  color: teamColor,
+                }}
+              >
+                {currentTeam === "blueTeam" ? "Blue team's" : "Red team's"} turn
+              </strong>
               <div
                 style={{
                   display: "flex",

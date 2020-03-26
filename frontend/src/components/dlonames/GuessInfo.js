@@ -24,7 +24,7 @@ const GuessForm = styled.form`
     font-size: 1.5rem;
     font-weight: 600;
     margin: 10px auto 0;
-    width: 130px;
+    padding: 1rem 3rem;
   }
 `
 

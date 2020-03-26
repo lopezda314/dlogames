@@ -34,11 +34,7 @@ const TeamButton = ({
   }
   return (
     <StyledButton onClick={onClickHandler} value={label} style={style}>
-      <span
-        style={isCurrentTeam ? { fontSize: "1.5rem" } : { fontSize: ".75rem" }}
-      >
-        {isCodemaster && "👑"}
-      </span>
+      <span style={{ fontSize: "1rem" }}>{isCodemaster && "👑"}</span>
       {label}
     </StyledButton>
   )
