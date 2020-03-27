@@ -18,10 +18,20 @@ type DlonamesGame {
   gameIsFinished: Boolean!
 }
 
+type User {
+  id: ID! @id
+
+  email: String! @unique
+
+  username: String! @unique
+
+  dlonamesStats: UserDlonamesStats
+}
+
 type UserDlonamesStats {
   id: ID! @id
   
-  username: String! @unique
+  user: User! @unique
   
   clueStats: [DlonamesPerClueStats!] @scalarList(strategy: RELATION)
 }

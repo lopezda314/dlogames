@@ -255,65 +255,80 @@ class DlonamesBoard extends Component {
           const teamColor = currentTeam === "redTeam" ? "#FF69B4" : "#50AEB5"
           return (
             <React.Fragment>
-              <strong
-                style={{
-                  display: "flex",
-                  justifyContent: "space-evenly",
-                  paddingTop: "1rem",
-                  color: teamColor,
-                }}
-              >
-                {currentTeam === "blueTeam" ? "Blue team's" : "Red team's"} turn
-              </strong>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-evenly",
-                  padding: ".5rem",
-                }}
-              >
-                <TeamInfo
-                  teamColor={BLUE_TEAM_STRING}
-                  codeMaster={blueCodemaster}
-                  teamMembers={blueTeam}
-                  id={gameId}
-                  username={username}
-                  isCurrentTeam={currentTeam === "blueTeam"}
-                />
-                <TeamInfo
-                  teamColor={RED_TEAM_STRING}
-                  codeMaster={redCodemaster}
-                  teamMembers={redTeam}
-                  id={gameId}
-                  username={username}
-                  isCurrentTeam={currentTeam === "redTeam"}
-                />
-              </div>
-              {guessInfoOrTeamWinInfo}
               <div
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  justifyContent: "space-evenly",
-                  margin: "0 -.75rem",
+                  maxWidth: "540px",
+                  margin: "0 auto",
                 }}
               >
-                {rows}
-              </div>
-              <div>
-                <ChangeTurnButton
-                  id={gameId}
-                  shouldHide={
-                    gameIsFinished ||
-                    !clue ||
-                    isCurrentUserCodemaster(
-                      username,
-                      blueCodemaster,
-                      redCodemaster
-                    ) ||
-                    !isCurrentUserTurn(username, blueTeam, redTeam, currentTeam)
-                  }
-                />
+                <strong
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-evenly",
+                    paddingTop: "1rem",
+                    color: teamColor,
+                  }}
+                >
+                  {currentTeam === "blueTeam" ? "Blue team's" : "Red team's"}{" "}
+                  turn
+                </strong>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-evenly",
+                    padding: ".5rem",
+                  }}
+                >
+                  <TeamInfo
+                    teamColor={BLUE_TEAM_STRING}
+                    codeMaster={blueCodemaster}
+                    teamMembers={blueTeam}
+                    id={gameId}
+                    username={username}
+                    isCurrentTeam={currentTeam === "blueTeam"}
+                  />
+                  <TeamInfo
+                    teamColor={RED_TEAM_STRING}
+                    codeMaster={redCodemaster}
+                    teamMembers={redTeam}
+                    id={gameId}
+                    username={username}
+                    isCurrentTeam={currentTeam === "redTeam"}
+                  />
+                </div>
+                {guessInfoOrTeamWinInfo}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-evenly",
+                    margin: "0 -.75rem",
+                  }}
+                >
+                  {rows}
+                </div>
+                <div>
+                  <ChangeTurnButton
+                    id={gameId}
+                    shouldHide={
+                      gameIsFinished ||
+                      !clue ||
+                      isCurrentUserCodemaster(
+                        username,
+                        blueCodemaster,
+                        redCodemaster
+                      ) ||
+                      !isCurrentUserTurn(
+                        username,
+                        blueTeam,
+                        redTeam,
+                        currentTeam
+                      )
+                    }
+                  />
+                </div>
               </div>
             </React.Fragment>
           )
