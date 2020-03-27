@@ -29,7 +29,7 @@ const TeamButton = ({
   const style = { background: backgroundColor }
   if (!isCodemaster) {
     style.whiteSpace = "initial"
-    style.overflow = "scroll"
+    style.overflow = "auto"
     style.height = "2rem"
   }
   return (

@@ -159,8 +159,11 @@ class DlonamesBoard extends Component {
 
           let guessInfoOrTeamWinInfo
           if (gameIsFinished) {
+            const winningTeamColor =
+              winningTeam === "redTeam" ? "#FF69B4" : "#50AEB5"
+
             guessInfoOrTeamWinInfo = (
-              <p style={{ textAlign: "center" }}>
+              <p style={{ textAlign: "center", color: winningTeamColor }}>
                 {"🎉"}
                 {winningTeam === "redTeam" ? "Red Team" : "Blue Team"} wins!
                 {"🎉"}
