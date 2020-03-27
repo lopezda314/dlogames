@@ -12,8 +12,8 @@ const teamToCodemaster = {
 let dlonamesWords
 fs.readFile(
   process.env.NODE_ENV === "development"
-    ? path.resolve("../backend/static/nyc-words.txt")
-    : path.resolve("static/nyc-words.txt"),
+    ? path.resolve("../backend/static/base-words.txt")
+    : path.resolve("static/base-words.txt"),
   "utf8",
   (err, data) => {
     if (err) console.log(err)
