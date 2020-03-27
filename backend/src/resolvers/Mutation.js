@@ -100,7 +100,7 @@ const getUpdateForWordGuessed = async ({
     update.data.numGuesses = numGuesses - 1
   }
   const correctBlues = newWordsGuessed.filter(word => blueWords.includes(word))
-  const correctReds = wordsGuessed.filter(word => redWords.includes(word))
+  const correctReds = newWordsGuessed.filter(word => redWords.includes(word))
   const isBlueWin = correctBlues.length === blueWords.length
   const isRedWin = correctReds.length === redWords.length
   if (isBlueWin) {
