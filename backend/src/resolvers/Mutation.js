@@ -576,6 +576,15 @@ const Mutation = {
     })
     return updatedGame
   },
+
+  async registerUser(parent, args, ctx, info) {
+    const username = args.username.toString().toLowerCase()
+    const maybeExistingUser = await ctx.db.query.user(
+      { where: { username: username } },
+      `id`
+    )
+    if (!maybeExistingUser.id) return
+  },
 }
 
 module.exports = Mutation

@@ -21,17 +21,15 @@ type DlonamesGame {
 type User {
   id: ID! @id
 
-  email: String! @unique
-
   username: String! @unique
+
+  passcode: String!
 
   dlonamesStats: UserDlonamesStats
 }
 
 type UserDlonamesStats {
   id: ID! @id
-  
-  user: User! @unique
   
   clueStats: [DlonamesPerClueStats!] @scalarList(strategy: RELATION)
 }

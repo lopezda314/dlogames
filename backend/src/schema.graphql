@@ -21,6 +21,7 @@ type Mutation {
   ): DlonamesGame!
   guessWord(id: String!, word: String!, username: String!): DlonamesGame!
   changeTurn(id: String!, username: String!): DlonamesGame!
+  registerUser(username: String!, encrypted_passcode: String!): User!
 }
 
 type Subscription {
