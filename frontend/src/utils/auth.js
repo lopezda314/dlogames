@@ -28,7 +28,7 @@ export const isAuthenticated = () => {
     return
   }
 
-  return localStorage.getItem("currentUser")
+  return localStorage.getItem("currentUser") != null
 }
 
 export const login = () => {

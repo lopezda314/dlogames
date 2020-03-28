@@ -30,7 +30,7 @@ const Layout = ({ children, location }) => {
       <MobileNav />
       <div
         style={{
-          margin: `0 .75rem`,
+          margin: `0`,
           minHeight: "75vh",
           padding: `2rem 0 1.45rem`,
           paddingTop: 0,
