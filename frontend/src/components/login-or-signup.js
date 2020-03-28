@@ -32,8 +32,24 @@ const PasscodeButton = styled.button`
   border-radius: 50%;
   color: inherit;
   font-size: 2rem;
-  width: 60px;
-  height: 60px;
+  width: 48px;
+  height: 48px;
+  transition: background 250ms ease-in-out, transform 150ms ease;
+  :active {
+    background: gray;
+    transform: scale(0.75);
+    -webkit-transform: scale(0.75, 0.75);
+  }
+`
+
+const PasscodeDelButton = styled.button`
+  background: none;
+  border: 1px solid white;
+  color: inherit;
+  font-size: 0.75rem;
+  width: 40px;
+  height: 26.67px;
+  margin: 5.675px 4px;
   transition: background 250ms ease-in-out, transform 150ms ease;
   :active {
     background: gray;
@@ -66,8 +82,15 @@ const submitStyle = {
   left: "0",
 }
 
-const Passcode = ({ value }) => <PasscodeButton>{value}</PasscodeButton>
-
+const PasscodeDisplayer = ({ passcode }) => (
+  <div style={{ fontSize: "2rem", textAlign: "center" }}>
+    <span style={{ visibility: "hidden" }}>*</span>
+    {passcode.length >= 1 ? (passcode.length === 1 ? passcode[0] : "* \t") : ""}
+    {passcode.length >= 2 ? (passcode.length === 2 ? passcode[1] : "* \t") : ""}
+    {passcode.length >= 3 ? (passcode.length === 3 ? passcode[2] : "* \t") : ""}
+    {passcode.length >= 4 ? (passcode.length === 4 ? passcode[3] : "* \t") : ""}
+  </div>
+)
 class LoginOrSignup extends Component {
   state = {
     username: "",
@@ -79,6 +102,18 @@ class LoginOrSignup extends Component {
     const { name, type, value } = e.target
     const val = type === "number" ? parseFloat(value) : value
     this.setState({ [name]: val.replace(/\s/g, "") })
+  }
+
+  handlePasscodeButtonPress = num => {
+    if (this.state.passcode.length === 4) return
+    this.setState({ passcode: this.state.passcode + num })
+  }
+
+  handlePasscodeDelPress = () => {
+    if (this.state.passcode.length === 0) return
+    this.setState({
+      passcode: this.state.passcode.slice(0, this.state.passcode.length - 1),
+    })
   }
 
   render() {
@@ -126,36 +161,54 @@ class LoginOrSignup extends Component {
             required
             onChange={this.handleChange}
           />
-          <input
-            style={{ display: "none" }}
-            type="password"
-            name="passcode"
-            id="passcode"
-            value={this.state.passcode}
-            required
-            disabled
-          />
+          <div>
+            <PasscodeDisplayer passcode={this.state.passcode} />
+          </div>
           <button type="submit" style={submitStyle}>
             {this.state.isLoginActive ? "Log in" : "Sign up"}
           </button>
         </Form>
         <div style={passcodeRow}>
-          <Passcode value={1} disabled={this.state.username === ""} />
-          <Passcode value={2} disabled={this.state.username === ""} />
-          <Passcode value={3} disabled={this.state.username === ""} />
+          <PasscodeButton onClick={() => this.handlePasscodeButtonPress(1)}>
+            1
+          </PasscodeButton>
+          <PasscodeButton onClick={() => this.handlePasscodeButtonPress(2)}>
+            2
+          </PasscodeButton>
+          <PasscodeButton onClick={() => this.handlePasscodeButtonPress(3)}>
+            3
+          </PasscodeButton>
         </div>
         <div style={passcodeRow}>
-          <Passcode value={4} disabled={this.state.username === ""} />
-          <Passcode value={5} disabled={this.state.username === ""} />
-          <Passcode value={6} disabled={this.state.username === ""} />
+          <PasscodeButton onClick={() => this.handlePasscodeButtonPress(4)}>
+            4
+          </PasscodeButton>
+          <PasscodeButton onClick={() => this.handlePasscodeButtonPress(5)}>
+            5
+          </PasscodeButton>
+          <PasscodeButton onClick={() => this.handlePasscodeButtonPress(6)}>
+            6
+          </PasscodeButton>
         </div>
         <div style={passcodeRow}>
-          <Passcode value={7} disabled={this.state.username === ""} />
-          <Passcode value={8} disabled={this.state.username === ""} />
-          <Passcode value={9} disabled={this.state.username === ""} />
+          <PasscodeButton onClick={() => this.handlePasscodeButtonPress(7)}>
+            7
+          </PasscodeButton>
+          <PasscodeButton onClick={() => this.handlePasscodeButtonPress(8)}>
+            8
+          </PasscodeButton>
+          <PasscodeButton onClick={() => this.handlePasscodeButtonPress(9)}>
+            9
+          </PasscodeButton>
         </div>
         <div style={passcodeRow}>
-          <Passcode value={0} disabled={this.state.username === ""} />
+          <PasscodeButton style={{ visibility: "hidden" }}></PasscodeButton>
+          <PasscodeButton onClick={() => this.handlePasscodeButtonPress(0)}>
+            0
+          </PasscodeButton>
+          <PasscodeDelButton onClick={() => this.handlePasscodeDelPress()}>
+            Del
+          </PasscodeDelButton>
         </div>
         <div
           style={this.state.isLoginActive ? { display: "none" } : signupStyles}
