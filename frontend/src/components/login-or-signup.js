@@ -313,7 +313,7 @@ class LoginOrSignup extends Component {
                       <PasscodeDelButton
                         onClick={() => this.handlePasscodeDelPress()}
                       >
-                        Del
+                        X
                       </PasscodeDelButton>
                     </div>
                     <div
