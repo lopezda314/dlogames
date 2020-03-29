@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import gql from "graphql-tag"
 import styled from "styled-components"
 import { Mutation } from "react-apollo"
-import { getProfile } from "../../utils/auth"
+import { getUser } from "../../utils/auth"
 
 const GuessForm = styled.form`
   padding: 0 0.75rem;
@@ -74,7 +74,7 @@ class GuessInfo extends Component {
           id: this.props.id,
           clue: this.state.clue,
           numGuesses: this.state.numGuesses,
-          username: getProfile().nickname,
+          username: getUser(),
         }}
       >
         {(submitClue, { error }) => {

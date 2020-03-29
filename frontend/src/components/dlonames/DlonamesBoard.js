@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { Mutation, Query } from "react-apollo"
 import { navigate } from "@reach/router"
-import { getProfile } from "../../utils/auth"
+import { getUser } from "../../utils/auth"
 import gql from "graphql-tag"
 import GuessInfo from "./GuessInfo"
 import TeamInfo from "./TeamInfo"
@@ -78,14 +78,14 @@ const isCurrentUserCodemaster = (username, blueCodemaster, redCodemaster) => {
 
 class DlonamesBoard extends Component {
   render() {
-    const currentUser = getProfile()
+    const currentUser = getUser()
     let gameId = this.props.gameId
 
     if (!gameId) {
       return (
         <Mutation
           mutation={CREATE_GAME_MUTATION}
-          variables={{ creatorName: currentUser.nickname }}
+          variables={{ creatorName: currentUser }}
         >
           {(createGame, { loading, error }) => {
             if (loading) return <p>Creating game...</p>
@@ -131,7 +131,7 @@ class DlonamesBoard extends Component {
       // TODO: Change the poll interval to be smaller closer to launch.
       <Query
         query={GET_GAME_QUERY}
-        variables={{ id: gameId, username: currentUser.nickname }}
+        variables={{ id: gameId, username: currentUser }}
         pollInterval={DEFAULT_POLL_INTERVAL_MS}
       >
         {({ data, loading, error }) => {
@@ -155,7 +155,7 @@ class DlonamesBoard extends Component {
             currentTeam,
           } = data.game
 
-          const username = currentUser.nickname.toLowerCase()
+          const username = currentUser
 
           let guessInfoOrTeamWinInfo
           if (gameIsFinished) {

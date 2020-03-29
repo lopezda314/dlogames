@@ -2,7 +2,7 @@ import React from "react"
 import { Mutation } from "react-apollo"
 import gql from "graphql-tag"
 import styled from "styled-components"
-import { getProfile } from "../../utils/auth"
+import { getUser } from "../../utils/auth"
 
 const StyledButton = styled.button`
   background: yellowgreen;
@@ -33,7 +33,7 @@ const ChangeTurnButton = ({ id, shouldHide }) => {
   return (
     <Mutation
       mutation={CHANGE_TURN_MUTATION}
-      variables={{ id: id, username: getProfile().nickname }}
+      variables={{ id: id, username: getUser() }}
     >
       {changeTurn => {
         let style = {}

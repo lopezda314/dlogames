@@ -1,8 +1,30 @@
 import React, { Component } from "react"
 import Form from "./styled/Form"
-import { Mutation, Query } from "react-apollo"
+import { Mutation, ApolloConsumer } from "react-apollo"
+import cryptojs from "crypto-js"
 import gql from "graphql-tag"
 import styled from "styled-components"
+import { navigate } from "gatsby"
+import { getDlonamesHistory } from "./../utils/history-helper"
+
+const REGISTER_USER_MUTATION = gql`
+  mutation REGISTER_USER_MUTATION(
+    $username: String!
+    $encryptedPasscode: String!
+  ) {
+    registerUser(username: $username, encryptedPasscode: $encryptedPasscode) {
+      username
+    }
+  }
+`
+
+const LOGIN_USER_QUERY = gql`
+  query LOGIN_USER_QUERY($username: String!, $encryptedPasscode: String!) {
+    loginUser(username: $username, encryptedPasscode: $encryptedPasscode) {
+      username
+    }
+  }
+`
 
 const AuthNav = styled.ul`
   margin: 0;
@@ -118,105 +140,202 @@ class LoginOrSignup extends Component {
 
   render() {
     return (
-      <div
-        style={{ paddingTop: "1.5rem", maxWidth: "440px", margin: "0 auto" }}
+      <Mutation
+        mutation={REGISTER_USER_MUTATION}
+        variables={{
+          username: this.state.username,
+          encryptedPasscode: cryptojs
+            .SHA256(this.state.passcode)
+            .toString(cryptojs.enc.Base64),
+        }}
       >
-        <div role="navigation">
-          <AuthNav style={{ display: "flex" }}>
-            <AuthTab
-              style={
-                this.state.isLoginActive
-                  ? { boxShadow: "0 2px 0 0 #5c666f", fontWeight: "800" }
-                  : {}
-              }
-            >
-              <AuthButton
-                onClick={() => this.setState({ isLoginActive: true })}
-              >
-                Log In
-              </AuthButton>
-            </AuthTab>
-            <AuthTab
-              style={
-                !this.state.isLoginActive
-                  ? { boxShadow: "0 2px 0 0 #5c666f", fontWeight: "800" }
-                  : {}
-              }
-            >
-              <AuthButton
-                onClick={() => this.setState({ isLoginActive: false })}
-              >
-                Sign Up
-              </AuthButton>
-            </AuthTab>
-          </AuthNav>
-        </div>
-        <Form>
-          <input
-            type="text"
-            name="username"
-            id="username"
-            placeholder="Username"
-            value={this.state.username}
-            required
-            onChange={this.handleChange}
-          />
-          <div>
-            <PasscodeDisplayer passcode={this.state.passcode} />
-          </div>
-          <button type="submit" style={submitStyle}>
-            {this.state.isLoginActive ? "Log in" : "Sign up"}
-          </button>
-        </Form>
-        <div style={passcodeRow}>
-          <PasscodeButton onClick={() => this.handlePasscodeButtonPress(1)}>
-            1
-          </PasscodeButton>
-          <PasscodeButton onClick={() => this.handlePasscodeButtonPress(2)}>
-            2
-          </PasscodeButton>
-          <PasscodeButton onClick={() => this.handlePasscodeButtonPress(3)}>
-            3
-          </PasscodeButton>
-        </div>
-        <div style={passcodeRow}>
-          <PasscodeButton onClick={() => this.handlePasscodeButtonPress(4)}>
-            4
-          </PasscodeButton>
-          <PasscodeButton onClick={() => this.handlePasscodeButtonPress(5)}>
-            5
-          </PasscodeButton>
-          <PasscodeButton onClick={() => this.handlePasscodeButtonPress(6)}>
-            6
-          </PasscodeButton>
-        </div>
-        <div style={passcodeRow}>
-          <PasscodeButton onClick={() => this.handlePasscodeButtonPress(7)}>
-            7
-          </PasscodeButton>
-          <PasscodeButton onClick={() => this.handlePasscodeButtonPress(8)}>
-            8
-          </PasscodeButton>
-          <PasscodeButton onClick={() => this.handlePasscodeButtonPress(9)}>
-            9
-          </PasscodeButton>
-        </div>
-        <div style={passcodeRow}>
-          <PasscodeButton style={{ visibility: "hidden" }}></PasscodeButton>
-          <PasscodeButton onClick={() => this.handlePasscodeButtonPress(0)}>
-            0
-          </PasscodeButton>
-          <PasscodeDelButton onClick={() => this.handlePasscodeDelPress()}>
-            Del
-          </PasscodeDelButton>
-        </div>
-        <div
-          style={this.state.isLoginActive ? { display: "none" } : signupStyles}
-        >
-          <small>Enter a username and a four digit passcode.</small> <br />
-          <small>Dlogames will never collect any personal information.</small>
-        </div>
-      </div>
+        {(registerUser, { error }) => {
+          if (error) return <p>Error: {error}</p>
+
+          return (
+            <ApolloConsumer>
+              {client => {
+                if (error) return <p>Error: {error}</p>
+                return (
+                  <div
+                    style={{
+                      paddingTop: "1.5rem",
+                      maxWidth: "440px",
+                      margin: "0 auto",
+                    }}
+                  >
+                    <div role="navigation">
+                      <AuthNav style={{ display: "flex" }}>
+                        <AuthTab
+                          style={
+                            this.state.isLoginActive
+                              ? {
+                                  boxShadow: "0 2px 0 0 #5c666f",
+                                  fontWeight: "800",
+                                }
+                              : {}
+                          }
+                        >
+                          <AuthButton
+                            onClick={() =>
+                              this.setState({ isLoginActive: true })
+                            }
+                          >
+                            Log In
+                          </AuthButton>
+                        </AuthTab>
+                        <AuthTab
+                          style={
+                            !this.state.isLoginActive
+                              ? {
+                                  boxShadow: "0 2px 0 0 #5c666f",
+                                  fontWeight: "800",
+                                }
+                              : {}
+                          }
+                        >
+                          <AuthButton
+                            onClick={() =>
+                              this.setState({ isLoginActive: false })
+                            }
+                          >
+                            Sign Up
+                          </AuthButton>
+                        </AuthTab>
+                      </AuthNav>
+                    </div>
+                    <Form>
+                      <input
+                        type="text"
+                        name="username"
+                        id="username"
+                        placeholder="Username"
+                        value={this.state.username}
+                        required
+                        onChange={this.handleChange}
+                      />
+                      <div>
+                        <PasscodeDisplayer passcode={this.state.passcode} />
+                      </div>
+                      <button
+                        type="submit"
+                        style={submitStyle}
+                        onClick={async e => {
+                          e.preventDefault()
+                          let user
+                          if (!this.state.isLoginActive) {
+                            user = await registerUser()
+                            localStorage.setItem(
+                              "currentUser",
+                              user.data.registerUser.username
+                            )
+                          } else {
+                            const { data } = await client.query({
+                              query: LOGIN_USER_QUERY,
+                              variables: {
+                                username: this.state.username,
+                                encryptedPasscode: cryptojs
+                                  .SHA256(this.state.passcode)
+                                  .toString(cryptojs.enc.Base64),
+                              },
+                            })
+                            localStorage.setItem(
+                              "currentUser",
+                              data.loginUser.username
+                            )
+                          }
+                          navigate("/dlonames/game?gid=" + getDlonamesHistory())
+                        }}
+                      >
+                        {this.state.isLoginActive ? "Log in" : "Sign up"}
+                      </button>
+                    </Form>
+                    <div style={passcodeRow}>
+                      <PasscodeButton
+                        onClick={() => this.handlePasscodeButtonPress(1)}
+                      >
+                        1
+                      </PasscodeButton>
+                      <PasscodeButton
+                        onClick={() => this.handlePasscodeButtonPress(2)}
+                      >
+                        2
+                      </PasscodeButton>
+                      <PasscodeButton
+                        onClick={() => this.handlePasscodeButtonPress(3)}
+                      >
+                        3
+                      </PasscodeButton>
+                    </div>
+                    <div style={passcodeRow}>
+                      <PasscodeButton
+                        onClick={() => this.handlePasscodeButtonPress(4)}
+                      >
+                        4
+                      </PasscodeButton>
+                      <PasscodeButton
+                        onClick={() => this.handlePasscodeButtonPress(5)}
+                      >
+                        5
+                      </PasscodeButton>
+                      <PasscodeButton
+                        onClick={() => this.handlePasscodeButtonPress(6)}
+                      >
+                        6
+                      </PasscodeButton>
+                    </div>
+                    <div style={passcodeRow}>
+                      <PasscodeButton
+                        onClick={() => this.handlePasscodeButtonPress(7)}
+                      >
+                        7
+                      </PasscodeButton>
+                      <PasscodeButton
+                        onClick={() => this.handlePasscodeButtonPress(8)}
+                      >
+                        8
+                      </PasscodeButton>
+                      <PasscodeButton
+                        onClick={() => this.handlePasscodeButtonPress(9)}
+                      >
+                        9
+                      </PasscodeButton>
+                    </div>
+                    <div style={passcodeRow}>
+                      <PasscodeButton
+                        style={{ visibility: "hidden" }}
+                      ></PasscodeButton>
+                      <PasscodeButton
+                        onClick={() => this.handlePasscodeButtonPress(0)}
+                      >
+                        0
+                      </PasscodeButton>
+                      <PasscodeDelButton
+                        onClick={() => this.handlePasscodeDelPress()}
+                      >
+                        Del
+                      </PasscodeDelButton>
+                    </div>
+                    <div
+                      style={
+                        this.state.isLoginActive
+                          ? { display: "none" }
+                          : signupStyles
+                      }
+                    >
+                      <small>Enter a username and a four digit passcode.</small>{" "}
+                      <br />
+                      <small>
+                        Dlogames will never collect any personal information.
+                      </small>
+                    </div>
+                  </div>
+                )
+              }}
+            </ApolloConsumer>
+          )
+        }}
+      </Mutation>
     )
   }
 }
