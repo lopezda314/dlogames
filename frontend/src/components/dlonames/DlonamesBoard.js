@@ -76,6 +76,14 @@ const isCurrentUserCodemaster = (username, blueCodemaster, redCodemaster) => {
   return username === blueCodemaster || username === redCodemaster
 }
 
+const getNumCorrect = (words, wordsGuessed) => {
+  let correct = 0
+  words.forEach(word => {
+    if (wordsGuessed.includes(word)) correct += 1
+  })
+  return correct
+}
+
 class DlonamesBoard extends Component {
   render() {
     const currentUser = getUser()
@@ -269,13 +277,25 @@ class DlonamesBoard extends Component {
                 <strong
                   style={{
                     display: "flex",
-                    justifyContent: "space-evenly",
+                    justifyContent: "space-between",
                     paddingTop: "1rem",
                     color: teamColor,
                   }}
                 >
-                  {currentTeam === "blueTeam" ? "Blue team's" : "Red team's"}{" "}
-                  turn
+                  <span>
+                    <span style={{ color: "#50AEB5" }}>
+                      {blueWords.length -
+                        getNumCorrect(blueWords, wordsGuessed)}
+                    </span>{" "}
+                    <span style={{ color: "#61DAFB" }}>-</span>{" "}
+                    <span style={{ color: "#FF69B4" }}>
+                      {redWords.length - getNumCorrect(redWords, wordsGuessed)}
+                    </span>
+                  </span>
+                  <span>
+                    {currentTeam === "blueTeam" ? "Blue team's" : "Red team's"}{" "}
+                    turn
+                  </span>
                 </strong>
                 <div
                   style={{
