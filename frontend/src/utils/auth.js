@@ -5,12 +5,12 @@ export const isAuthenticated = () => {
     return
   }
 
-  return localStorage.getItem("currentUser") != null
+  return localStorage.getItem("user") != null
 }
 
 export const getUser = () => {
   if (!isBrowser) {
     return ""
   }
-  return localStorage.getItem("currentUser")
+  return localStorage.getItem("user")
 }

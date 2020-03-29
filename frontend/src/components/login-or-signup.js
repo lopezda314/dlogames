@@ -226,7 +226,7 @@ class LoginOrSignup extends Component {
                           if (!this.state.isLoginActive) {
                             user = await registerUser()
                             localStorage.setItem(
-                              "currentUser",
+                              "user",
                               user.data.registerUser.username
                             )
                           } else {
@@ -240,7 +240,7 @@ class LoginOrSignup extends Component {
                               },
                             })
                             localStorage.setItem(
-                              "currentUser",
+                              "user",
                               data.loginUser.username
                             )
                           }
