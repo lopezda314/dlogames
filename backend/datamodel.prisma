@@ -25,13 +25,7 @@ type User {
 
   passcode: String!
 
-  dlonamesStats: UserDlonamesStats
-}
-
-type UserDlonamesStats {
-  id: ID! @id
-  
-  clueStats: [DlonamesPerClueStats!] @scalarList(strategy: RELATION)
+  dlonamesClueStats: [DlonamesPerClueStats!] @scalarList(strategy: RELATION)
 }
 
 type DlonamesPerClueStats {

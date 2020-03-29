@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/david-lopez-fcf066/dlogames/dev
-# timestamp: Sat Mar 28 2020 16:44:11 GMT-0400 (Eastern Daylight Time)
+# timestamp: Sun Mar 29 2020 00:53:20 GMT-0400 (Eastern Daylight Time)
 
 type AggregateDlonamesClue {
   count: Int!
@@ -14,10 +14,6 @@ type AggregateDlonamesPerClueStats {
 }
 
 type AggregateUser {
-  count: Int!
-}
-
-type AggregateUserDlonamesStats {
   count: Int!
 }
 
@@ -1321,22 +1317,18 @@ type Mutation {
   createDlonamesGame(data: DlonamesGameCreateInput!): DlonamesGame!
   createDlonamesPerClueStats(data: DlonamesPerClueStatsCreateInput!): DlonamesPerClueStats!
   createDlonamesClue(data: DlonamesClueCreateInput!): DlonamesClue!
-  createUserDlonamesStats(data: UserDlonamesStatsCreateInput!): UserDlonamesStats!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateDlonamesGame(data: DlonamesGameUpdateInput!, where: DlonamesGameWhereUniqueInput!): DlonamesGame
   updateDlonamesPerClueStats(data: DlonamesPerClueStatsUpdateInput!, where: DlonamesPerClueStatsWhereUniqueInput!): DlonamesPerClueStats
   updateDlonamesClue(data: DlonamesClueUpdateInput!, where: DlonamesClueWhereUniqueInput!): DlonamesClue
-  updateUserDlonamesStats(data: UserDlonamesStatsUpdateInput!, where: UserDlonamesStatsWhereUniqueInput!): UserDlonamesStats
   deleteUser(where: UserWhereUniqueInput!): User
   deleteDlonamesGame(where: DlonamesGameWhereUniqueInput!): DlonamesGame
   deleteDlonamesPerClueStats(where: DlonamesPerClueStatsWhereUniqueInput!): DlonamesPerClueStats
   deleteDlonamesClue(where: DlonamesClueWhereUniqueInput!): DlonamesClue
-  deleteUserDlonamesStats(where: UserDlonamesStatsWhereUniqueInput!): UserDlonamesStats
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertDlonamesGame(where: DlonamesGameWhereUniqueInput!, create: DlonamesGameCreateInput!, update: DlonamesGameUpdateInput!): DlonamesGame!
   upsertDlonamesPerClueStats(where: DlonamesPerClueStatsWhereUniqueInput!, create: DlonamesPerClueStatsCreateInput!, update: DlonamesPerClueStatsUpdateInput!): DlonamesPerClueStats!
   upsertDlonamesClue(where: DlonamesClueWhereUniqueInput!, create: DlonamesClueCreateInput!, update: DlonamesClueUpdateInput!): DlonamesClue!
-  upsertUserDlonamesStats(where: UserDlonamesStatsWhereUniqueInput!, create: UserDlonamesStatsCreateInput!, update: UserDlonamesStatsUpdateInput!): UserDlonamesStats!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   updateManyDlonamesGames(data: DlonamesGameUpdateManyMutationInput!, where: DlonamesGameWhereInput): BatchPayload!
   updateManyDlonamesPerClueStatses(data: DlonamesPerClueStatsUpdateManyMutationInput!, where: DlonamesPerClueStatsWhereInput): BatchPayload!
@@ -1345,7 +1337,6 @@ type Mutation {
   deleteManyDlonamesGames(where: DlonamesGameWhereInput): BatchPayload!
   deleteManyDlonamesPerClueStatses(where: DlonamesPerClueStatsWhereInput): BatchPayload!
   deleteManyDlonamesClues(where: DlonamesClueWhereInput): BatchPayload!
-  deleteManyUserDlonamesStatses(where: UserDlonamesStatsWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -1380,17 +1371,14 @@ type Query {
   dlonamesGames(where: DlonamesGameWhereInput, orderBy: DlonamesGameOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DlonamesGame]!
   dlonamesPerClueStatses(where: DlonamesPerClueStatsWhereInput, orderBy: DlonamesPerClueStatsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DlonamesPerClueStats]!
   dlonamesClues(where: DlonamesClueWhereInput, orderBy: DlonamesClueOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DlonamesClue]!
-  userDlonamesStatses(where: UserDlonamesStatsWhereInput, orderBy: UserDlonamesStatsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [UserDlonamesStats]!
   user(where: UserWhereUniqueInput!): User
   dlonamesGame(where: DlonamesGameWhereUniqueInput!): DlonamesGame
   dlonamesPerClueStats(where: DlonamesPerClueStatsWhereUniqueInput!): DlonamesPerClueStats
   dlonamesClue(where: DlonamesClueWhereUniqueInput!): DlonamesClue
-  userDlonamesStats(where: UserDlonamesStatsWhereUniqueInput!): UserDlonamesStats
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   dlonamesGamesConnection(where: DlonamesGameWhereInput, orderBy: DlonamesGameOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DlonamesGameConnection!
   dlonamesPerClueStatsesConnection(where: DlonamesPerClueStatsWhereInput, orderBy: DlonamesPerClueStatsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DlonamesPerClueStatsConnection!
   dlonamesCluesConnection(where: DlonamesClueWhereInput, orderBy: DlonamesClueOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DlonamesClueConnection!
-  userDlonamesStatsesConnection(where: UserDlonamesStatsWhereInput, orderBy: UserDlonamesStatsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserDlonamesStatsConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -1404,14 +1392,13 @@ type Subscription {
   dlonamesGame(where: DlonamesGameSubscriptionWhereInput): DlonamesGameSubscriptionPayload
   dlonamesPerClueStats(where: DlonamesPerClueStatsSubscriptionWhereInput): DlonamesPerClueStatsSubscriptionPayload
   dlonamesClue(where: DlonamesClueSubscriptionWhereInput): DlonamesClueSubscriptionPayload
-  userDlonamesStats(where: UserDlonamesStatsSubscriptionWhereInput): UserDlonamesStatsSubscriptionPayload
 }
 
 type User implements Node {
   id: ID!
   username: String!
   passcode: String!
-  dlonamesStats: UserDlonamesStats
+  dlonamesClueStats(where: DlonamesPerClueStatsWhereInput, orderBy: DlonamesPerClueStatsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DlonamesPerClueStats!]
 }
 
 """A connection to a list of items."""
@@ -1428,169 +1415,7 @@ input UserCreateInput {
   id: ID
   username: String!
   passcode: String!
-  dlonamesStats: UserDlonamesStatsCreateOneInput
-}
-
-type UserDlonamesStats implements Node {
-  id: ID!
-  clueStats(where: DlonamesPerClueStatsWhereInput, orderBy: DlonamesPerClueStatsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DlonamesPerClueStats!]
-}
-
-"""A connection to a list of items."""
-type UserDlonamesStatsConnection {
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """A list of edges."""
-  edges: [UserDlonamesStatsEdge]!
-  aggregate: AggregateUserDlonamesStats!
-}
-
-input UserDlonamesStatsCreateInput {
-  id: ID
-  clueStats: DlonamesPerClueStatsCreateManyInput
-}
-
-input UserDlonamesStatsCreateOneInput {
-  create: UserDlonamesStatsCreateInput
-  connect: UserDlonamesStatsWhereUniqueInput
-}
-
-"""An edge in a connection."""
-type UserDlonamesStatsEdge {
-  """The item at the end of the edge."""
-  node: UserDlonamesStats!
-
-  """A cursor for use in pagination."""
-  cursor: String!
-}
-
-enum UserDlonamesStatsOrderByInput {
-  id_ASC
-  id_DESC
-}
-
-type UserDlonamesStatsPreviousValues {
-  id: ID!
-}
-
-type UserDlonamesStatsSubscriptionPayload {
-  mutation: MutationType!
-  node: UserDlonamesStats
-  updatedFields: [String!]
-  previousValues: UserDlonamesStatsPreviousValues
-}
-
-input UserDlonamesStatsSubscriptionWhereInput {
-  """Logical AND on all given filters."""
-  AND: [UserDlonamesStatsSubscriptionWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [UserDlonamesStatsSubscriptionWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [UserDlonamesStatsSubscriptionWhereInput!]
-
-  """
-  The subscription event gets dispatched when it's listed in mutation_in
-  """
-  mutation_in: [MutationType!]
-
-  """
-  The subscription event gets only dispatched when one of the updated fields names is included in this list
-  """
-  updatedFields_contains: String
-
-  """
-  The subscription event gets only dispatched when all of the field names included in this list have been updated
-  """
-  updatedFields_contains_every: [String!]
-
-  """
-  The subscription event gets only dispatched when some of the field names included in this list have been updated
-  """
-  updatedFields_contains_some: [String!]
-  node: UserDlonamesStatsWhereInput
-}
-
-input UserDlonamesStatsUpdateDataInput {
-  clueStats: DlonamesPerClueStatsUpdateManyInput
-}
-
-input UserDlonamesStatsUpdateInput {
-  clueStats: DlonamesPerClueStatsUpdateManyInput
-}
-
-input UserDlonamesStatsUpdateOneInput {
-  create: UserDlonamesStatsCreateInput
-  connect: UserDlonamesStatsWhereUniqueInput
-  disconnect: Boolean
-  delete: Boolean
-  update: UserDlonamesStatsUpdateDataInput
-  upsert: UserDlonamesStatsUpsertNestedInput
-}
-
-input UserDlonamesStatsUpsertNestedInput {
-  update: UserDlonamesStatsUpdateDataInput!
-  create: UserDlonamesStatsCreateInput!
-}
-
-input UserDlonamesStatsWhereInput {
-  """Logical AND on all given filters."""
-  AND: [UserDlonamesStatsWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [UserDlonamesStatsWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [UserDlonamesStatsWhereInput!]
-  id: ID
-
-  """All values that are not equal to given value."""
-  id_not: ID
-
-  """All values that are contained in given list."""
-  id_in: [ID!]
-
-  """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
-  clueStats_every: DlonamesPerClueStatsWhereInput
-  clueStats_some: DlonamesPerClueStatsWhereInput
-  clueStats_none: DlonamesPerClueStatsWhereInput
-}
-
-input UserDlonamesStatsWhereUniqueInput {
-  id: ID
+  dlonamesClueStats: DlonamesPerClueStatsCreateManyInput
 }
 
 """An edge in a connection."""
@@ -1659,7 +1484,7 @@ input UserSubscriptionWhereInput {
 input UserUpdateInput {
   username: String
   passcode: String
-  dlonamesStats: UserDlonamesStatsUpdateOneInput
+  dlonamesClueStats: DlonamesPerClueStatsUpdateManyInput
 }
 
 input UserUpdateManyMutationInput {
@@ -1796,7 +1621,9 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   passcode_not_ends_with: String
-  dlonamesStats: UserDlonamesStatsWhereInput
+  dlonamesClueStats_every: DlonamesPerClueStatsWhereInput
+  dlonamesClueStats_some: DlonamesPerClueStatsWhereInput
+  dlonamesClueStats_none: DlonamesPerClueStatsWhereInput
 }
 
 input UserWhereUniqueInput {

@@ -16,8 +16,6 @@ fs.readFile(
     : path.resolve("static/base-words.txt"),
   "utf8",
   (err, data) => {
-    if (err) console.log(err)
-
     dlonamesWords = data.split("\n")
   }
 )
@@ -133,20 +131,6 @@ const getUpdateForWordGuessed = async ({
   return update
 }
 
-const maybeCreateUserDlonamesStats = async (username, database) => {
-  const userStats = await database.query.userDlonamesStats({
-    where: { username: username },
-  })
-  if (userStats) {
-    return
-  }
-  await database.mutation.createUserDlonamesStats({
-    data: {
-      username: username,
-    },
-  })
-}
-
 const recordDlonamesClue = async ({
   gameId: gameId,
   codemaster: codemaster,
@@ -231,10 +215,10 @@ const createOrUpdatePerClueStatsAndAddToRelevantUsers = async ({
       [codemaster, guesser],
       database
     )
+    return
   }
   const dlonamesPerClueStats = dlonamesPerClueStatses[0]
   if (!dlonamesPerClueStats.userCorrectGuesses.includes(guesser)) {
-    addStatsToRelevantUsers(dlonamesPerClueStats, [user], database)
   }
   const update = {
     where: { id: dlonamesPerClueStats.id },
@@ -251,7 +235,7 @@ const createOrUpdatePerClueStatsAndAddToRelevantUsers = async ({
   } else {
     update.data.incorrectGuess = guesser
   }
-  database.mutation.updateDlonamesPerClueStats(update)
+  const answer = await database.mutation.updateDlonamesPerClueStats(update)
 }
 
 const addStatsToRelevantUsers = async (stats, users, database) => {
@@ -259,15 +243,15 @@ const addStatsToRelevantUsers = async (stats, users, database) => {
     if (!user) {
       return
     }
-    const userOldStats = await database.query.userDlonamesStats(
+    const userOldStats = await database.query.user(
       { where: { username: user } },
-      `{ clueStats { id } }`
+      `{ dlonamesClueStats { id } }`
     )
-    userOldStats.clueStats.push({ id: stats.id })
-    await database.mutation.updateUserDlonamesStats({
+    userOldStats.dlonamesClueStats.push({ id: stats.id })
+    const answer = await database.mutation.updateUser({
       where: { username: user },
       data: {
-        clueStats: { set: userOldStats.clueStats },
+        dlonamesClueStats: { set: userOldStats.dlonamesClueStats },
       },
     })
   })
@@ -276,7 +260,6 @@ const addStatsToRelevantUsers = async (stats, users, database) => {
 const Mutation = {
   async createGame(parent, args, ctx, info) {
     const creatorName = args.creatorName.toLowerCase()
-    maybeCreateUserDlonamesStats(creatorName, ctx.db)
     const indices = getDlonamesIndices()
     const firstTeam = getRandomTeam()
     const words = getDlonamesWords()
@@ -335,7 +318,6 @@ const Mutation = {
       `{ blueTeam redTeam blueCodemaster redCodemaster }`
     )
     const username = args.username.toLowerCase()
-    maybeCreateUserDlonamesStats(username, ctx.db)
     if (
       new Set(existingGame.blueTeam).has(username) ||
       new Set(existingGame.redTeam).has(username)
@@ -579,11 +561,18 @@ const Mutation = {
 
   async registerUser(parent, args, ctx, info) {
     const username = args.username.toString().toLowerCase()
+    const encryptedPasscode = args.encryptedPasscode.toString()
     const maybeExistingUser = await ctx.db.query.user(
       { where: { username: username } },
-      `id`
+      `{ id }`
     )
-    if (!maybeExistingUser.id) return
+    if (maybeExistingUser) return
+    return await ctx.db.mutation.createUser({
+      data: {
+        username: username,
+        passcode: encryptedPasscode,
+      },
+    })
   },
 }
 
