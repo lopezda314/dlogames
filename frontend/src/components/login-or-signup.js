@@ -53,9 +53,9 @@ const PasscodeButton = styled.button`
   border: 1px solid white;
   border-radius: 50%;
   color: inherit;
-  font-size: 2rem;
-  width: 48px;
-  height: 48px;
+  font-size: 1rem;
+  width: 3.5rem;
+  height: 3.5rem;
   transition: background 250ms ease-in-out, transform 150ms ease;
   :active {
     background: gray;
@@ -69,9 +69,9 @@ const PasscodeDelButton = styled.button`
   border: 1px solid white;
   color: inherit;
   font-size: 0.75rem;
-  width: 40px;
-  height: 26.67px;
-  margin: 5.675px 4px;
+  width: 2.5rem;
+  height: 2rem;
+  margin: 0.75rem 0.5rem;
   transition: background 250ms ease-in-out, transform 150ms ease;
   :active {
     background: gray;
@@ -99,13 +99,13 @@ const submitStyle = {
   fontSize: "1.5rem",
   fontWeight: "600",
   width: "100%",
-  position: "absolute",
+  position: "fixed",
   bottom: "0",
   left: "0",
 }
 
 const PasscodeDisplayer = ({ passcode }) => (
-  <div style={{ fontSize: "2rem", textAlign: "center" }}>
+  <div style={{ fontSize: "1rem", textAlign: "center" }}>
     <span style={{ visibility: "hidden" }}>*</span>
     {passcode.length >= 1 ? (passcode.length === 1 ? passcode[0] : "* \t") : ""}
     {passcode.length >= 2 ? (passcode.length === 2 ? passcode[1] : "* \t") : ""}
@@ -324,10 +324,6 @@ class LoginOrSignup extends Component {
                       }
                     >
                       <small>Enter a username and a four digit passcode.</small>{" "}
-                      <br />
-                      <small>
-                        Dlogames will never collect any personal information.
-                      </small>
                     </div>
                   </div>
                 )
