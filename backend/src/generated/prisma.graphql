@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/david-lopez-fcf066/dlogames/dev
-# timestamp: Sun Mar 29 2020 00:53:20 GMT-0400 (Eastern Daylight Time)
+# timestamp: Sun Mar 29 2020 15:52:44 GMT-0400 (Eastern Daylight Time)
 
 type AggregateDlonamesClue {
   count: Int!
@@ -18,7 +18,9 @@ type AggregateUser {
 }
 
 type BatchPayload {
-  """The number of nodes that have been affected by the Batch operation."""
+  """
+  The number of nodes that have been affected by the Batch operation.
+  """
   count: Long!
 }
 
@@ -31,12 +33,18 @@ type DlonamesClue implements Node {
   numGuesses: Int!
 }
 
-"""A connection to a list of items."""
+"""
+A connection to a list of items.
+"""
 type DlonamesClueConnection {
-  """Information to aid in pagination."""
+  """
+  Information to aid in pagination.
+  """
   pageInfo: PageInfo!
 
-  """A list of edges."""
+  """
+  A list of edges.
+  """
   edges: [DlonamesClueEdge]!
   aggregate: AggregateDlonamesClue!
 }
@@ -55,12 +63,18 @@ input DlonamesClueCreateOneInput {
   connect: DlonamesClueWhereUniqueInput
 }
 
-"""An edge in a connection."""
+"""
+An edge in a connection.
+"""
 type DlonamesClueEdge {
-  """The item at the end of the edge."""
+  """
+  The item at the end of the edge.
+  """
   node: DlonamesClue!
 
-  """A cursor for use in pagination."""
+  """
+  A cursor for use in pagination.
+  """
   cursor: String!
 }
 
@@ -93,13 +107,19 @@ type DlonamesClueSubscriptionPayload {
 }
 
 input DlonamesClueSubscriptionWhereInput {
-  """Logical AND on all given filters."""
+  """
+  Logical AND on all given filters.
+  """
   AND: [DlonamesClueSubscriptionWhereInput!]
 
-  """Logical OR on all given filters."""
+  """
+  Logical OR on all given filters.
+  """
   OR: [DlonamesClueSubscriptionWhereInput!]
 
-  """Logical NOT on all given filters combined by AND."""
+  """
+  Logical NOT on all given filters combined by AND.
+  """
   NOT: [DlonamesClueSubscriptionWhereInput!]
 
   """
@@ -160,177 +180,289 @@ input DlonamesClueUpsertNestedInput {
 }
 
 input DlonamesClueWhereInput {
-  """Logical AND on all given filters."""
+  """
+  Logical AND on all given filters.
+  """
   AND: [DlonamesClueWhereInput!]
 
-  """Logical OR on all given filters."""
+  """
+  Logical OR on all given filters.
+  """
   OR: [DlonamesClueWhereInput!]
 
-  """Logical NOT on all given filters combined by AND."""
+  """
+  Logical NOT on all given filters combined by AND.
+  """
   NOT: [DlonamesClueWhereInput!]
   id: ID
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   id_not: ID
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   id_in: [ID!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   id_not_in: [ID!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   id_lt: ID
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   id_lte: ID
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   id_gt: ID
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   id_gte: ID
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   id_contains: ID
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   id_not_contains: ID
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   id_starts_with: ID
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   id_not_starts_with: ID
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   id_ends_with: ID
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   id_not_ends_with: ID
   codemaster: String
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   codemaster_not: String
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   codemaster_in: [String!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   codemaster_not_in: [String!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   codemaster_lt: String
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   codemaster_lte: String
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   codemaster_gt: String
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   codemaster_gte: String
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   codemaster_contains: String
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   codemaster_not_contains: String
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   codemaster_starts_with: String
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   codemaster_not_starts_with: String
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   codemaster_ends_with: String
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   codemaster_not_ends_with: String
   numCluesGiven: Int
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   numCluesGiven_not: Int
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   numCluesGiven_in: [Int!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   numCluesGiven_not_in: [Int!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   numCluesGiven_lt: Int
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   numCluesGiven_lte: Int
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   numCluesGiven_gt: Int
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   numCluesGiven_gte: Int
   clue: String
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   clue_not: String
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   clue_in: [String!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   clue_not_in: [String!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   clue_lt: String
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   clue_lte: String
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   clue_gt: String
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   clue_gte: String
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   clue_contains: String
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   clue_not_contains: String
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   clue_starts_with: String
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   clue_not_starts_with: String
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   clue_ends_with: String
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   clue_not_ends_with: String
   numGuesses: Int
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   numGuesses_not: Int
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   numGuesses_in: [Int!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   numGuesses_not_in: [Int!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   numGuesses_lt: Int
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   numGuesses_lte: Int
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   numGuesses_gt: Int
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   numGuesses_gte: Int
   game: DlonamesGameWhereInput
 }
@@ -357,14 +489,22 @@ type DlonamesGame implements Node {
   blueWords: [String!]!
   deathWord: String!
   gameIsFinished: Boolean!
+  nextDlonamesGameId: String
+  prevDlonamesGameId: String
 }
 
-"""A connection to a list of items."""
+"""
+A connection to a list of items.
+"""
 type DlonamesGameConnection {
-  """Information to aid in pagination."""
+  """
+  Information to aid in pagination.
+  """
   pageInfo: PageInfo!
 
-  """A list of edges."""
+  """
+  A list of edges.
+  """
   edges: [DlonamesGameEdge]!
   aggregate: AggregateDlonamesGame!
 }
@@ -391,6 +531,8 @@ input DlonamesGameCreateInput {
   numGuesses: Int
   deathWord: String!
   gameIsFinished: Boolean!
+  nextDlonamesGameId: String
+  prevDlonamesGameId: String
   blueTeam: DlonamesGameCreateblueTeamInput
   redTeam: DlonamesGameCreateredTeamInput
   blueClues: DlonamesGameCreateblueCluesInput
@@ -426,12 +568,18 @@ input DlonamesGameCreatewordsInput {
   set: [String!]
 }
 
-"""An edge in a connection."""
+"""
+An edge in a connection.
+"""
 type DlonamesGameEdge {
-  """The item at the end of the edge."""
+  """
+  The item at the end of the edge.
+  """
   node: DlonamesGame!
 
-  """A cursor for use in pagination."""
+  """
+  A cursor for use in pagination.
+  """
   cursor: String!
 }
 
@@ -454,6 +602,10 @@ enum DlonamesGameOrderByInput {
   deathWord_DESC
   gameIsFinished_ASC
   gameIsFinished_DESC
+  nextDlonamesGameId_ASC
+  nextDlonamesGameId_DESC
+  prevDlonamesGameId_ASC
+  prevDlonamesGameId_DESC
 }
 
 type DlonamesGamePreviousValues {
@@ -474,6 +626,8 @@ type DlonamesGamePreviousValues {
   blueWords: [String!]!
   deathWord: String!
   gameIsFinished: Boolean!
+  nextDlonamesGameId: String
+  prevDlonamesGameId: String
 }
 
 type DlonamesGameSubscriptionPayload {
@@ -484,13 +638,19 @@ type DlonamesGameSubscriptionPayload {
 }
 
 input DlonamesGameSubscriptionWhereInput {
-  """Logical AND on all given filters."""
+  """
+  Logical AND on all given filters.
+  """
   AND: [DlonamesGameSubscriptionWhereInput!]
 
-  """Logical OR on all given filters."""
+  """
+  Logical OR on all given filters.
+  """
   OR: [DlonamesGameSubscriptionWhereInput!]
 
-  """Logical NOT on all given filters combined by AND."""
+  """
+  Logical NOT on all given filters combined by AND.
+  """
   NOT: [DlonamesGameSubscriptionWhereInput!]
 
   """
@@ -536,6 +696,8 @@ input DlonamesGameUpdateDataInput {
   numGuesses: Int
   deathWord: String
   gameIsFinished: Boolean
+  nextDlonamesGameId: String
+  prevDlonamesGameId: String
   blueTeam: DlonamesGameUpdateblueTeamInput
   redTeam: DlonamesGameUpdateredTeamInput
   blueClues: DlonamesGameUpdateblueCluesInput
@@ -555,6 +717,8 @@ input DlonamesGameUpdateInput {
   numGuesses: Int
   deathWord: String
   gameIsFinished: Boolean
+  nextDlonamesGameId: String
+  prevDlonamesGameId: String
   blueTeam: DlonamesGameUpdateblueTeamInput
   redTeam: DlonamesGameUpdateredTeamInput
   blueClues: DlonamesGameUpdateblueCluesInput
@@ -574,6 +738,8 @@ input DlonamesGameUpdateManyMutationInput {
   numGuesses: Int
   deathWord: String
   gameIsFinished: Boolean
+  nextDlonamesGameId: String
+  prevDlonamesGameId: String
   blueTeam: DlonamesGameUpdateblueTeamInput
   redTeam: DlonamesGameUpdateredTeamInput
   blueClues: DlonamesGameUpdateblueCluesInput
@@ -617,320 +783,656 @@ input DlonamesGameUpsertNestedInput {
 }
 
 input DlonamesGameWhereInput {
-  """Logical AND on all given filters."""
+  """
+  Logical AND on all given filters.
+  """
   AND: [DlonamesGameWhereInput!]
 
-  """Logical OR on all given filters."""
+  """
+  Logical OR on all given filters.
+  """
   OR: [DlonamesGameWhereInput!]
 
-  """Logical NOT on all given filters combined by AND."""
+  """
+  Logical NOT on all given filters combined by AND.
+  """
   NOT: [DlonamesGameWhereInput!]
   id: ID
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   id_not: ID
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   id_in: [ID!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   id_not_in: [ID!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   id_lt: ID
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   id_lte: ID
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   id_gt: ID
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   id_gte: ID
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   id_contains: ID
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   id_not_contains: ID
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   id_starts_with: ID
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   id_not_starts_with: ID
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   id_ends_with: ID
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   id_not_ends_with: ID
   blueCodemaster: String
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   blueCodemaster_not: String
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   blueCodemaster_in: [String!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   blueCodemaster_not_in: [String!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   blueCodemaster_lt: String
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   blueCodemaster_lte: String
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   blueCodemaster_gt: String
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   blueCodemaster_gte: String
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   blueCodemaster_contains: String
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   blueCodemaster_not_contains: String
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   blueCodemaster_starts_with: String
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   blueCodemaster_not_starts_with: String
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   blueCodemaster_ends_with: String
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   blueCodemaster_not_ends_with: String
   redCodemaster: String
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   redCodemaster_not: String
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   redCodemaster_in: [String!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   redCodemaster_not_in: [String!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   redCodemaster_lt: String
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   redCodemaster_lte: String
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   redCodemaster_gt: String
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   redCodemaster_gte: String
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   redCodemaster_contains: String
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   redCodemaster_not_contains: String
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   redCodemaster_starts_with: String
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   redCodemaster_not_starts_with: String
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   redCodemaster_ends_with: String
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   redCodemaster_not_ends_with: String
   currentTeam: String
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   currentTeam_not: String
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   currentTeam_in: [String!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   currentTeam_not_in: [String!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   currentTeam_lt: String
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   currentTeam_lte: String
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   currentTeam_gt: String
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   currentTeam_gte: String
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   currentTeam_contains: String
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   currentTeam_not_contains: String
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   currentTeam_starts_with: String
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   currentTeam_not_starts_with: String
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   currentTeam_ends_with: String
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   currentTeam_not_ends_with: String
   winningTeam: String
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   winningTeam_not: String
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   winningTeam_in: [String!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   winningTeam_not_in: [String!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   winningTeam_lt: String
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   winningTeam_lte: String
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   winningTeam_gt: String
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   winningTeam_gte: String
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   winningTeam_contains: String
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   winningTeam_not_contains: String
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   winningTeam_starts_with: String
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   winningTeam_not_starts_with: String
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   winningTeam_ends_with: String
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   winningTeam_not_ends_with: String
   clue: String
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   clue_not: String
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   clue_in: [String!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   clue_not_in: [String!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   clue_lt: String
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   clue_lte: String
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   clue_gt: String
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   clue_gte: String
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   clue_contains: String
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   clue_not_contains: String
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   clue_starts_with: String
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   clue_not_starts_with: String
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   clue_ends_with: String
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   clue_not_ends_with: String
   numGuesses: Int
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   numGuesses_not: Int
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   numGuesses_in: [Int!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   numGuesses_not_in: [Int!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   numGuesses_lt: Int
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   numGuesses_lte: Int
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   numGuesses_gt: Int
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   numGuesses_gte: Int
   deathWord: String
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   deathWord_not: String
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   deathWord_in: [String!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   deathWord_not_in: [String!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   deathWord_lt: String
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   deathWord_lte: String
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   deathWord_gt: String
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   deathWord_gte: String
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   deathWord_contains: String
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   deathWord_not_contains: String
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   deathWord_starts_with: String
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   deathWord_not_starts_with: String
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   deathWord_ends_with: String
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   deathWord_not_ends_with: String
   gameIsFinished: Boolean
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   gameIsFinished_not: Boolean
+  nextDlonamesGameId: String
+
+  """
+  All values that are not equal to given value.
+  """
+  nextDlonamesGameId_not: String
+
+  """
+  All values that are contained in given list.
+  """
+  nextDlonamesGameId_in: [String!]
+
+  """
+  All values that are not contained in given list.
+  """
+  nextDlonamesGameId_not_in: [String!]
+
+  """
+  All values less than the given value.
+  """
+  nextDlonamesGameId_lt: String
+
+  """
+  All values less than or equal the given value.
+  """
+  nextDlonamesGameId_lte: String
+
+  """
+  All values greater than the given value.
+  """
+  nextDlonamesGameId_gt: String
+
+  """
+  All values greater than or equal the given value.
+  """
+  nextDlonamesGameId_gte: String
+
+  """
+  All values containing the given string.
+  """
+  nextDlonamesGameId_contains: String
+
+  """
+  All values not containing the given string.
+  """
+  nextDlonamesGameId_not_contains: String
+
+  """
+  All values starting with the given string.
+  """
+  nextDlonamesGameId_starts_with: String
+
+  """
+  All values not starting with the given string.
+  """
+  nextDlonamesGameId_not_starts_with: String
+
+  """
+  All values ending with the given string.
+  """
+  nextDlonamesGameId_ends_with: String
+
+  """
+  All values not ending with the given string.
+  """
+  nextDlonamesGameId_not_ends_with: String
+  prevDlonamesGameId: String
+
+  """
+  All values that are not equal to given value.
+  """
+  prevDlonamesGameId_not: String
+
+  """
+  All values that are contained in given list.
+  """
+  prevDlonamesGameId_in: [String!]
+
+  """
+  All values that are not contained in given list.
+  """
+  prevDlonamesGameId_not_in: [String!]
+
+  """
+  All values less than the given value.
+  """
+  prevDlonamesGameId_lt: String
+
+  """
+  All values less than or equal the given value.
+  """
+  prevDlonamesGameId_lte: String
+
+  """
+  All values greater than the given value.
+  """
+  prevDlonamesGameId_gt: String
+
+  """
+  All values greater than or equal the given value.
+  """
+  prevDlonamesGameId_gte: String
+
+  """
+  All values containing the given string.
+  """
+  prevDlonamesGameId_contains: String
+
+  """
+  All values not containing the given string.
+  """
+  prevDlonamesGameId_not_contains: String
+
+  """
+  All values starting with the given string.
+  """
+  prevDlonamesGameId_starts_with: String
+
+  """
+  All values not starting with the given string.
+  """
+  prevDlonamesGameId_not_starts_with: String
+
+  """
+  All values ending with the given string.
+  """
+  prevDlonamesGameId_ends_with: String
+
+  """
+  All values not ending with the given string.
+  """
+  prevDlonamesGameId_not_ends_with: String
 }
 
 input DlonamesGameWhereUniqueInput {
@@ -946,12 +1448,18 @@ type DlonamesPerClueStats implements Node {
   isVillainPlay: Boolean
 }
 
-"""A connection to a list of items."""
+"""
+A connection to a list of items.
+"""
 type DlonamesPerClueStatsConnection {
-  """Information to aid in pagination."""
+  """
+  Information to aid in pagination.
+  """
   pageInfo: PageInfo!
 
-  """A list of edges."""
+  """
+  A list of edges.
+  """
   edges: [DlonamesPerClueStatsEdge]!
   aggregate: AggregateDlonamesPerClueStats!
 }
@@ -974,12 +1482,18 @@ input DlonamesPerClueStatsCreateuserCorrectGuessesInput {
   set: [String!]
 }
 
-"""An edge in a connection."""
+"""
+An edge in a connection.
+"""
 type DlonamesPerClueStatsEdge {
-  """The item at the end of the edge."""
+  """
+  The item at the end of the edge.
+  """
   node: DlonamesPerClueStats!
 
-  """A cursor for use in pagination."""
+  """
+  A cursor for use in pagination.
+  """
   cursor: String!
 }
 
@@ -1003,101 +1517,163 @@ type DlonamesPerClueStatsPreviousValues {
 }
 
 input DlonamesPerClueStatsScalarWhereInput {
-  """Logical AND on all given filters."""
+  """
+  Logical AND on all given filters.
+  """
   AND: [DlonamesPerClueStatsScalarWhereInput!]
 
-  """Logical OR on all given filters."""
+  """
+  Logical OR on all given filters.
+  """
   OR: [DlonamesPerClueStatsScalarWhereInput!]
 
-  """Logical NOT on all given filters combined by AND."""
+  """
+  Logical NOT on all given filters combined by AND.
+  """
   NOT: [DlonamesPerClueStatsScalarWhereInput!]
   id: ID
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   id_not: ID
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   id_in: [ID!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   id_not_in: [ID!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   id_lt: ID
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   id_lte: ID
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   id_gt: ID
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   id_gte: ID
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   id_contains: ID
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   id_not_contains: ID
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   id_starts_with: ID
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   id_not_starts_with: ID
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   id_ends_with: ID
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   id_not_ends_with: ID
   incorrectGuess: String
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   incorrectGuess_not: String
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   incorrectGuess_in: [String!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   incorrectGuess_not_in: [String!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   incorrectGuess_lt: String
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   incorrectGuess_lte: String
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   incorrectGuess_gt: String
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   incorrectGuess_gte: String
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   incorrectGuess_contains: String
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   incorrectGuess_not_contains: String
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   incorrectGuess_starts_with: String
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   incorrectGuess_not_starts_with: String
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   incorrectGuess_ends_with: String
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   incorrectGuess_not_ends_with: String
   isHeroPlay: Boolean
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   isHeroPlay_not: Boolean
   isVillainPlay: Boolean
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   isVillainPlay_not: Boolean
 }
 
@@ -1109,13 +1685,19 @@ type DlonamesPerClueStatsSubscriptionPayload {
 }
 
 input DlonamesPerClueStatsSubscriptionWhereInput {
-  """Logical AND on all given filters."""
+  """
+  Logical AND on all given filters.
+  """
   AND: [DlonamesPerClueStatsSubscriptionWhereInput!]
 
-  """Logical OR on all given filters."""
+  """
+  Logical OR on all given filters.
+  """
   OR: [DlonamesPerClueStatsSubscriptionWhereInput!]
 
-  """Logical NOT on all given filters combined by AND."""
+  """
+  Logical NOT on all given filters combined by AND.
+  """
   NOT: [DlonamesPerClueStatsSubscriptionWhereInput!]
 
   """
@@ -1203,101 +1785,163 @@ input DlonamesPerClueStatsUpsertWithWhereUniqueNestedInput {
 }
 
 input DlonamesPerClueStatsWhereInput {
-  """Logical AND on all given filters."""
+  """
+  Logical AND on all given filters.
+  """
   AND: [DlonamesPerClueStatsWhereInput!]
 
-  """Logical OR on all given filters."""
+  """
+  Logical OR on all given filters.
+  """
   OR: [DlonamesPerClueStatsWhereInput!]
 
-  """Logical NOT on all given filters combined by AND."""
+  """
+  Logical NOT on all given filters combined by AND.
+  """
   NOT: [DlonamesPerClueStatsWhereInput!]
   id: ID
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   id_not: ID
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   id_in: [ID!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   id_not_in: [ID!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   id_lt: ID
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   id_lte: ID
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   id_gt: ID
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   id_gte: ID
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   id_contains: ID
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   id_not_contains: ID
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   id_starts_with: ID
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   id_not_starts_with: ID
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   id_ends_with: ID
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   id_not_ends_with: ID
   incorrectGuess: String
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   incorrectGuess_not: String
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   incorrectGuess_in: [String!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   incorrectGuess_not_in: [String!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   incorrectGuess_lt: String
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   incorrectGuess_lte: String
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   incorrectGuess_gt: String
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   incorrectGuess_gte: String
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   incorrectGuess_contains: String
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   incorrectGuess_not_contains: String
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   incorrectGuess_starts_with: String
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   incorrectGuess_not_starts_with: String
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   incorrectGuess_ends_with: String
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   incorrectGuess_not_ends_with: String
   isHeroPlay: Boolean
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   isHeroPlay_not: Boolean
   isVillainPlay: Boolean
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   isVillainPlay_not: Boolean
   clue: DlonamesClueWhereInput
 }
@@ -1315,27 +1959,70 @@ scalar Long
 type Mutation {
   createUser(data: UserCreateInput!): User!
   createDlonamesGame(data: DlonamesGameCreateInput!): DlonamesGame!
-  createDlonamesPerClueStats(data: DlonamesPerClueStatsCreateInput!): DlonamesPerClueStats!
+  createDlonamesPerClueStats(
+    data: DlonamesPerClueStatsCreateInput!
+  ): DlonamesPerClueStats!
   createDlonamesClue(data: DlonamesClueCreateInput!): DlonamesClue!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  updateDlonamesGame(data: DlonamesGameUpdateInput!, where: DlonamesGameWhereUniqueInput!): DlonamesGame
-  updateDlonamesPerClueStats(data: DlonamesPerClueStatsUpdateInput!, where: DlonamesPerClueStatsWhereUniqueInput!): DlonamesPerClueStats
-  updateDlonamesClue(data: DlonamesClueUpdateInput!, where: DlonamesClueWhereUniqueInput!): DlonamesClue
+  updateDlonamesGame(
+    data: DlonamesGameUpdateInput!
+    where: DlonamesGameWhereUniqueInput!
+  ): DlonamesGame
+  updateDlonamesPerClueStats(
+    data: DlonamesPerClueStatsUpdateInput!
+    where: DlonamesPerClueStatsWhereUniqueInput!
+  ): DlonamesPerClueStats
+  updateDlonamesClue(
+    data: DlonamesClueUpdateInput!
+    where: DlonamesClueWhereUniqueInput!
+  ): DlonamesClue
   deleteUser(where: UserWhereUniqueInput!): User
   deleteDlonamesGame(where: DlonamesGameWhereUniqueInput!): DlonamesGame
-  deleteDlonamesPerClueStats(where: DlonamesPerClueStatsWhereUniqueInput!): DlonamesPerClueStats
+  deleteDlonamesPerClueStats(
+    where: DlonamesPerClueStatsWhereUniqueInput!
+  ): DlonamesPerClueStats
   deleteDlonamesClue(where: DlonamesClueWhereUniqueInput!): DlonamesClue
-  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
-  upsertDlonamesGame(where: DlonamesGameWhereUniqueInput!, create: DlonamesGameCreateInput!, update: DlonamesGameUpdateInput!): DlonamesGame!
-  upsertDlonamesPerClueStats(where: DlonamesPerClueStatsWhereUniqueInput!, create: DlonamesPerClueStatsCreateInput!, update: DlonamesPerClueStatsUpdateInput!): DlonamesPerClueStats!
-  upsertDlonamesClue(where: DlonamesClueWhereUniqueInput!, create: DlonamesClueCreateInput!, update: DlonamesClueUpdateInput!): DlonamesClue!
-  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
-  updateManyDlonamesGames(data: DlonamesGameUpdateManyMutationInput!, where: DlonamesGameWhereInput): BatchPayload!
-  updateManyDlonamesPerClueStatses(data: DlonamesPerClueStatsUpdateManyMutationInput!, where: DlonamesPerClueStatsWhereInput): BatchPayload!
-  updateManyDlonamesClues(data: DlonamesClueUpdateManyMutationInput!, where: DlonamesClueWhereInput): BatchPayload!
+  upsertUser(
+    where: UserWhereUniqueInput!
+    create: UserCreateInput!
+    update: UserUpdateInput!
+  ): User!
+  upsertDlonamesGame(
+    where: DlonamesGameWhereUniqueInput!
+    create: DlonamesGameCreateInput!
+    update: DlonamesGameUpdateInput!
+  ): DlonamesGame!
+  upsertDlonamesPerClueStats(
+    where: DlonamesPerClueStatsWhereUniqueInput!
+    create: DlonamesPerClueStatsCreateInput!
+    update: DlonamesPerClueStatsUpdateInput!
+  ): DlonamesPerClueStats!
+  upsertDlonamesClue(
+    where: DlonamesClueWhereUniqueInput!
+    create: DlonamesClueCreateInput!
+    update: DlonamesClueUpdateInput!
+  ): DlonamesClue!
+  updateManyUsers(
+    data: UserUpdateManyMutationInput!
+    where: UserWhereInput
+  ): BatchPayload!
+  updateManyDlonamesGames(
+    data: DlonamesGameUpdateManyMutationInput!
+    where: DlonamesGameWhereInput
+  ): BatchPayload!
+  updateManyDlonamesPerClueStatses(
+    data: DlonamesPerClueStatsUpdateManyMutationInput!
+    where: DlonamesPerClueStatsWhereInput
+  ): BatchPayload!
+  updateManyDlonamesClues(
+    data: DlonamesClueUpdateManyMutationInput!
+    where: DlonamesClueWhereInput
+  ): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyDlonamesGames(where: DlonamesGameWhereInput): BatchPayload!
-  deleteManyDlonamesPerClueStatses(where: DlonamesPerClueStatsWhereInput): BatchPayload!
+  deleteManyDlonamesPerClueStatses(
+    where: DlonamesPerClueStatsWhereInput
+  ): BatchPayload!
   deleteManyDlonamesClues(where: DlonamesClueWhereInput): BatchPayload!
 }
 
@@ -1345,68 +2032,172 @@ enum MutationType {
   DELETED
 }
 
-"""An object with an ID"""
+"""
+An object with an ID
+"""
 interface Node {
-  """The id of the object."""
+  """
+  The id of the object.
+  """
   id: ID!
 }
 
-"""Information about pagination in a connection."""
+"""
+Information about pagination in a connection.
+"""
 type PageInfo {
-  """When paginating forwards, are there more items?"""
+  """
+  When paginating forwards, are there more items?
+  """
   hasNextPage: Boolean!
 
-  """When paginating backwards, are there more items?"""
+  """
+  When paginating backwards, are there more items?
+  """
   hasPreviousPage: Boolean!
 
-  """When paginating backwards, the cursor to continue."""
+  """
+  When paginating backwards, the cursor to continue.
+  """
   startCursor: String
 
-  """When paginating forwards, the cursor to continue."""
+  """
+  When paginating forwards, the cursor to continue.
+  """
   endCursor: String
 }
 
 type Query {
-  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
-  dlonamesGames(where: DlonamesGameWhereInput, orderBy: DlonamesGameOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DlonamesGame]!
-  dlonamesPerClueStatses(where: DlonamesPerClueStatsWhereInput, orderBy: DlonamesPerClueStatsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DlonamesPerClueStats]!
-  dlonamesClues(where: DlonamesClueWhereInput, orderBy: DlonamesClueOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DlonamesClue]!
+  users(
+    where: UserWhereInput
+    orderBy: UserOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [User]!
+  dlonamesGames(
+    where: DlonamesGameWhereInput
+    orderBy: DlonamesGameOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [DlonamesGame]!
+  dlonamesPerClueStatses(
+    where: DlonamesPerClueStatsWhereInput
+    orderBy: DlonamesPerClueStatsOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [DlonamesPerClueStats]!
+  dlonamesClues(
+    where: DlonamesClueWhereInput
+    orderBy: DlonamesClueOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [DlonamesClue]!
   user(where: UserWhereUniqueInput!): User
   dlonamesGame(where: DlonamesGameWhereUniqueInput!): DlonamesGame
-  dlonamesPerClueStats(where: DlonamesPerClueStatsWhereUniqueInput!): DlonamesPerClueStats
+  dlonamesPerClueStats(
+    where: DlonamesPerClueStatsWhereUniqueInput!
+  ): DlonamesPerClueStats
   dlonamesClue(where: DlonamesClueWhereUniqueInput!): DlonamesClue
-  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
-  dlonamesGamesConnection(where: DlonamesGameWhereInput, orderBy: DlonamesGameOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DlonamesGameConnection!
-  dlonamesPerClueStatsesConnection(where: DlonamesPerClueStatsWhereInput, orderBy: DlonamesPerClueStatsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DlonamesPerClueStatsConnection!
-  dlonamesCluesConnection(where: DlonamesClueWhereInput, orderBy: DlonamesClueOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DlonamesClueConnection!
+  usersConnection(
+    where: UserWhereInput
+    orderBy: UserOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): UserConnection!
+  dlonamesGamesConnection(
+    where: DlonamesGameWhereInput
+    orderBy: DlonamesGameOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): DlonamesGameConnection!
+  dlonamesPerClueStatsesConnection(
+    where: DlonamesPerClueStatsWhereInput
+    orderBy: DlonamesPerClueStatsOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): DlonamesPerClueStatsConnection!
+  dlonamesCluesConnection(
+    where: DlonamesClueWhereInput
+    orderBy: DlonamesClueOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): DlonamesClueConnection!
 
-  """Fetches an object given its ID"""
+  """
+  Fetches an object given its ID
+  """
   node(
-    """The ID of an object"""
+    """
+    The ID of an object
+    """
     id: ID!
   ): Node
 }
 
 type Subscription {
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
-  dlonamesGame(where: DlonamesGameSubscriptionWhereInput): DlonamesGameSubscriptionPayload
-  dlonamesPerClueStats(where: DlonamesPerClueStatsSubscriptionWhereInput): DlonamesPerClueStatsSubscriptionPayload
-  dlonamesClue(where: DlonamesClueSubscriptionWhereInput): DlonamesClueSubscriptionPayload
+  dlonamesGame(
+    where: DlonamesGameSubscriptionWhereInput
+  ): DlonamesGameSubscriptionPayload
+  dlonamesPerClueStats(
+    where: DlonamesPerClueStatsSubscriptionWhereInput
+  ): DlonamesPerClueStatsSubscriptionPayload
+  dlonamesClue(
+    where: DlonamesClueSubscriptionWhereInput
+  ): DlonamesClueSubscriptionPayload
 }
 
 type User implements Node {
   id: ID!
   username: String!
   passcode: String!
-  dlonamesClueStats(where: DlonamesPerClueStatsWhereInput, orderBy: DlonamesPerClueStatsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DlonamesPerClueStats!]
+  dlonamesClueStats(
+    where: DlonamesPerClueStatsWhereInput
+    orderBy: DlonamesPerClueStatsOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [DlonamesPerClueStats!]
 }
 
-"""A connection to a list of items."""
+"""
+A connection to a list of items.
+"""
 type UserConnection {
-  """Information to aid in pagination."""
+  """
+  Information to aid in pagination.
+  """
   pageInfo: PageInfo!
 
-  """A list of edges."""
+  """
+  A list of edges.
+  """
   edges: [UserEdge]!
   aggregate: AggregateUser!
 }
@@ -1418,12 +2209,18 @@ input UserCreateInput {
   dlonamesClueStats: DlonamesPerClueStatsCreateManyInput
 }
 
-"""An edge in a connection."""
+"""
+An edge in a connection.
+"""
 type UserEdge {
-  """The item at the end of the edge."""
+  """
+  The item at the end of the edge.
+  """
   node: User!
 
-  """A cursor for use in pagination."""
+  """
+  A cursor for use in pagination.
+  """
   cursor: String!
 }
 
@@ -1450,13 +2247,19 @@ type UserSubscriptionPayload {
 }
 
 input UserSubscriptionWhereInput {
-  """Logical AND on all given filters."""
+  """
+  Logical AND on all given filters.
+  """
   AND: [UserSubscriptionWhereInput!]
 
-  """Logical OR on all given filters."""
+  """
+  Logical OR on all given filters.
+  """
   OR: [UserSubscriptionWhereInput!]
 
-  """Logical NOT on all given filters combined by AND."""
+  """
+  Logical NOT on all given filters combined by AND.
+  """
   NOT: [UserSubscriptionWhereInput!]
 
   """
@@ -1493,133 +2296,217 @@ input UserUpdateManyMutationInput {
 }
 
 input UserWhereInput {
-  """Logical AND on all given filters."""
+  """
+  Logical AND on all given filters.
+  """
   AND: [UserWhereInput!]
 
-  """Logical OR on all given filters."""
+  """
+  Logical OR on all given filters.
+  """
   OR: [UserWhereInput!]
 
-  """Logical NOT on all given filters combined by AND."""
+  """
+  Logical NOT on all given filters combined by AND.
+  """
   NOT: [UserWhereInput!]
   id: ID
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   id_not: ID
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   id_in: [ID!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   id_not_in: [ID!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   id_lt: ID
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   id_lte: ID
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   id_gt: ID
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   id_gte: ID
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   id_contains: ID
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   id_not_contains: ID
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   id_starts_with: ID
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   id_not_starts_with: ID
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   id_ends_with: ID
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   id_not_ends_with: ID
   username: String
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   username_not: String
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   username_in: [String!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   username_not_in: [String!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   username_lt: String
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   username_lte: String
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   username_gt: String
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   username_gte: String
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   username_contains: String
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   username_not_contains: String
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   username_starts_with: String
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   username_not_starts_with: String
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   username_ends_with: String
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   username_not_ends_with: String
   passcode: String
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   passcode_not: String
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   passcode_in: [String!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   passcode_not_in: [String!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   passcode_lt: String
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   passcode_lte: String
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   passcode_gt: String
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   passcode_gte: String
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   passcode_contains: String
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   passcode_not_contains: String
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   passcode_starts_with: String
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   passcode_not_starts_with: String
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   passcode_ends_with: String
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   passcode_not_ends_with: String
   dlonamesClueStats_every: DlonamesPerClueStatsWhereInput
   dlonamesClueStats_some: DlonamesPerClueStatsWhereInput

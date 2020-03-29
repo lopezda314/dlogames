@@ -7,7 +7,7 @@ type Query {
 }
 
 type Mutation {
-  createGame(creatorName: String!): DlonamesGame!
+  createGame(creatorName: String!, prevDlonamesGameId: String): DlonamesGame!
   joinGame(username: String!, id: String!): DlonamesGame!
   switchTeam(
     id: String!

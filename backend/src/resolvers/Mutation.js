@@ -38,6 +38,37 @@ const getDlonamesWords = () => {
     })
 }
 
+const getDlonamesWordsWithPrevGame = async (prevGameId, database) => {
+  let wordsFromUpToLastThreeGames = []
+  for (let i = 0; i < 3; i++) {
+    const maybePrevGame = await database.query.dlonamesGame(
+      { where: { id: prevGameId } },
+      `{ words prevDlonamesGameId }`
+    )
+    if (maybePrevGame) {
+      wordsFromUpToLastThreeGames = wordsFromUpToLastThreeGames.concat(
+        maybePrevGame.words
+      )
+    }
+    if (!maybePrevGame.prevDlonamesGameId) break
+    prevGameId = maybePrevGame.prevDlonamesGameId
+  }
+  const potentialWords = dlonamesWords.filter(
+    word => !wordsFromUpToLastThreeGames.includes(word)
+  )
+  const usedNumbers = new Set()
+  return Array(25)
+    .fill()
+    .map(() => {
+      let index = Math.round(Math.random() * potentialWords.length)
+      while (usedNumbers.has(index)) {
+        index = Math.round(Math.random() * potentialWords.length)
+      }
+      usedNumbers.add(index)
+      return potentialWords[index].toLowerCase()
+    })
+}
+
 const getDlonamesIndices = () => {
   const usedNumbers = new Set()
   return Array(18)
@@ -235,7 +266,7 @@ const createOrUpdatePerClueStatsAndAddToRelevantUsers = async ({
   } else {
     update.data.incorrectGuess = guesser
   }
-  const answer = await database.mutation.updateDlonamesPerClueStats(update)
+  return await database.mutation.updateDlonamesPerClueStats(update)
 }
 
 const addStatsToRelevantUsers = async (stats, users, database) => {
@@ -248,7 +279,7 @@ const addStatsToRelevantUsers = async (stats, users, database) => {
       `{ dlonamesClueStats { id } }`
     )
     userOldStats.dlonamesClueStats.push({ id: stats.id })
-    const answer = await database.mutation.updateUser({
+    return await database.mutation.updateUser({
       where: { username: user },
       data: {
         dlonamesClueStats: { set: userOldStats.dlonamesClueStats },
@@ -257,12 +288,27 @@ const addStatsToRelevantUsers = async (stats, users, database) => {
   })
 }
 
+const updatePrevGameToShowNewGame = async (prevGameId, newGameId, database) => {
+  const update = {}
+  update.where = { id: prevGameId }
+  update.data = { nextDlonamesGameId: newGameId }
+  database.mutation.updateDlonamesGame(update)
+}
+
 const Mutation = {
   async createGame(parent, args, ctx, info) {
     const creatorName = args.creatorName.toLowerCase()
     const indices = getDlonamesIndices()
     const firstTeam = getRandomTeam()
-    const words = getDlonamesWords()
+    let words
+    if (!args.prevDlonamesGameId) {
+      words = getDlonamesWords()
+    } else {
+      words = await getDlonamesWordsWithPrevGame(
+        args.prevDlonamesGameId,
+        ctx.db
+      )
+    }
     const blueWords =
       firstTeam === blueTeam
         ? indices.slice(0, 9).map(index => words[index])
@@ -272,7 +318,7 @@ const Mutation = {
         ? indices.slice(0, 9).map(index => words[index])
         : indices.slice(9, 17).map(index => words[index])
     const deathWord = words[indices[17]]
-    return await ctx.db.mutation.createDlonamesGame(
+    const newGame = await ctx.db.mutation.createDlonamesGame(
       {
         data: {
           blueTeam: {
@@ -304,10 +350,15 @@ const Mutation = {
           },
           deathWord: deathWord,
           gameIsFinished: false,
+          prevDlonamesGameId: args.prevDlonamesGameId,
         },
       },
       info
     )
+    if (args.prevDlonamesGameId) {
+      updatePrevGameToShowNewGame(args.prevDlonamesGameId, newGame.id, ctx.db)
+    }
+    return newGame
   },
 
   async joinGame(parent, args, ctx, info) {
