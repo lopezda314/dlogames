@@ -29,7 +29,7 @@ const Query = {
       `{ username passcode }`
     )
     if (!user) return
-    if (args.encryptedPasscode.toString() !== encryptedPasscode) return
+    if (args.encryptedPasscode.toString() !== user.passcode) return
     delete user.passcode
     return user
   },
