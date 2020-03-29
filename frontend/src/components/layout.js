@@ -1,3 +1,4 @@
+import Helmet from "react-helmet"
 import React from "react"
 import PropTypes from "prop-types"
 import { useStaticQuery, graphql } from "gatsby"
@@ -5,7 +6,7 @@ import { useStaticQuery, graphql } from "gatsby"
 import Header from "./header"
 import MobileNav from "./mobile-nav"
 import "./layout.css"
-import Helmet from "react-helmet"
+import favicon from "../images/favicon.ico"
 
 const Layout = ({ children, location }) => {
   const data = useStaticQuery(graphql`
@@ -25,6 +26,7 @@ const Layout = ({ children, location }) => {
           href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
           rel="stylesheet"
         ></link>
+        <link rel="icon" href={favicon}></link>
       </Helmet>
       <Header siteTitle={data.site.siteMetadata.title} />
       <MobileNav />
