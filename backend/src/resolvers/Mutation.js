@@ -250,6 +250,7 @@ const createOrUpdatePerClueStatsAndAddToRelevantUsers = async ({
   }
   const dlonamesPerClueStats = dlonamesPerClueStatses[0]
   if (!dlonamesPerClueStats.userCorrectGuesses.includes(guesser)) {
+    addStatsToRelevantUsers(dlonamesPerClueStats, [guesser], database)
   }
   const update = {
     where: { id: dlonamesPerClueStats.id },
