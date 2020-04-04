@@ -6,6 +6,7 @@ import gql from "graphql-tag"
 import GuessInfo from "./GuessInfo"
 import TeamInfo from "./TeamInfo"
 import ChangeTurnButton from "./ChangeTurnButton"
+import NextGameButton from "./NextGameButton"
 import WordButton, {
   blueTranslucent,
   redTranslucent,
@@ -58,6 +59,7 @@ export const GET_GAME_QUERY = gql`
       gameIsFinished
       currentTeam
       winningTeam
+      nextDlonamesGameId
     }
   }
 `
@@ -161,8 +163,11 @@ class DlonamesBoard extends Component {
             gameIsFinished,
             winningTeam,
             currentTeam,
+            nextDlonamesGameId,
           } = data.game
-
+          if (nextDlonamesGameId) {
+            navigate("/dlonames/game?gid=" + nextDlonamesGameId)
+          }
           const username = currentUser
 
           let guessInfoOrTeamWinInfo
@@ -351,6 +356,7 @@ class DlonamesBoard extends Component {
                       )
                     }
                   />
+                  <NextGameButton id={gameId} shouldHide={!gameIsFinished} />
                 </div>
               </div>
             </React.Fragment>

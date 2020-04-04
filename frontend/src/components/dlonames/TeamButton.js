@@ -29,8 +29,10 @@ const TeamButton = ({
   const style = { background: backgroundColor }
   if (!isCodemaster) {
     style.whiteSpace = "initial"
-    style.overflow = "auto"
+    style.overflow = "hidden"
     style.height = "2rem"
+    style.maxHeight = "4rem"
+    style.minWidth = "2rem"
   }
   return (
     <StyledButton onClick={onClickHandler} value={label} style={style}>
