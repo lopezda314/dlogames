@@ -13,7 +13,7 @@ let dlonamesWords
 fs.readFile(
   process.env.NODE_ENV === "development"
     ? path.resolve("../backend/static/base-words.txt")
-    : path.resolve("static/base-words.txt"),
+    : path.resolve("static/nyc-words.txt"),
   "utf8",
   (err, data) => {
     dlonamesWords = data.split("\n")
@@ -54,7 +54,7 @@ const getDlonamesWordsWithPrevGame = async (prevGameId, database) => {
     prevGameId = maybePrevGame.prevDlonamesGameId
   }
   const potentialWords = dlonamesWords.filter(
-    word => !wordsFromUpToLastThreeGames.includes(word)
+    (word) => !wordsFromUpToLastThreeGames.includes(word)
   )
   const usedNumbers = new Set()
   return Array(25)
@@ -128,8 +128,10 @@ const getUpdateForWordGuessed = async ({
   } else {
     update.data.numGuesses = numGuesses - 1
   }
-  const correctBlues = newWordsGuessed.filter(word => blueWords.includes(word))
-  const correctReds = newWordsGuessed.filter(word => redWords.includes(word))
+  const correctBlues = newWordsGuessed.filter((word) =>
+    blueWords.includes(word)
+  )
+  const correctReds = newWordsGuessed.filter((word) => redWords.includes(word))
   const isBlueWin = correctBlues.length === blueWords.length
   const isRedWin = correctReds.length === redWords.length
   if (isBlueWin) {
@@ -271,7 +273,7 @@ const createOrUpdatePerClueStatsAndAddToRelevantUsers = async ({
 }
 
 const addStatsToRelevantUsers = async (stats, users, database) => {
-  await users.forEach(async user => {
+  await users.forEach(async (user) => {
     if (!user) {
       return
     }
@@ -312,12 +314,12 @@ const Mutation = {
     }
     const blueWords =
       firstTeam === blueTeam
-        ? indices.slice(0, 9).map(index => words[index])
-        : indices.slice(9, 17).map(index => words[index])
+        ? indices.slice(0, 9).map((index) => words[index])
+        : indices.slice(9, 17).map((index) => words[index])
     const redWords =
       firstTeam === redTeam
-        ? indices.slice(0, 9).map(index => words[index])
-        : indices.slice(9, 17).map(index => words[index])
+        ? indices.slice(0, 9).map((index) => words[index])
+        : indices.slice(9, 17).map((index) => words[index])
     const deathWord = words[indices[17]]
     const newGame = await ctx.db.mutation.createDlonamesGame(
       {

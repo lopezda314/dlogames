@@ -1,5 +1,5 @@
-endpoint: https://us1.prisma.sh/david-lopez-fcf066/dlogames/dev
-# endpoint: https://dlogames-production-05a4ef7041.herokuapp.com/dlogames-prod/prod
+# endpoint: https://us1.prisma.sh/david-lopez-fcf066/dlogames/dev
+endpoint: https://dlogames-production-05a4ef7041.herokuapp.com/dlogames-prod/prod
 datamodel: datamodel.prisma
 secret: ${env:PRISMA_SECRET}
 hooks:
