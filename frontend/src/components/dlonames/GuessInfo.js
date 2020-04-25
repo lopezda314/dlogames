@@ -101,7 +101,7 @@ class GuessInfo extends Component {
                   onChange={this.handleChange}
                   disabled={!enabled}
                 />
-                <span>for</span>
+                <span style={{ padding: "0 1rem" }}> for </span>
                 <input
                   type="number"
                   name="numGuesses"
